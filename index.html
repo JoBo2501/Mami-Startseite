@@ -24,119 +24,12 @@
       margin-bottom: 1.2rem;
       font-weight: 400;
     }
-    .section {
-      margin: 3rem 0;
-    }
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: #444;
-      margin-bottom: 1rem;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .reminder-list {
-      font-size: 1.4rem;
-      line-height: 2rem;
-      list-style: none;
-      padding: 0;
-    }
-    .message {
-      font-size: 1.4rem;
-      font-style: italic;
-      background: #ffffff;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      display: inline-block;
-      margin-top: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    img {
-      max-width: 90%;
-      border-radius: 12px;
-      margin-top: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .weather, .news {
-      font-size: 1.3rem;
-      background: #ffffff;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    form {
-      margin-top: 2rem;
-    }
-    textarea {
-      width: 80%;
-      height: 100px;
-      font-size: 1.2rem;
-      padding: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-family: inherit;
-    }
-    button {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      padding: 0.6rem 1.5rem;
-      border: none;
-      border-radius: 6px;
-      background-color: #2c3e50;
-      color: white;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    button:hover {
-      background-color: #1a252f;
-    }
-    iframe.calendar {
-      width: 100%;
-      height: 600px;
-      border: none;
-    }
   </style>
 </head>
 <body>
-  <h1>Startseite für Mama</h1>
+  <h1>Startseite für Mami</h1>
   <div id="date"></div>
   <div id="time"></div>
-
-  <div class="section">
-    <div class="section-title">Erinnerungen für heute</div>
-    <ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Nachricht von uns</div>
-    <div class="message" id="note">Lade Nachricht...</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Wetter heute in Pullach</div>
-    <div class="weather" id="weather">Lade Wetterdaten...</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Familienbilder</div>
-    <img id="familyImage" src="https://source.unsplash.com/800x400/?family" alt="Familienbild" />
-  </div>
-
-  <div class="section">
-    <div class="section-title">Kalender</div>
-    <iframe class="calendar" src="https://calendar.google.com/calendar/embed?src=c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com&ctz=Europe%2FBerlin"></iframe>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Nachricht an uns</div>
-    <form action="https://formspree.io/f/mqkrzkwy" method="POST">
-      <textarea name="message" placeholder="Deine Nachricht an uns..."></textarea><br>
-      <button type="submit">Absenden</button>
-    </form>
-  </div>
-
-  <audio id="reminderSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
 
   <script>
     const dateElement = document.getElementById("date");
@@ -148,58 +41,9 @@
       const now = new Date();
       const timeElement = document.getElementById("time");
       timeElement.innerText = now.toLocaleTimeString('de-DE');
-      if (now.getHours() === 8 && now.getMinutes() === 0 && now.getSeconds() === 0) {
-        document.getElementById("reminderSound").play();
-      }
     }
     setInterval(updateClock, 1000);
     updateClock();
-
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
-      .then(res => res.json())
-      .then(data => {
-        const weather = data.current_weather;
-        const out = `Temperatur: ${weather.temperature}°C, Wind: ${weather.windspeed} km/h`;
-        document.getElementById("weather").innerText = out;
-      })
-      .catch(() => {
-        document.getElementById("weather").innerText = "Wetterdaten konnten nicht geladen werden.";
-      });
-
-    const images = [
-      "https://source.unsplash.com/800x400/?family,happy",
-      "https://source.unsplash.com/800x400/?grandmother,love",
-      "https://source.unsplash.com/800x400/?memories,photo",
-      "https://source.unsplash.com/800x400/?smile,child",
-      "https://source.unsplash.com/800x400/?flowers,nature"
-    ];
-    setInterval(() => {
-      const img = document.getElementById("familyImage");
-      const randomIndex = Math.floor(Math.random() * images.length);
-      img.src = images[randomIndex] + "&timestamp=" + new Date().getTime();
-    }, 15000);
-
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
-      .then(res => res.text())
-      .then(text => {
-        const rows = text.trim().split('\n').map(row => row.split('\t'));
-        const reminders = document.getElementById("reminders");
-        const note = document.getElementById("note");
-        reminders.innerHTML = "";
-        note.innerHTML = "";
-        const today = new Date().toISOString().split("T")[0];
-        rows.forEach(row => {
-          if (row[0] === "Erinnerung" && (!row[2] || row[2] === today)) {
-            const li = document.createElement("li");
-            li.textContent = row[1];
-            reminders.appendChild(li);
-          } else if (row[0] === "Nachricht") {
-            const p = document.createElement("p");
-            p.textContent = row[1];
-            note.appendChild(p);
-          }
-        });
-      });
   </script>
 </body>
 </html>
