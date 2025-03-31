@@ -183,6 +183,7 @@
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
   .then(res => res.text())
   .then(text => {
+    console.log("Sheet geladen...");
     const rows = text.trim().split('\n').map(row => row.split('\t'));
     const reminders = document.getElementById("reminders");
     const note = document.getElementById("note");
@@ -192,7 +193,7 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
     const today = new Date();
     const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-    const daysToShow = 3; // heute + 2 Tage
+    const daysToShow = 3;
 
     const futureDays = Array.from({ length: daysToShow }, (_, i) => {
       const date = new Date(today);
@@ -204,26 +205,46 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
       };
     });
 
-    rows.forEach(row => {
-      if (!row || row.length < 2) return; // Zeile überspringen, wenn leer oder unvollständig
+    let nachrichtGefunden = false;
+    let erinnerungGefunden = false;
+
+    rows.forEach((row, idx) => {
+      if (!row || row.length < 2) {
+        console.warn("Übersprungen (leer oder unvollständig):", row);
+        return;
+      }
 
       const [type, content, rawDate] = row;
       const cleanedDate = rawDate ? rawDate.trim() : null;
 
-      if (type === "Erinnerung" && cleanedDate) {
+      if (type === "Erinnerung") {
+        if (!cleanedDate) {
+          // Erinnerung ohne Datum → heute anzeigen
+          const li = document.createElement("li");
+          li.textContent = content + " (ohne Datum)";
+          li.style.color = "#666";
+          reminders.appendChild(li);
+          erinnerungGefunden = true;
+          return;
+        }
+
         const parsed = new Date(cleanedDate);
-        if (isNaN(parsed)) return; // ungültiges Datum überspringen
+        if (isNaN(parsed)) {
+          console.warn("Ungültiges Datum in Zeile", idx + 1, ":", cleanedDate);
+          return;
+        }
 
         const parsedDateOnly = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
-
         const targetDay = futureDays.find(d => d.dateOnly.getTime() === parsedDateOnly.getTime());
         if (targetDay) {
           targetDay.entries.push(content);
+          erinnerungGefunden = true;
         }
       } else if (type === "Nachricht") {
         const p = document.createElement("p");
         p.textContent = content;
         note.appendChild(p);
+        nachrichtGefunden = true;
       }
     });
 
@@ -243,6 +264,17 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
         });
       }
     });
+
+    if (!nachrichtGefunden) {
+      note.innerHTML = "<em>Keine Nachricht gefunden.</em>";
+    }
+    if (!erinnerungGefunden) {
+      reminders.innerHTML = "<li><em>Keine gültigen Erinnerungen gefunden.</em></li>";
+    }
+  })
+  .catch(err => {
+    console.error("Fehler beim Laden des Google Sheets:", err);
   });
+
 
 
