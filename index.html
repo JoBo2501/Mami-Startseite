@@ -197,9 +197,10 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
         }
       } else if (type === "Nachricht" && !nachrichtGefunden) {
         const p = document.createElement("p");
-        p.className = 'message message-alert';
+p.textContent = content;
+p.className = 'message message-alert';
+note.appendChild(p);
 
-        note.appendChild(p);
         nachrichtGefunden = true;
       }
     });
