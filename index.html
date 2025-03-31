@@ -180,27 +180,64 @@
       img.src = images[randomIndex] + "&timestamp=" + new Date().getTime();
     }, 15000);
 
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
-      .then(res => res.text())
-      .then(text => {
-        const rows = text.trim().split('\n').map(row => row.split('\t'));
-        const reminders = document.getElementById("reminders");
-        const note = document.getElementById("note");
-        reminders.innerHTML = "";
-        note.innerHTML = "";
-        const today = new Date().toISOString().split("T")[0];
-        rows.forEach(row => {
-          if (row[0] === "Erinnerung" && (!row[2] || row[2] === today)) {
-            const li = document.createElement("li");
-            li.textContent = row[1];
-            reminders.appendChild(li);
-          } else if (row[0] === "Nachricht") {
-            const p = document.createElement("p");
-            p.textContent = row[1];
-            note.appendChild(p);
-          }
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
+  .then(res => res.text())
+  .then(text => {
+    const rows = text.trim().split('\n').map(row => row.split('\t'));
+    const reminders = document.getElementById("reminders");
+    const note = document.getElementById("note");
+    reminders.innerHTML = "";
+    note.innerHTML = "";
+
+    const today = new Date();
+    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    const daysToShow = 3; // heute + 2 Tage
+
+    const futureDays = Array.from({ length: daysToShow }, (_, i) => {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      return {
+        label: i === 0 ? "Heute" : date.toLocaleDateString('de-DE', { weekday: 'long' }),
+        dateOnly: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+        entries: []
+      };
+    });
+
+    rows.forEach(row => {
+      const [type, content, rawDate] = row;
+      const cleanedDate = rawDate ? rawDate.trim() : null;
+
+      if (type === "Erinnerung" && cleanedDate) {
+        const parsed = new Date(cleanedDate);
+        const parsedDateOnly = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+
+        const targetDay = futureDays.find(d => d.dateOnly.getTime() === parsedDateOnly.getTime());
+        if (targetDay) {
+          targetDay.entries.push(content);
+        }
+      } else if (type === "Nachricht") {
+        const p = document.createElement("p");
+        p.textContent = content;
+        note.appendChild(p);
+      }
+    });
+
+    futureDays.forEach(day => {
+      if (day.entries.length > 0) {
+        const header = document.createElement("li");
+        header.textContent = day.label + ":";
+        if (day.label === "Heute") {
+          header.style.color = "#007bff";
+        }
+        header.style.fontWeight = "bold";
+        reminders.appendChild(header);
+        day.entries.forEach(entry => {
+          const li = document.createElement("li");
+          li.textContent = entry;
+          reminders.appendChild(li);
         });
-      });
-  </script>
-</body>
-</html>
+      }
+    });
+  });
+
