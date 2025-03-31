@@ -61,6 +61,12 @@
   position: relative;
   border-left: 4px solid #444;
 }
+    .message-timestamp {
+  font-size: 0.9rem;
+  color: #888;
+  text-align: right;
+  margin-top: 0.5rem;
+}
 
     .message-alert::before {
   content: "";
@@ -207,6 +213,12 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
       } else if (type === "Nachricht" && !nachrichtGefunden) {
         const p = document.createElement("p");
 p.textContent = content;
+const timestamp = document.createElement("div");
+const nowTime = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+timestamp.className = "message-timestamp";
+timestamp.textContent = nowTime;
+p.appendChild(timestamp);
+        
 p.className = 'message message-alert';
 note.appendChild(p);
 
