@@ -7,6 +7,29 @@
 </head>
 <body>
   <h1>Mutters Messageboard</h1>
+  <div id="date"></div>
+  <div id="time"></div>
+  <div class="section">
+    <div class="section-title">Nachricht von uns</div>
+    <div class="message" id="note">Lade Nachricht...</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Erinnerungen für heute</div>
+    <ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul>
+  </div>
+  <div class="section">
+    <div class="section-title">Wetter heute in Pullach</div>
+    <div class="weather" id="weather">Lade Wetterdaten...</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Familienbilder</div>
+    <iframe 
+      src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2" 
+      width="100%" height="500"
+      style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+      allowfullscreen loading="lazy">
+    </iframe>
+  </div>
   <div class="section">
     <div class="section-title">Kalender</div>
     <iframe class="calendar" src="https://calendar.google.com/calendar/embed?src=c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com&ctz=Europe%2FBerlin&mode=agenda" style="border:none; width:100%; height:600px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"></iframe>
