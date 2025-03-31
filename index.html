@@ -197,14 +197,8 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
         }
       } else if (type === "Nachricht" && !nachrichtGefunden) {
         const p = document.createElement("p");
-        p.textContent = content;
-        p.style.background = '#fff3cd';
-        p.style.padding = '1rem';
-        p.style.border = '2px solid #ffc107';
-        p.style.borderRadius = '10px';
-        p.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-        p.style.fontSize = '1.5rem';
-        p.style.color = '#333';
+        p.className = 'message message-alert';
+
         note.appendChild(p);
         nachrichtGefunden = true;
       }
