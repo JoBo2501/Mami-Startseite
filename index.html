@@ -205,11 +205,15 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
     });
 
     rows.forEach(row => {
+      if (!row || row.length < 2) return; // Zeile überspringen, wenn leer oder unvollständig
+
       const [type, content, rawDate] = row;
       const cleanedDate = rawDate ? rawDate.trim() : null;
 
       if (type === "Erinnerung" && cleanedDate) {
         const parsed = new Date(cleanedDate);
+        if (isNaN(parsed)) return; // ungültiges Datum überspringen
+
         const parsedDateOnly = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
 
         const targetDay = futureDays.find(d => d.dateOnly.getTime() === parsedDateOnly.getTime());
@@ -240,4 +244,5 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxi
       }
     });
   });
+
 
