@@ -112,23 +112,23 @@
     document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen.</em>";
   });
 
-    fetch('https://corsproxy.io/?https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com/public/basic.ics')
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
+  'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
+))
   .then(res => res.text())
   .then(data => {
     const comp = new ICAL.Component(ICAL.parse(data));
     const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
 
-    console.log("ICS geladen:", allEvents.length, "Events gefunden");
-    console.log("Erster Termin:", allEvents[0]?.startDate?.toJSDate());
-
     const today = new Date(new Date().toLocaleDateString('en-CA'));
     const in2Days = new Date(today);
-    in2Days.setDate(today.getDate() + 2); // heute + 2 Tage
+    in2Days.setDate(today.getDate() + 2);
 
     const events = allEvents
       .filter(e => {
-        const eventDate = new Date(e.startDate.toJSDate().toLocaleDateString('en-CA'));
-        return eventDate >= today && eventDate <= in2Days;
+        const jsDate = e.startDate.toJSDate();
+        const d = new Date(jsDate.toLocaleDateString('en-CA'));
+        return d >= today && d <= in2Days;
       })
       .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
 
@@ -136,15 +136,15 @@
     if (events.length === 0) {
       out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
     } else {
+      out.innerHTML = "";
       events.forEach(e => {
         const d = e.startDate.toJSDate();
+        const isAllDay = e.startDate.isDate;
         const box = document.createElement("div");
         box.className = "termin-eintrag";
         box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
           weekday: 'long', day: '2-digit', month: '2-digit'
-        })}, ${d.toLocaleTimeString('de-DE', {
-          hour: '2-digit', minute: '2-digit'
-        })} – ${e.summary}`;
+        })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
         out.appendChild(box);
       });
     }
@@ -153,7 +153,6 @@
     console.error("Fehler beim Laden der Kalenderdaten:", error);
     document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine.</em>";
   });
-
 
   </script>
 </body>
