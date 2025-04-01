@@ -108,6 +108,16 @@
     <div id="ical"></div>
   </div>
 
+  <div class="section">
+  <div class="section-title">Familienbilder</div>
+  <iframe 
+    src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
+    width="100%" height="500"
+    style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+    allowfullscreen loading="lazy">
+  </iframe>
+</div>
+
   <script>
     const now = new Date();
     document.getElementById("date").innerText = now.toLocaleDateString('de-DE', {
@@ -179,10 +189,11 @@
         const events = comp.getAllSubcomponents('vevent')
           .map(e => new ICAL.Event(e))
           .filter(e => {
-            const start = e.startDate.toJSDate();
-            const now = new Date();
-            return start.toDateString() === now.toDateString();
-          })
+  const start = new Date(e.startDate.toJSDate().toDateString());
+  const today = new Date(new Date().toDateString());
+  return start.getTime() === today.getTime();
+})
+
           .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
 
         const out = document.getElementById("ical");
