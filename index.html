@@ -253,27 +253,37 @@ note.appendChild(p);
   .catch(err => {
     console.error("Fehler beim Laden des Google Sheets:", err);
   });
-</script>
-  <!-- Termin-Anzeige aus iCal -->
-<script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
 <script>
-  // ... der gesamte JS-Block aus der Datei ...
+fetch('https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com/public/basic.ics')
+  .then(response => response.text())
+  .then(data => {
+    const jcalData = ICAL.parse(data);
+    const comp = new ICAL.Component(jcalData);
+    const events = comp.getAllSubcomponents('vevent')
+      .map(e => new ICAL.Event(e))
+      .filter(e => e.startDate.toJSDate() >= new Date());
+
+    events.sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+
+    const upcoming = events.slice(0, 3);
+    const terminBox = document.createElement("div");
+    terminBox.className = "section";
+    terminBox.innerHTML = '<div class="section-title">Bevorstehende Termine</div>';
+
+    upcoming.forEach(ev => {
+      const datum = ev.startDate.toJSDate();
+      const datumString = datum.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit' });
+      const zeit = datum.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+      const eintrag = document.createElement("div");
+      eintrag.className = "termin-eintrag";
+      eintrag.textContent = `📅 ${datumString}, ${zeit} – ${ev.summary}`;
+      terminBox.appendChild(eintrag);
+    });
+
+    document.body.insertBefore(terminBox, document.querySelector(".section:nth-child(4)"));
+  });
 </script>
 
-<style>
-.termin-eintrag {
-  background: #fff0f0;
-  border-left: 5px solid #cc0000;
-  padding: 0.8rem 1.2rem;
-  margin: 0.5rem auto;
-  max-width: 90%;
-  font-size: 1.2rem;
-  text-align: left;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  border-radius: 4px;
-  color: #222;
-}
-</style>
 
 </body>
 </html>
