@@ -73,10 +73,23 @@
         document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten.";
       });
 
-   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
-   .then(res => res.text())
+   // Google Sheet Abruf mit CORS-Proxy, wie beim Kalender-Abruf
+fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv'))
+  .then(res => {
+    if (!res.ok) {
+      throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+    }
+    return res.text();
+  })
   .then(text => {
+    if (!text || text.trim() === '') {
+      throw new Error('Leere Antwort vom Server');
+    }
+    console.log('Empfangene Daten (erste 100 Zeichen):', text.substring(0, 100) + '...');
+    
     const rows = text.trim().split('\n').map(row => row.split('\t'));
+    console.log('Anzahl der Zeilen:', rows.length);
+    
     const reminders = document.getElementById("reminders");
     const note = document.getElementById("note");
     reminders.innerHTML = "";
@@ -85,15 +98,29 @@
     const today = new Date().toISOString().split("T")[0];
 
     rows.forEach((row, index) => {
-      const [type, content, rawDate] = row || [];
+      // Sicherere Destrukturierung mit Prüfung
+      if (!row || row.length < 2) {
+        console.log('Ungültige Zeile übersprungen:', row);
+        return;
+      }
+      
+      const [type, content, rawDate] = row;
       if (!type || !content) return;
 
       const date = rawDate ? rawDate.trim() : "";
-      const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
+      
+      // Sicherere Datumskonvertierung
+      let isToday = false;
+      try {
+        isToday = !date || new Date(date).toISOString().split("T")[0] === today;
+      } catch (e) {
+        console.error('Fehler beim Parsen des Datums:', date, e);
+        isToday = !date; // Fallback: ohne Datum ist es für "heute"
+      }
 
       if (type === "Erinnerung" && isToday) {
         const li = document.createElement("li");
-        li.textContent = `🔔 ${content}`;
+        li.textContent = "🔔 " + content;
         li.style.paddingLeft = "0.5rem";
         reminders.appendChild(li);
       }
@@ -111,10 +138,15 @@
         note.appendChild(p);
       }
     });
+    
+    // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+    if (reminders.children.length === 0) {
+      reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+    }
   })
   .catch(err => {
-    console.error("Fehler beim Laden der Erinnerungen:", err);
-    document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen.</em>";
+    console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+    document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
   });
 
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
