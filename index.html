@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
-<html lang="de">body
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mutters Messageboard</title>
+  <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -13,19 +15,18 @@
       padding: 2rem;
       text-align: center;
     }
-   h1 {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 2.5rem;
-  font-weight: bold;
-  background-color: #fff475; /* Post-it Gelb */
-  color: #111;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  display: inline-block;
-  margin: 2rem auto;
-}
-
+    h1 {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2.5rem;
+      font-weight: bold;
+      background-color: #fff475;
+      color: #111;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin: 2rem auto;
+    }
     #date, #time {
       font-size: 1.8rem;
       margin-bottom: 1.2rem;
@@ -48,45 +49,41 @@
       list-style: none;
       padding: 0;
     }
-   .message {
-  font-size: 1.4rem;
-  background: #dcf8c6; /* WhatsApp-Grün */
-  padding: 1rem 1.5rem;
-  border-radius: 16px 16px 4px 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  color: #111;
-  max-width: 80%;
-  margin: 1rem auto;
-  text-align: left;
-  position: relative;
-}
-
+    .message {
+      font-size: 1.4rem;
+      background: #dcf8c6;
+      padding: 1rem 1.5rem;
+      border-radius: 16px 16px 4px 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      color: #111;
+      max-width: 80%;
+      margin: 1rem auto;
+      text-align: left;
+      position: relative;
+    }
     .message-timestamp {
-  font-size: 0.9rem;
-  color: #555;
-  text-align: right;
-  margin-top: 0.5rem;
-}
-
+      font-size: 0.9rem;
+      color: #555;
+      text-align: right;
+      margin-top: 0.5rem;
+    }
     .message-alert::before {
-  content: "";
-  position: absolute;
-  left: -1.5rem;
-  top: 1.2rem;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
-  box-shadow: 0 0 8px red;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0px red; }
-  50% { box-shadow: 0 0 12px red; }
-  100% { box-shadow: 0 0 0px red; }
-}
-
+      content: "";
+      position: absolute;
+      left: -1.5rem;
+      top: 1.2rem;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      border-radius: 50%;
+      box-shadow: 0 0 8px red;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0px red; }
+      50% { box-shadow: 0 0 12px red; }
+      100% { box-shadow: 0 0 0px red; }
+    }
     .weather {
       font-size: 1.3rem;
       background: #ffffff;
@@ -95,17 +92,28 @@
       margin-top: 1rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
+    .termin-eintrag {
+      background: #fff0f0;
+      border-left: 5px solid #cc0000;
+      padding: 0.8rem 1.2rem;
+      margin: 0.5rem auto;
+      max-width: 90%;
+      font-size: 1.2rem;
+      text-align: left;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      border-radius: 4px;
+      color: #222;
+    }
   </style>
 </head>
 <body>
-  <h1>## Mutters Messageboard ##</h1>
+  <h1>Mutters Messageboard</h1>
   <div id="date"></div>
   <div id="time"></div>
 
   <div class="section">
-    <div class="section-title">Nachrichten von den Söhnen</div>
+    <div class="section-title">Nachricht von uns</div>
     <div id="note"></div>
-
   </div>
 
   <div class="section">
@@ -120,171 +128,143 @@
 
   <div class="section">
     <div class="section-title">Familienbilder</div>
-    <iframe 
-      src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2" 
+    <iframe src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
       width="100%" height="500"
       style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
-      allowfullscreen loading="lazy">
-    </iframe>
+      allowfullscreen loading="lazy"></iframe>
   </div>
 
   <div class="section">
     <div class="section-title">Kalender</div>
-    <iframe class="calendar" src="https://calendar.google.com/calendar/embed?src=c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com&ctz=Europe%2FBerlin&mode=agenda" style="border:none; width:100%; height:600px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"></iframe>
+    <iframe class="calendar" src="https://calendar.google.com/calendar/embed?src=c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com&ctz=Europe%2FBerlin&mode=agenda"
+      style="border:none; width:100%; height:600px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);"></iframe>
   </div>
 
-  <audio id="reminderSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+  <script>
+    const dateElement = document.getElementById("date");
+    const now = new Date();
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateElement.innerText = now.toLocaleDateString('de-DE', dateOptions);
 
-<script>
-const dateElement = document.getElementById("date");
-const now = new Date();
-const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-dateElement.innerText = now.toLocaleDateString('de-DE', dateOptions);
+    function updateClock() {
+      const now = new Date();
+      const timeElement = document.getElementById("time");
+      timeElement.innerText = now.toLocaleTimeString('de-DE');
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-function updateClock() {
-  const now = new Date();
-  const timeElement = document.getElementById("time");
-  timeElement.innerText = now.toLocaleTimeString('de-DE');
-  if (now.getHours() === 8 && now.getMinutes() === 0 && now.getSeconds() === 0) {
-    document.getElementById("reminderSound").play();
-  }
-}
-setInterval(updateClock, 1000);
-updateClock();
+    fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
+      .then(res => res.json())
+      .then(data => {
+        const weather = data.current_weather;
+        const out = `Temperatur: ${weather.temperature}°C, Wind: ${weather.windspeed} km/h`;
+        document.getElementById("weather").innerText = out;
+      });
 
-fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
-  .then(res => res.json())
-  .then(data => {
-    const weather = data.current_weather;
-    const out = `Temperatur: ${weather.temperature}°C, Wind: ${weather.windspeed} km/h`;
-    document.getElementById("weather").innerText = out;
-  })
-  .catch(() => {
-    document.getElementById("weather").innerText = "Wetterdaten konnten nicht geladen werden.";
-  });
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
+      .then(res => res.text())
+      .then(text => {
+        const rows = text.trim().split('\n').map(row => row.split('\t'));
+        const reminders = document.getElementById("reminders");
+        const note = document.getElementById("note");
+        reminders.innerHTML = "";
+        note.innerHTML = "";
 
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
-  .then(res => res.text())
-  .then(text => {
-    const rows = text.trim().split('\n').map(row => row.split('\t'));
-    const reminders = document.getElementById("reminders");
-    const note = document.getElementById("note");
-    reminders.innerHTML = "";
-    note.innerHTML = "";
-
-    const today = new Date();
-    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const daysToShow = 3;
-    const futureDays = Array.from({ length: daysToShow }, (_, i) => {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      return {
-        label: i === 0 ? "Heute" : date.toLocaleDateString('de-DE', { weekday: 'long' }),
-        dateOnly: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-        entries: []
-      };
-    });
-
-    let nachrichtGefunden = false;
-    let erinnerungGefunden = false;
-
-    rows.forEach((row, idx) => {
-      if (!row || row.length < 2) return;
-      const [type, content, rawDate] = row;
-      const cleanedDate = rawDate ? rawDate.trim() : null;
-
-      if (type === "Erinnerung") {
-        if (!cleanedDate) {
-          const li = document.createElement("li");
-          li.textContent = content + " (ohne Datum)";
-          li.style.color = "#666";
-          reminders.appendChild(li);
-          erinnerungGefunden = true;
-          return;
-        }
-        const parsed = new Date(cleanedDate);
-        if (isNaN(parsed)) return;
-        const parsedDateOnly = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
-        const targetDay = futureDays.find(d => d.dateOnly.getTime() === parsedDateOnly.getTime());
-        if (targetDay) {
-          targetDay.entries.push(content);
-          erinnerungGefunden = true;
-        }
-      } else if (type === "Nachricht" && !nachrichtGefunden) {
-        const p = document.createElement("p");
-p.textContent = content;
-const timestamp = document.createElement("div");
-const nowTime = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-timestamp.className = "message-timestamp";
-timestamp.textContent = nowTime;
-p.appendChild(timestamp);
-        
-p.className = 'message message-alert';
-note.appendChild(p);
-
-        nachrichtGefunden = true;
-      }
-    });
-
-    futureDays.forEach(day => {
-      if (day.entries.length > 0) {
-        const header = document.createElement("li");
-        header.textContent = day.label + ":";
-        if (day.label === "Heute") {
-          header.style.color = "#007bff";
-        }
-        header.style.fontWeight = "bold";
-        reminders.appendChild(header);
-        day.entries.forEach(entry => {
-          const li = document.createElement("li");
-          li.textContent = entry;
-          reminders.appendChild(li);
+        const today = new Date();
+        const futureDays = Array.from({ length: 3 }, (_, i) => {
+          const date = new Date(today);
+          date.setDate(today.getDate() + i);
+          return {
+            label: i === 0 ? "Heute" : date.toLocaleDateString('de-DE', { weekday: 'long' }),
+            dateOnly: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
+            entries: []
+          };
         });
-      }
-    });
 
-    if (!nachrichtGefunden) {
-      note.innerHTML = "<em>Keine Nachricht gefunden.</em>";
-    }
-    if (!erinnerungGefunden) {
-      reminders.innerHTML = "<li><em>Keine gültigen Erinnerungen gefunden.</em></li>";
-    }
-  })
-  .catch(err => {
-    console.error("Fehler beim Laden des Google Sheets:", err);
-  });
-<script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
-<script>
-fetch('https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com/public/basic.ics')
-  .then(response => response.text())
-  .then(data => {
-    const jcalData = ICAL.parse(data);
-    const comp = new ICAL.Component(jcalData);
-    const events = comp.getAllSubcomponents('vevent')
-      .map(e => new ICAL.Event(e))
-      .filter(e => e.startDate.toJSDate() >= new Date());</script>
+        let nachrichtGefunden = false;
+        let erinnerungGefunden = false;
 
-    events.sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+        rows.forEach((row, idx) => {
+          if (!row || row.length < 2) return;
+          const [type, content, rawDate] = row;
+          const cleanedDate = rawDate ? rawDate.trim() : null;
 
-    const upcoming = events.slice(0, 3);
-    const terminBox = document.createElement("div");
-    terminBox.className = "section";
-    terminBox.innerHTML = '<div class="section-title">Bevorstehende Termine</div>';
+          if (type === "Erinnerung") {
+            const parsed = new Date(cleanedDate);
+            const parsedDateOnly = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+            const targetDay = futureDays.find(d => d.dateOnly.getTime() === parsedDateOnly.getTime());
+            if (targetDay) {
+              targetDay.entries.push(content);
+              erinnerungGefunden = true;
+            }
+          } else if (type === "Nachricht" && !nachrichtGefunden) {
+            const p = document.createElement("p");
+            p.textContent = content;
+            const timestamp = document.createElement("div");
+            const nowTime = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+            timestamp.className = "message-timestamp";
+            timestamp.textContent = nowTime;
+            p.appendChild(timestamp);
+            p.className = 'message message-alert';
+            note.appendChild(p);
+            nachrichtGefunden = true;
+          }
+        });
 
-    upcoming.forEach(ev => {
-      const datum = ev.startDate.toJSDate();
-      const datumString = datum.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit' });
-      const zeit = datum.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-      const eintrag = document.createElement("div");
-      eintrag.className = "termin-eintrag";
-      eintrag.textContent = `📅 ${datumString}, ${zeit} – ${ev.summary}`;
-      terminBox.appendChild(eintrag);
-    });
+        futureDays.forEach(day => {
+          if (day.entries.length > 0) {
+            const header = document.createElement("li");
+            header.textContent = day.label + ":";
+            if (day.label === "Heute") {
+              header.style.color = "#007bff";
+            }
+            header.style.fontWeight = "bold";
+            reminders.appendChild(header);
+            day.entries.forEach(entry => {
+              const li = document.createElement("li");
+              li.textContent = entry;
+              reminders.appendChild(li);
+            });
+          }
+        });
 
-    document.body.insertBefore(terminBox, document.querySelector(".section:nth-child(4)"));
-  });
-</script>
+        if (!nachrichtGefunden) {
+          note.innerHTML = "<em>Keine Nachricht gefunden.</em>";
+        }
+        if (!erinnerungGefunden) {
+          reminders.innerHTML = "<li><em>Keine gültigen Erinnerungen gefunden.</em></li>";
+        }
+      });
 
+    fetch('https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com/public/basic.ics')
+      .then(response => response.text())
+      .then(data => {
+        const jcalData = ICAL.parse(data);
+        const comp = new ICAL.Component(jcalData);
+        const events = comp.getAllSubcomponents('vevent')
+          .map(e => new ICAL.Event(e))
+          .filter(e => e.startDate.toJSDate() >= new Date());
 
+        events.sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+
+        const upcoming = events.slice(0, 3);
+        const terminBox = document.createElement("div");
+        terminBox.className = "section";
+        terminBox.innerHTML = '<div class="section-title">Bevorstehende Termine</div>';
+
+        upcoming.forEach(ev => {
+          const datum = ev.startDate.toJSDate();
+          const datumString = datum.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit' });
+          const zeit = datum.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+          const eintrag = document.createElement("div");
+          eintrag.className = "termin-eintrag";
+          eintrag.textContent = `📅 ${datumString}, ${zeit} – ${ev.summary}`;
+          terminBox.appendChild(eintrag);
+        });
+
+        document.body.insertBefore(terminBox, document.querySelector(".section:nth-child(4)"));
+      });
+  </script>
 </body>
 </html>
