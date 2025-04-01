@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -105,16 +104,6 @@
   </div>
 
   <div class="section">
-    <div class="section-title">Familienbilder</div>
-    <iframe 
-      src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
-      width="100%" height="500"
-      style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
-      allowfullscreen loading="lazy">
-    </iframe>
-  </div>
-
-  <div class="section">
     <div class="section-title">Bevorstehende Termine</div>
     <div id="ical"></div>
   </div>
@@ -128,10 +117,26 @@
       document.getElementById("time").innerText = new Date().toLocaleTimeString('de-DE');
     }, 1000);
 
+    // Wetter mit Emoji
+    const weatherCodes = {
+      0: "☀️ Klar",
+      1: "🌤️ Überwiegend klar",
+      2: "🌥️ Teilweise bewölkt",
+      3: "☁️ Bedeckt",
+      45: "🌫️ Nebel",
+      48: "🌫️ Nebel",
+      51: "🌦️ leichter Regen",
+      61: "🌧️ Regen",
+      71: "❄️ Schnee",
+      95: "⛈️ Gewitter"
+    };
+
     fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
       .then(res => res.json())
       .then(data => {
-        document.getElementById("weather").innerText = `Temperatur: ${data.current_weather.temperature}°C, Wind: ${data.current_weather.windspeed} km/h`;
+        const w = data.current_weather;
+        const icon = weatherCodes[w.weathercode] || "🌡️";
+        document.getElementById("weather").innerText = `${icon} Temperatur: ${w.temperature}°C, Wind: ${w.windspeed} km/h`;
       });
 
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
@@ -143,12 +148,17 @@
         reminders.innerHTML = "";
         note.innerHTML = "";
 
-        const today = new Date().toISOString().split("T")[0];
+        const today = new Date();
+        const todayDate = today.toISOString().split("T")[0];
+
         rows.forEach(([type, content, date]) => {
-          if (type === "Erinnerung" && (!date || date === today)) {
-            const li = document.createElement("li");
-            li.textContent = content;
-            reminders.appendChild(li);
+          if (type === "Erinnerung") {
+            const isToday = !date || new Date(date).toDateString() === today.toDateString();
+            if (isToday) {
+              const li = document.createElement("li");
+              li.textContent = content;
+              reminders.appendChild(li);
+            }
           } else if (type === "Nachricht") {
             const p = document.createElement("p");
             p.className = "message message-alert";
@@ -168,9 +178,12 @@
         const comp = new ICAL.Component(ICAL.parse(data));
         const events = comp.getAllSubcomponents('vevent')
           .map(e => new ICAL.Event(e))
-          .filter(e => e.startDate.toJSDate() >= new Date())
-          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate())
-          .slice(0, 3);
+          .filter(e => {
+            const start = e.startDate.toJSDate();
+            const now = new Date();
+            return start.toDateString() === now.toDateString();
+          })
+          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
 
         const out = document.getElementById("ical");
         if (events.length === 0) {
