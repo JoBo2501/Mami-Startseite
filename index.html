@@ -6,117 +6,45 @@
   <title>Mutters Messageboard</title>
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #f8f9fa;
-      color: #333;
-      text-align: center;
-      margin: 0;
-    }
-    h1 {
-      background: #fff475;
-      font-size: 2rem;
-      padding: 1rem;
-      border-radius: 1rem;
-      display: inline-block;
-      margin: 2rem auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f8f9fa; color: #333; text-align: center; margin: 0; }
+    h1 { background: #fff475; font-size: 2rem; padding: 1rem; border-radius: 1rem; display: inline-block; margin: 2rem auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     .section { margin: 2rem 0; }
-    .section-title {
-      font-weight: bold;
-      font-size: 1.2rem;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
+    .section-title { font-weight: bold; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1rem; }
     .weather, .termin-eintrag, .message {
-      background: white;
-      border-radius: 8px;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: left;
+      background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; text-align: left;
     }
-    .message {
-      background: #dcf8c6;
-      border-left: 5px solid #444;
-      position: relative;
-    }
-    .message-timestamp {
-      font-size: 0.8rem;
-      color: #666;
-      text-align: right;
-      margin-top: 0.5rem;
-    }
+    .message { background: #dcf8c6; border-left: 5px solid #444; position: relative; }
+    .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
     .message-alert::before {
-      content: "";
-      position: absolute;
-      left: -1.5rem;
-      top: 1.2rem;
-      width: 10px;
-      height: 10px;
-      background: red;
-      border-radius: 50%;
-      box-shadow: 0 0 8px red;
-      animation: pulse 1.5s infinite;
+      content: ""; position: absolute; left: -1.5rem; top: 1.2rem; width: 10px; height: 10px; background: red;
+      border-radius: 50%; box-shadow: 0 0 8px red; animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
       0% { box-shadow: 0 0 0px red; }
       50% { box-shadow: 0 0 12px red; }
       100% { box-shadow: 0 0 0px red; }
     }
-    .termin-eintrag {
-      border-left: 5px solid #cc0000;
-      margin-top: 1rem;
-    }
-    .reminder-list {
-      list-style: none;
-      padding: 0;
-      max-width: 500px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    .reminder-list li {
-      margin-bottom: 0.5rem;
-    }
+    .termin-eintrag { border-left: 5px solid #cc0000; margin-top: 1rem; }
+    .reminder-list { list-style: none; padding: 0; max-width: 500px; margin: 0 auto; text-align: left; }
+    .reminder-list li { margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
   <h1>Mutters Messageboard</h1>
   <div id="date"></div>
   <div id="time"></div>
-
-  <div class="section">
-    <div class="section-title">Nachricht von uns</div>
-    <div id="note"></div>
+  <div class="section"><div class="section-title">Nachricht von uns</div><div id="note"></div></div>
+  <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
+  <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
+  <div class="section"><div class="section-title">Familienbilder</div>
+    <iframe 
+      src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1"
+      width="100%" height="500"
+      style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+      allowfullscreen loading="lazy">
+    </iframe>
   </div>
-
-  <div class="section">
-    <div class="section-title">Erinnerungen für heute</div>
-    <ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Wetter heute in Pullach</div>
-    <div class="weather" id="weather">Lade Wetterdaten...</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Bevorstehende Termine</div>
-    <div id="ical"></div>
-  </div>
-
-  <div class="section">
-  <div class="section-title">Familienbilder</div>
-  <iframe 
-    src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
-    width="100%" height="500"
-    style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
-    allowfullscreen loading="lazy">
-  </iframe>
-</div>
+  <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
 
   <script>
     const now = new Date();
@@ -127,26 +55,18 @@
       document.getElementById("time").innerText = new Date().toLocaleTimeString('de-DE');
     }, 1000);
 
-    // Wetter mit Emoji
     const weatherCodes = {
-      0: "☀️ Klar",
-      1: "🌤️ Überwiegend klar",
-      2: "🌥️ Teilweise bewölkt",
-      3: "☁️ Bedeckt",
-      45: "🌫️ Nebel",
-      48: "🌫️ Nebel",
-      51: "🌦️ leichter Regen",
-      61: "🌧️ Regen",
-      71: "❄️ Schnee",
-      95: "⛈️ Gewitter"
+      0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
+      3: "☁️ Bedeckt", 45: "🌫️ Nebel", 48: "🌫️ Nebel",
+      51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
     };
 
     fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
       .then(res => res.json())
       .then(data => {
         const w = data.current_weather;
-        const icon = weatherCodes[w.weathercode] || "🌡️";
-        document.getElementById("weather").innerText = `${icon} Temperatur: ${w.temperature}°C, Wind: ${w.windspeed} km/h`;
+        const emoji = weatherCodes[w.weathercode] || "🌡️";
+        document.getElementById("weather").innerText = `${emoji} Temperatur: ${w.temperature}°C, Wind: ${w.windspeed} km/h`;
       });
 
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
@@ -157,13 +77,10 @@
         const note = document.getElementById("note");
         reminders.innerHTML = "";
         note.innerHTML = "";
-
-        const today = new Date();
-        const todayDate = today.toISOString().split("T")[0];
-
+        const today = new Date().toISOString().split("T")[0];
         rows.forEach(([type, content, date]) => {
           if (type === "Erinnerung") {
-            const isToday = !date || new Date(date).toDateString() === today.toDateString();
+            const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
             if (isToday) {
               const li = document.createElement("li");
               li.textContent = content;
@@ -189,16 +106,14 @@
         const events = comp.getAllSubcomponents('vevent')
           .map(e => new ICAL.Event(e))
           .filter(e => {
-  const start = e.startDate.toJSDate();
-  const now = new Date();
-  return (
-    start.getFullYear() === now.getFullYear() &&
-    start.getMonth() === now.getMonth() &&
-    start.getDate() === now.getDate()
-  );
-})
-
-          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+            const d = e.startDate.toJSDate();
+            const today = new Date();
+            return d.getFullYear() === today.getFullYear() &&
+                   d.getMonth() === today.getMonth() &&
+                   d.getDate() === today.getDate();
+          })
+          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate())
+          .slice(0, 3);
 
         const out = document.getElementById("ical");
         if (events.length === 0) {
