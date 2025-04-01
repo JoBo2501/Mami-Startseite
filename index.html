@@ -92,8 +92,11 @@
         const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
         if (isToday) {
           const li = document.createElement("li");
-          li.textContent = content;
-          reminders.appendChild(li);
+li.textContent = `🔔 ${content}`;
+li.style.paddingLeft = "0.5rem";
+li.style.marginBottom = "0.5rem";
+reminders.appendChild(li);
+
         }
       } else if (type === "Nachricht") {
         const p = document.createElement("p");
