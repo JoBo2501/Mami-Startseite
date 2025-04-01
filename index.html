@@ -122,13 +122,13 @@
     console.log("Erster Termin:", allEvents[0]?.startDate?.toJSDate());
 
     const today = new Date(new Date().toLocaleDateString('en-CA'));
-    const in3Days = new Date(today);
-    in3Days.setDate(today.getDate() + 3);
+    const in2Days = new Date(today);
+    in2Days.setDate(today.getDate() + 2); // heute + 2 Tage
 
     const events = allEvents
       .filter(e => {
         const eventDate = new Date(e.startDate.toJSDate().toLocaleDateString('en-CA'));
-        return eventDate >= today && eventDate <= in3Days;
+        return eventDate >= today && eventDate <= in2Days;
       })
       .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
 
@@ -142,7 +142,9 @@
         box.className = "termin-eintrag";
         box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
           weekday: 'long', day: '2-digit', month: '2-digit'
-        })}, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`;
+        })}, ${d.toLocaleTimeString('de-DE', {
+          hour: '2-digit', minute: '2-digit'
+        })} – ${e.summary}`;
         out.appendChild(box);
       });
     }
@@ -151,6 +153,7 @@
     console.error("Fehler beim Laden der Kalenderdaten:", error);
     document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine.</em>";
   });
+
 
   </script>
 </body>
