@@ -85,35 +85,28 @@
     const today = new Date().toISOString().split("T")[0];
 
     rows.forEach(row => {
-      const [type, content, date] = row || []; // robustes Destructuring
-      if (!type || !content) return; // absichern
+  const [type, content, date] = row || [];
+  if (!type || !content) return;
 
-      if (type === "Erinnerung") {
-        const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
-        if (isToday) {
-          const li = document.createElement("li");
-li.textContent = `🔔 ${content}`;
-li.style.paddingLeft = "0.5rem";
-li.style.marginBottom = "0.5rem";
-reminders.appendChild(li);
+  const cleanDate = date ? date.trim() : "";
+  const isToday = !cleanDate || new Date(cleanDate).toISOString().split("T")[0] === today;
 
-        }
-      } else if (type === "Nachricht") {
-        const p = document.createElement("p");
-        p.className = "message message-alert";
-        p.textContent = content;
-        const ts = document.createElement("div");
-        ts.className = "message-timestamp";
-        ts.textContent = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-        p.appendChild(ts);
-        note.appendChild(p);
-      }
-    });
-  })
-  .catch(error => {
-    console.error("Fehler beim Laden der Erinnerungen:", error);
-    document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen.</em>";
-  });
+  if (type === "Erinnerung" && isToday) {
+    const li = document.createElement("li");
+    li.textContent = `🔔 ${content}`;
+    li.style.paddingLeft = "0.5rem";
+    reminders.appendChild(li);
+  } else if (type === "Nachricht") {
+    const p = document.createElement("p");
+    p.className = "message message-alert";
+    p.textContent = content;
+    const ts = document.createElement("div");
+    ts.className = "message-timestamp";
+    ts.textContent = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    p.appendChild(ts);
+    note.appendChild(p);
+  }
+});
 
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
   'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
