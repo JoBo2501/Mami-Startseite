@@ -189,9 +189,13 @@
         const events = comp.getAllSubcomponents('vevent')
           .map(e => new ICAL.Event(e))
           .filter(e => {
-  const start = new Date(e.startDate.toJSDate().toDateString());
-  const today = new Date(new Date().toDateString());
-  return start.getTime() === today.getTime();
+  const start = e.startDate.toJSDate();
+  const now = new Date();
+  return (
+    start.getFullYear() === now.getFullYear() &&
+    start.getMonth() === now.getMonth() &&
+    start.getDate() === now.getDate()
+  );
 })
 
           .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
