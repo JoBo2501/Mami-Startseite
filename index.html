@@ -74,7 +74,7 @@
       });
 
    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv")
-  .then(res => res.text())
+   .then(res => res.text())
   .then(text => {
     const rows = text.trim().split('\n').map(row => row.split('\t'));
     const reminders = document.getElementById("reminders");
@@ -84,34 +84,36 @@
 
     const today = new Date().toISOString().split("T")[0];
 
-    rows.forEach(row => {
-      const [type, content, date] = row || []; // robustes Destructuring
-      if (!type || !content) return; // absichern
+    rows.forEach((row, index) => {
+      const [type, content, rawDate] = row || [];
+      if (!type || !content) return;
 
-      if (type === "Erinnerung") {
-        const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
-        if (isToday) {
-          const li = document.createElement("li");
-li.textContent = `🔔 ${content}`;
-li.style.paddingLeft = "0.5rem";
-li.style.marginBottom = "0.5rem";
-reminders.appendChild(li);
+      const date = rawDate ? rawDate.trim() : "";
+      const isToday = !date || new Date(date).toISOString().split("T")[0] === today;
 
-        }
-      } else if (type === "Nachricht") {
+      if (type === "Erinnerung" && isToday) {
+        const li = document.createElement("li");
+        li.textContent = `🔔 ${content}`;
+        li.style.paddingLeft = "0.5rem";
+        reminders.appendChild(li);
+      }
+
+      if (type === "Nachricht") {
         const p = document.createElement("p");
         p.className = "message message-alert";
         p.textContent = content;
         const ts = document.createElement("div");
         ts.className = "message-timestamp";
-        ts.textContent = new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        ts.textContent = new Date().toLocaleTimeString('de-DE', {
+          hour: '2-digit', minute: '2-digit'
+        });
         p.appendChild(ts);
         note.appendChild(p);
       }
     });
   })
-  .catch(error => {
-    console.error("Fehler beim Laden der Erinnerungen:", error);
+  .catch(err => {
+    console.error("Fehler beim Laden der Erinnerungen:", err);
     document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen.</em>";
   });
 
