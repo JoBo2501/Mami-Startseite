@@ -253,7 +253,7 @@ note.appendChild(p);
   .catch(err => {
     console.error("Fehler beim Laden des Google Sheets:", err);
   });
-  
+<script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
 <script>
 fetch('https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54%40group.calendar.google.com/public/basic.ics')
   .then(response => response.text())
@@ -262,7 +262,7 @@ fetch('https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830ab
     const comp = new ICAL.Component(jcalData);
     const events = comp.getAllSubcomponents('vevent')
       .map(e => new ICAL.Event(e))
-      .filter(e => e.startDate.toJSDate() >= new Date());
+      .filter(e => e.startDate.toJSDate() >= new Date());</script>
 
     events.sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
 
