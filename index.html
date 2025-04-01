@@ -105,6 +105,9 @@
         const comp = new ICAL.Component(ICAL.parse(data));
         const events = comp.getAllSubcomponents('vevent')
           .map(e => new ICAL.Event(e))
+console.log("ICS geladen:", events.length, "Events gefunden");
+console.log("Erster Termin:", events[0]?.startDate?.toJSDate());
+
           .filter(e => {
   const d = new Date(e.startDate.toJSDate().toLocaleDateString('en-CA'));
   const today = new Date(new Date().toLocaleDateString('en-CA'));
