@@ -248,25 +248,40 @@ const senderImages = {
   'Joachim': './Joachim.jpg'   // Mit relativer Pfadangabe
 };
 
-// Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
+// Google Sheet Abruf mit verbessertem CORS-Proxy und Debugging
 function fetchSheetData() {
-  // Timestamp für Cache-Busting hinzufügen
+  // Cache-Busting durch zufälligen Parameter
   const timestamp = new Date().getTime();
+  const randomParam = Math.floor(Math.random() * 10000000);
+  
+  // Die Sheet-URL
   const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
   
-  fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
+  // Alternativer CORS-Proxy für mehr Zuverlässigkeit
+  // Probiere verschiedene CORS-Proxies aus
+  const corsProxy = 'https://corsproxy.io/?';
+  
+  console.log("Starte Abruf der Nachrichten...");
+  
+  fetch(corsProxy + encodeURIComponent(url) + '&_=' + timestamp + '&r=' + randomParam)
     .then(res => {
+      console.log("Antwort erhalten:", res.status);
       if (!res.ok) {
         throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
       }
       return res.text();
     })
     .then(text => {
+      console.log("Daten erhalten, Länge:", text.length);
       if (!text || text.trim() === '') {
         throw new Error('Leere Antwort vom Server');
       }
       
+      // Zeige die ersten 200 Zeichen zum Debugging
+      console.log("Erste 200 Zeichen:", text.substring(0, 200));
+      
       const rows = text.trim().split('\n').map(row => row.split('\t'));
+      console.log("Anzahl Zeilen:", rows.length);
       
       const reminders = document.getElementById("reminders");
       const note = document.getElementById("note");
@@ -276,6 +291,9 @@ function fetchSheetData() {
       const today = new Date().toISOString().split("T")[0];
 
       rows.forEach((row, index) => {
+        // Debug-Informationen
+        console.log(`Verarbeite Zeile ${index}:`, row);
+        
         // Sicherere Destrukturierung mit Prüfung
         if (!row || row.length < 2) {
           console.log('Ungültige Zeile übersprungen:', row);
@@ -288,6 +306,8 @@ function fetchSheetData() {
         const sender = row[2] || ""; // Absender
         const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
         const timestamp = row[4]; // Zeitstempel aus Google Sheets
+        
+        console.log(`Zeile ${index} - Typ: ${type}, Sender: ${sender}, Zeitstempel: ${timestamp}`);
         
         if (!type || !content) return;
 
@@ -350,8 +370,11 @@ function fetchSheetData() {
             let messageDate;
             if (timestamp && timestamp.trim()) {
               try {
+                console.log("Parsen des Zeitstempels:", timestamp);
                 messageDate = new Date(timestamp.trim());
+                console.log("Parsed Datum:", messageDate);
                 if (isNaN(messageDate.getTime())) { // Ungültiges Zeitstempel-Format
+                  console.log("Ungültiger Zeitstempel, versuche Fallback");
                   // Fallback zum regulären Datum
                   if (rawDate && rawDate.trim()) {
                     messageDate = new Date(rawDate.trim());
