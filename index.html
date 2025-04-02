@@ -4,276 +4,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mutters Messageboard</title>
-  <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
+ <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    :root {
-      --background-color: #f5f5f5;
-      --card-background: #fff;
-      --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      --text-color: #333;
-      --accent-color: #3a7bd5;
-      --header-color: #555;
-      --message-bubble: #e8e8e8;
-      --border-radius: 12px;
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f8f9fa; color: #333; text-align: center; margin: 0; }
+    h1 { background: #fff475; font-size: 2rem; padding: 1rem; border-radius: 1rem; display: inline-block; margin: 2rem auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .section { margin: 2rem 0; }
+    .section-title { font-weight: bold; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1rem; }
+    .weather, .termin-eintrag, .message {
+      background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; text-align: left;
     }
-    
-    body { 
-      font-family: Arial, sans-serif; 
-      margin: 0; 
-      padding: 0;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      max-width: 800px;
-      margin: 0 auto;
+    .message { background: #dcf8c6; border-left: 5px solid #444; position: relative; }
+    .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
+    .message-alert::before {
+      content: ""; position: absolute; left: -1.5rem; top: 1.2rem; width: 10px; height: 10px; background: red;
+      border-radius: 50%; box-shadow: 0 0 8px red; animation: pulse 1.5s infinite;
     }
-    
-    .header {
-      text-align: center;
-      padding: 20px 0;
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0px red; }
+      50% { box-shadow: 0 0 12px red; }
+      100% { box-shadow: 0 0 0px red; }
     }
-    
-    .date {
-      font-size: 1.2rem;
-      color: var(--header-color);
-      margin-bottom: 5px;
-    }
-    
-    .time {
-      font-size: 3.5rem;
-      font-weight: 300;
-      margin: 0;
-    }
-    
-    .card {
-      background: var(--card-background);
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
-      margin: 15px;
-      overflow: hidden;
-    }
-    
-    .card-header {
-      background: var(--accent-color);
-      color: white;
-      padding: 12px 15px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .card-content {
-      padding: 15px;
-    }
-    
-    /* Nachrichten-Styling */
-    .message {
-      display: flex;
-      margin-bottom: 15px;
-      align-items: flex-start;
-    }
-    
-    .message-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-right: 10px;
-      flex-shrink: 0;
-    }
-    
-    .message-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .message-content {
-      flex-grow: 1;
-    }
-    
-    .message-sender {
-      font-size: 0.8rem;
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-    
-    .message-bubble {
-      background: var(--message-bubble);
-      padding: 10px 15px;
-      border-radius: 18px;
-      display: inline-block;
-      max-width: 85%;
-    }
-    
-    .message-time {
-      font-size: 0.75rem;
-      color: #888;
-      text-align: right;
-      margin-top: 2px;
-    }
-    
-    /* Termine-Styling */
-    .termin-eintrag {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .termin-eintrag:last-child {
-      border-bottom: none;
-    }
-    
-    .termin-title {
-      font-weight: bold;
-    }
-    
-    .termin-time {
-      float: right;
-      color: #666;
-    }
-    
-    /* Erinnerungen-Styling */
-    .reminder-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .reminder-list li {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .reminder-list li:last-child {
-      border-bottom: none;
-    }
-    
-    /* Wetter-Styling */
-    .weather {
-      text-align: center;
-      padding: 15px;
-      font-size: 1.2rem;
-    }
-    
-    /* Familienfotos-Styling */
-    .photos-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      padding: 10px;
-    }
-    
-    .photo-item {
-      border-radius: 8px;
-      overflow: hidden;
-      aspect-ratio: 1/1;
-    }
-    
-    .photo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* Icon für Weiterschauen */
-    .icon-more {
-      color: white;
-    }
-    
-    /* Responsives Design */
-    @media (max-width: 600px) {
-      .time {
-        font-size: 2.5rem;
-      }
-      
-      .photos-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    .termin-eintrag { border-left: 5px solid #cc0000; margin-top: 1rem; }
+    .reminder-list { list-style: none; padding: 0; max-width: 500px; margin: 0 auto; text-align: left; }
+    .reminder-list li { margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="date" id="date">Datum wird geladen...</div>
-    <h1 class="time" id="time">--:--</h1>
-  </div>
-  
-  <!-- Nachrichten -->
-  <div class="card">
-    <div class="card-header">
-      <span>NACHRICHTEN</span>
-      <span class="icon-more">📱</span>
-    </div>
-    <div class="card-content" id="note">
-      Nachrichten werden geladen...
-    </div>
-  </div>
-  
-  <!-- Termine -->
-  <div class="card">
-    <div class="card-header">BEVORSTEHENDE TERMINE</div>
-    <div class="card-content" id="ical">
-      Termine werden geladen...
-    </div>
-  </div>
-  
-  <!-- Erinnerungen -->
-  <div class="card">
-    <div class="card-header">ERINNERUNGEN</div>
-    <div class="card-content">
-      <ul class="reminder-list" id="reminders">
-        Erinnerungen werden geladen...
-      </ul>
-    </div>
-  </div>
-  
-  <!-- Wetter -->
-  <div class="card">
-    <div class="card-header">WETTER HEUTE IN PULLACH</div>
-    <div class="card-content">
-      <div class="weather" id="weather">
-        Wetterdaten werden geladen...
-      </div>
-    </div>
-  </div>
-  
-  <!-- Familienfotos -->
-  <div class="card">
-    <div class="card-header">
-      <span>FAMILIENFOTOS</span>
-      <span class="icon-more">➡️</span>
-    </div>
-    <div class="card-content">
-      <div class="photos-grid" id="photos">
-        <!-- Fotos werden dynamisch geladen -->
-      </div>
-    </div>
+  <h1>Mutters Messageboard</h1>
+  <div id="date"></div>
+  <div id="time"></div>
+  <div class="section"><div class="section-title">Nachricht von uns</div><div id="note"></div></div>
+  <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
+  <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
+  <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
+  <div class="section"><div class="section-title">Familienbilder</div>
+    <iframe 
+      src="https://cnjf29.smugmug.com/frame/slideshow?key=C9mL3c&speed=3&transition=fade&autoStart=1"
+      width="100%" height="500"
+      style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+      allowfullscreen loading="lazy">
+    </iframe>
   </div>
 
   <script>
     // Datum und Uhrzeit Anzeige
-    function updateDateTime() {
-      const now = new Date();
-      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      document.getElementById("date").innerText = now.toLocaleDateString('de-DE', options).toUpperCase();
-      
-      const timeStr = now.toLocaleTimeString('de-DE', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false 
-      });
-      document.getElementById("time").innerText = timeStr;
-    }
-    
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
+    const now = new Date();
+    document.getElementById("date").innerText = now.toLocaleDateString('de-DE', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    setInterval(() => {
+      document.getElementById("time").innerText = new Date().toLocaleTimeString('de-DE');
+    }, 1000);
 
     // Wetter-Anzeige mit CORS-Proxy
     const weatherCodes = {
-      0: "☀️ KLAR", 1: "🌤️ ÜBERWIEGEND KLAR", 2: "🌥️ TEILWEISE BEWÖLKT",
-      3: "☁️ BEDECKT", 45: "🌫️ NEBEL", 48: "🌫️ NEBEL",
-      51: "🌦️ LEICHTER NIESELREGEN", 61: "🌧️ REGEN", 80: "🌧️ SCHAUER", 95: "⛈️ GEWITTER"
+      0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
+      3: "☁️ Bedeckt", 45: "🌫️ Nebel", 48: "🌫️ Nebel",
+      51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
     };
 
     fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
@@ -286,20 +73,14 @@
       .then(data => {
         const w = data.current_weather;
         const emoji = weatherCodes[w.weathercode] || "🌡️";
-        document.getElementById("weather").innerHTML = `${emoji}<br>Temperatur: ${w.temperature}°C<br>Wind: ${w.windspeed} km/h`;
+        document.getElementById("weather").innerText = `${emoji} Temperatur: ${w.temperature}°C, Wind: ${w.windspeed} km/h`;
       })
       .catch(error => {
         console.error("Fehler beim Laden der Wetterdaten:", error);
         document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten: " + error.message;
       });
 
-    // Profilbilder der Söhne (als Platzhalter, später durch richtige Bilder ersetzen)
-    const senderImages = {
-      'Daniel': 'https://ui-avatars.com/api/?name=Daniel&background=3a7bd5&color=fff&size=100',
-      'Joachim': 'https://ui-avatars.com/api/?name=Joachim&background=00796b&color=fff&size=100'
-    };
-
-    // Google Sheet Abruf mit CORS-Proxy - Erweiterung für Absender
+    // Google Sheet Abruf mit CORS-Proxy
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv'))
       .then(res => {
         if (!res.ok) {
@@ -316,91 +97,59 @@
         const rows = text.trim().split('\n').map(row => row.split('\t'));
         console.log('Anzahl der Zeilen:', rows.length);
         
-        const remindersElement = document.getElementById("reminders");
-        const noteElement = document.getElementById("note");
-        remindersElement.innerHTML = "";
-        noteElement.innerHTML = "";
+        const reminders = document.getElementById("reminders");
+        const note = document.getElementById("note");
+        reminders.innerHTML = "";
+        note.innerHTML = "";
 
         const today = new Date().toISOString().split("T")[0];
-        let messagesHTML = '';
-        
-        // Nachrichten-Verarbeitung mit Absenderanzeige
-        const messages = rows.filter(row => row[0] === "Nachricht");
-        messages.forEach((row, index) => {
-          const content = row[1] || "";
-          const timestamp = row[3] ? new Date(row[3]).toLocaleTimeString('de-DE', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          }) : new Date().toLocaleTimeString('de-DE', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          });
-          
-          // Absender aus der vierten Spalte (falls vorhanden), sonst Standardwert
-          const sender = row[2] || "Unbekannt";
-          
-          // Bild des Absenders (falls vorhanden), sonst generisches Bild
-          const senderImage = senderImages[sender] || 'https://ui-avatars.com/api/?name=' + sender.charAt(0) + '&background=777&color=fff&size=100';
-          
-          messagesHTML += `
-          <div class="message">
-            <div class="message-avatar">
-              <img src="${senderImage}" alt="${sender}">
-            </div>
-            <div class="message-content">
-              <div class="message-sender">${sender}</div>
-              <div class="message-bubble">${content}</div>
-              <div class="message-time">${timestamp}</div>
-            </div>
-          </div>`;
-        });
-        
-        if (messagesHTML) {
-          noteElement.innerHTML = messagesHTML;
-        } else {
-          noteElement.innerHTML = "<em>Keine neuen Nachrichten</em>";
-        }
 
-        // Erinnerungen-Verarbeitung
         rows.forEach((row, index) => {
-          if (!row || row.length < 2) return;
+          // Sicherere Destrukturierung mit Prüfung
+          if (!row || row.length < 2) {
+            console.log('Ungültige Zeile übersprungen:', row);
+            return;
+          }
           
           const [type, content, rawDate] = row;
-          if (type !== "Erinnerung") return;
+          if (!type || !content) return;
+
+          const date = rawDate ? rawDate.trim() : "";
           
           // Sicherere Datumskonvertierung
           let isToday = false;
           try {
-            isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+            isToday = !date || new Date(date).toISOString().split("T")[0] === today;
           } catch (e) {
-            console.error('Fehler beim Parsen des Datums:', rawDate, e);
-            isToday = !rawDate; // Fallback: ohne Datum ist es für "heute"
+            console.error('Fehler beim Parsen des Datums:', date, e);
+            isToday = !date; // Fallback: ohne Datum ist es für "heute"
           }
 
-          if (isToday) {
+          if (type === "Erinnerung" && isToday) {
             const li = document.createElement("li");
             li.textContent = "🔔 " + content;
-            remindersElement.appendChild(li);
+            li.style.paddingLeft = "0.5rem";
+            reminders.appendChild(li);
+          }
+
+          if (type === "Nachricht") {
+            const p = document.createElement("p");
+            p.className = "message message-alert";
+            p.textContent = content;
+            const ts = document.createElement("div");
+            ts.className = "message-timestamp";
+            ts.textContent = new Date().toLocaleTimeString('de-DE', {
+              hour: '2-digit', minute: '2-digit'
+            });
+            p.appendChild(ts);
+            note.appendChild(p);
           }
         });
         
         // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
-        if (remindersElement.children.length === 0) {
-          remindersElement.innerHTML = "<em>Keine Erinnerungen für heute</em>";
+        if (reminders.children.length === 0) {
+          reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
         }
-        
-        // Familienfotos (Platzhalter)
-        const photosContainer = document.getElementById("photos");
-        const placeholderPhotos = [
-          'https://ui-avatars.com/api/?name=Foto1&background=ddd&color=555&size=150',
-          'https://ui-avatars.com/api/?name=Foto2&background=ddd&color=555&size=150',
-          'https://ui-avatars.com/api/?name=Foto3&background=ddd&color=555&size=150',
-          'https://ui-avatars.com/api/?name=Foto4&background=ddd&color=555&size=150'
-        ];
-        
-        photosContainer.innerHTML = placeholderPhotos.map(url => 
-          `<div class="photo-item"><img src="${url}" alt="Familienfoto"></div>`
-        ).join('');
       })
       .catch(err => {
         console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
@@ -428,7 +177,8 @@
           
           const comp = new ICAL.Component(ICAL.parse(data));
           const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
-          
+          console.log("Anzahl gefundener Events:", allEvents.length);
+
           // Vereinfachte Datumsberechnung
           const today = new Date();
           today.setHours(0, 0, 0, 0); // Auf Mitternacht setzen
@@ -436,6 +186,8 @@
           const in2Days = new Date(today);
           in2Days.setDate(today.getDate() + 2);
           in2Days.setHours(23, 59, 59, 999); // Auf Ende des Tages setzen
+          
+          console.log("Datumsbereich für Events:", today, "bis", in2Days);
 
           const events = allEvents
             .filter(e => {
@@ -448,43 +200,24 @@
               }
             })
             .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+          
+          console.log("Anzahl anstehender Events:", events.length);
 
           const out = document.getElementById("ical");
           if (events.length === 0) {
-            out.innerHTML = "<em>Keine bevorstehenden Termine</em>";
+            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
           } else {
             out.innerHTML = "";
             events.forEach(e => {
               try {
                 const d = e.startDate.toJSDate();
-                const isToday = d.toDateString() === today.toDateString();
-                const isTomorrow = d.toDateString() === new Date(today.getTime() + 86400000).toDateString();
-                
-                let timeString;
-                if (isToday) {
-                  timeString = "Heute";
-                } else if (isTomorrow) {
-                  timeString = "Morgen";
-                } else {
-                  timeString = d.toLocaleDateString('de-DE', {
-                    weekday: 'long'
-                  });
-                }
-                
-                if (!e.startDate.isDate) {
-                  timeString += " um" + d.toLocaleTimeString('de-DE', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  });
-                }
-                
-                const div = document.createElement("div");
-                div.className = "termin-eintrag";
-                div.innerHTML = `
-                  <span class="termin-title">${e.summary}</span>
-                  <span class="termin-time">${timeString}</span>
-                `;
-                out.appendChild(div);
+                const isAllDay = e.startDate.isDate;
+                const box = document.createElement("div");
+                box.className = "termin-eintrag";
+                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
+                  weekday: 'long', day: '2-digit', month: '2-digit'
+                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
+                out.appendChild(box);
               } catch (err) {
                 console.error("Fehler beim Anzeigen eines Events:", err, e);
               }
