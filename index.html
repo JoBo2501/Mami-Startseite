@@ -172,28 +172,20 @@
   display: inline-block;
   transform: scale(1, 1.2);
 }
+    #led-title {
+  color: #f8b700;
+  text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 10px;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+}
 
 /* LED-Effekt für Buchstaben */
-.led-text {
-  display: inline-block;
-  font-family: monospace;
-  transform: scale(1, 1.2);
-}
 
-.led-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 1px;
-  background-color: #f8b700;
-  box-shadow: 0 0 5px #f8b700;
-}
-
-.led-off {
-  opacity: 0.15;
-  box-shadow: none;
-} 
   </style>
 </head>
 <body>
@@ -532,163 +524,7 @@ ts.textContent = new Date().toLocaleTimeString('de-DE', {
         console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
         document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
       });
-    // LED Matrix Text Effekt
-function createLedText(selector, text) {
-  const element = document.querySelector(selector);
-  if (!element) return;
-  
-  // Text in Großbuchstaben umwandeln
-  text = text.toUpperCase();
-  
-  // LED Matrix-Definitionen (einfache 5x7 Matrix)
-  const ledMatrices = {
-    'M': [
-      [1,0,0,0,1],
-      [1,1,0,1,1],
-      [1,0,1,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1]
-    ],
-    'U': [
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [0,1,1,1,0]
-    ],
-    'T': [
-      [1,1,1,1,1],
-      [0,0,1,0,0],
-      [0,0,1,0,0],
-      [0,0,1,0,0],
-      [0,0,1,0,0],
-      [0,0,1,0,0],
-      [0,0,1,0,0]
-    ],
-    'E': [
-      [1,1,1,1,1],
-      [1,0,0,0,0],
-      [1,0,0,0,0],
-      [1,1,1,1,0],
-      [1,0,0,0,0],
-      [1,0,0,0,0],
-      [1,1,1,1,1]
-    ],
-    'R': [
-      [1,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,1,1,1,0],
-      [1,0,1,0,0],
-      [1,0,0,1,0],
-      [1,0,0,0,1]
-    ],
-    'S': [
-      [0,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,0],
-      [0,1,1,1,0],
-      [0,0,0,0,1],
-      [1,0,0,0,1],
-      [0,1,1,1,0]
-    ],
-    'A': [
-      [0,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,1,1,1,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1]
-    ],
-    'G': [
-      [0,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,0],
-      [1,0,1,1,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [0,1,1,1,0]
-    ],
-    'B': [
-      [1,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,1,1,1,0]
-    ],
-    'O': [
-      [0,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [0,1,1,1,0]
-    ],
-    'D': [
-      [1,1,1,1,0],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,0,0,0,1],
-      [1,1,1,1,0]
-    ],
-    ' ': [
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0]
-    ]
-  };
-  
-  // Standard-Matrix für nicht definierte Zeichen
-  const defaultMatrix = [
-    [1,1,1,1,1],
-    [1,0,0,0,1],
-    [1,0,0,0,1],
-    [1,0,0,0,1],
-    [1,0,0,0,1],
-    [1,0,0,0,1],
-    [1,1,1,1,1]
-  ];
-  
-  let html = '';
-  // Für jeden Buchstaben im Text
-  for (let char of text) {
-    const matrix = ledMatrices[char] || defaultMatrix;
     
-    html += '<div class="led-text">';
-    // Für jede Zeile in der Matrix
-    for (let row = 0; row < matrix.length; row++) {
-      html += '<div>';
-      // Für jede Spalte in der Matrix
-      for (let col = 0; col < matrix[row].length; col++) {
-        html += `<span class="led-dot ${matrix[row][col] ? '' : 'led-off'}"></span>`;
-      }
-      html += '</div>';
-    }
-    html += '</div>';
-    html += '<span style="display:inline-block;width:5px;"></span>'; // Leerzeichen zwischen Buchstaben
-  }
-  
-  element.innerHTML = html;
-}
-
-// Anwenden des LED-Effekts nach dem Laden der Seite
-document.addEventListener('DOMContentLoaded', function() {
-  createLedText('#led-title', 'Mutters Messageboard');
-});
   </script>
 </body>
 </html>
