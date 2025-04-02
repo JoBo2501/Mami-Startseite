@@ -68,6 +68,30 @@
   margin-top: 0;
   border-radius: 8px;
 }
+    /* Blinkenden Punkt entfernen und Avatar-Anzeige verbessern */
+.message-alert::before {
+  display: none;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border: 1px solid #ddd;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
   </style>
 </head>
 <body>
@@ -122,10 +146,10 @@
       });
 
     // Google Sheet Abruf mit CORS-Proxy
-    // Profilbilder der Söhne (echte Fotos)
+   // Profilbilder der Söhne mit korrekten Pfaden und Fallback
 const senderImages = {
-  'Daniel': 'Daniel.jpg',    // Lokales Bild im gleichen Ordner
-  'Joachim': 'Joachim.jpg'   // Lokales Bild im gleichen Ordner
+  'Daniel': './Daniel.jpg',    // Mit relativer Pfadangabe
+  'Joachim': './Joachim.jpg'   // Mit relativer Pfadangabe
 };
 
 // Google Sheet Abruf mit CORS-Proxy
@@ -194,8 +218,13 @@ fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.g
           avatarDiv.className = "message-avatar";
           
           const avatarImg = document.createElement("img");
-          avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
-          avatarImg.alt = sender;
+avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+avatarImg.alt = sender;
+// Fehlerbehandlung für Bilder
+avatarImg.onerror = function() {
+  console.log(`Bild konnte nicht geladen werden: ${this.src}`);
+  this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+};
           
           avatarDiv.appendChild(avatarImg);
           messageWrapper.appendChild(avatarDiv);
