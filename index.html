@@ -92,6 +92,37 @@
   height: 100%;
   object-fit: cover;
 }
+    .message-with-avatar {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 600px; /* Maximale Breite begrenzen */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.message-timestamp {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+/* Stellen Sie sicher, dass der Avatar immer bei der Nachricht bleibt */
+@media (orientation: landscape) {
+  .message-with-avatar {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+/* Blinkenden Punkt entfernen */
+.message-alert::before {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -147,9 +178,10 @@
 
     // Google Sheet Abruf mit CORS-Proxy
    // Profilbilder der Söhne mit korrekten Pfaden und Fallback
+
 const senderImages = {
-  'Daniel': './Daniel.jpg',    // Mit relativer Pfadangabe
-  'Joachim': './Joachim.jpg'   // Mit relativer Pfadangabe
+  'Daniel': './daniel.jpg',    // Mit relativer Pfadangabe
+  'Joachim': './joachim.jpg'   // Mit relativer Pfadangabe
 };
 
 // Google Sheet Abruf mit CORS-Proxy
@@ -218,13 +250,14 @@ fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.g
           avatarDiv.className = "message-avatar";
           
           const avatarImg = document.createElement("img");
-avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
-avatarImg.alt = sender;
-// Fehlerbehandlung für Bilder
-avatarImg.onerror = function() {
-  console.log(`Bild konnte nicht geladen werden: ${this.src}`);
-  this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
-};
+          avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+          avatarImg.alt = sender;
+          
+          // Fehlerbehandlung für Bilder
+          avatarImg.onerror = function() {
+            console.log(`Bild konnte nicht geladen werden: ${this.src}`);
+            this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+          };
           
           avatarDiv.appendChild(avatarImg);
           messageWrapper.appendChild(avatarDiv);
@@ -239,14 +272,50 @@ avatarImg.onerror = function() {
           contentDiv.appendChild(senderDiv);
           
           const p = document.createElement("p");
-          p.className = "message message-alert";
+          p.className = "message";
           p.textContent = content;
           
           const ts = document.createElement("div");
           ts.className = "message-timestamp";
-          ts.textContent = new Date().toLocaleTimeString('de-DE', {
-            hour: '2-digit', minute: '2-digit'
-          });
+
+          // Datum aus der Tabelle verwenden oder aktuelles Datum, wenn kein Datum vorhanden
+          let messageDate;
+          if (rawDate && rawDate.trim()) {
+            try {
+              messageDate = new Date(rawDate.trim());
+              if (isNaN(messageDate.getTime())) { // Ungültiges Datum
+                messageDate = new Date();
+              }
+            } catch (e) {
+              messageDate = new Date();
+            }
+          } else {
+            messageDate = new Date();
+          }
+
+          // Formatiertes Datum und Uhrzeit anzeigen
+          const today = new Date();
+          const yesterday = new Date(today);
+          yesterday.setDate(yesterday.getDate() - 1);
+
+          let datePrefix = "";
+          if (messageDate.toDateString() === today.toDateString()) {
+            datePrefix = "Heute";
+          } else if (messageDate.toDateString() === yesterday.toDateString()) {
+            datePrefix = "Gestern";
+          } else {
+            datePrefix = messageDate.toLocaleDateString('de-DE', {
+              day: '2-digit',
+              month: '2-digit',
+              year: '2-digit'
+            });
+          }
+
+          // Zeitstempel setzen
+          ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
+            hour: '2-digit', 
+            minute: '2-digit'
+          })}`;
           
           p.appendChild(ts);
           contentDiv.appendChild(p);
@@ -254,7 +323,7 @@ avatarImg.onerror = function() {
         } else {
           // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
           const p = document.createElement("p");
-          p.className = "message message-alert";
+          p.className = "message";
           p.textContent = content;
           
           const ts = document.createElement("div");
