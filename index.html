@@ -27,6 +27,47 @@
     .termin-eintrag { border-left: 5px solid #cc0000; margin-top: 1rem; }
     .reminder-list { list-style: none; padding: 0; max-width: 500px; margin: 0 auto; text-align: left; }
     .reminder-list li { margin-bottom: 0.5rem; }
+    .message-with-avatar {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border: 1px solid #ddd;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.message-content {
+  flex-grow: 1;
+}
+
+.message-sender {
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+  color: #555;
+}
+
+.message {
+  background: #dcf8c6; 
+  border-left: 5px solid #444; 
+  position: relative;
+  padding: 1rem;
+  margin-top: 0;
+  border-radius: 8px;
+}
   </style>
 </head>
 <body>
@@ -81,80 +122,135 @@
       });
 
     // Google Sheet Abruf mit CORS-Proxy
-    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv'))
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
-        }
-        return res.text();
-      })
-      .then(text => {
-        if (!text || text.trim() === '') {
-          throw new Error('Leere Antwort vom Server');
-        }
-        console.log('Empfangene Daten (erste 100 Zeichen):', text.substring(0, 100) + '...');
-        
-        const rows = text.trim().split('\n').map(row => row.split('\t'));
-        console.log('Anzahl der Zeilen:', rows.length);
-        
-        const reminders = document.getElementById("reminders");
-        const note = document.getElementById("note");
-        reminders.innerHTML = "";
-        note.innerHTML = "";
+    // Profilbilder der Söhne (echte Fotos)
+const senderImages = {
+  'Daniel': 'daniel.jpg',    // Lokales Bild im gleichen Ordner
+  'Joachim': 'joachim.jpg'   // Lokales Bild im gleichen Ordner
+};
 
-        const today = new Date().toISOString().split("T")[0];
+// Google Sheet Abruf mit CORS-Proxy
+fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv'))
+  .then(res => {
+    if (!res.ok) {
+      throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+    }
+    return res.text();
+  })
+  .then(text => {
+    if (!text || text.trim() === '') {
+      throw new Error('Leere Antwort vom Server');
+    }
+    
+    const rows = text.trim().split('\n').map(row => row.split('\t'));
+    
+    const reminders = document.getElementById("reminders");
+    const note = document.getElementById("note");
+    reminders.innerHTML = "";
+    note.innerHTML = "";
 
-        rows.forEach((row, index) => {
-          // Sicherere Destrukturierung mit Prüfung
-          if (!row || row.length < 2) {
-            console.log('Ungültige Zeile übersprungen:', row);
-            return;
-          }
+    const today = new Date().toISOString().split("T")[0];
+
+    rows.forEach((row, index) => {
+      // Sicherere Destrukturierung mit Prüfung
+      if (!row || row.length < 2) {
+        console.log('Ungültige Zeile übersprungen:', row);
+        return;
+      }
+      
+      // Erweiterte Struktur: Typ, Inhalt, Absender, Datum
+      const type = row[0];
+      const content = row[1];
+      const sender = row[2] || ""; // Absender (neu)
+      const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
+      
+      if (!type || !content) return;
+
+      const date = rawDate ? rawDate.trim() : "";
+      
+      // Sicherere Datumskonvertierung
+      let isToday = false;
+      try {
+        isToday = !date || new Date(date).toISOString().split("T")[0] === today;
+      } catch (e) {
+        console.error('Fehler beim Parsen des Datums:', date, e);
+        isToday = !date; // Fallback: ohne Datum ist es für "heute"
+      }
+
+      if (type === "Erinnerung" && isToday) {
+        const li = document.createElement("li");
+        li.textContent = "🔔 " + content;
+        li.style.paddingLeft = "0.5rem";
+        reminders.appendChild(li);
+      }
+
+      if (type === "Nachricht") {
+        // Neues HTML-Structure für Nachrichten mit Absender
+        const messageWrapper = document.createElement("div");
+        messageWrapper.className = "message-with-avatar";
+        
+        // Profilbild für den Absender
+        if (sender) {
+          const avatarDiv = document.createElement("div");
+          avatarDiv.className = "message-avatar";
           
-          const [type, content, rawDate] = row;
-          if (!type || !content) return;
-
-          const date = rawDate ? rawDate.trim() : "";
+          const avatarImg = document.createElement("img");
+          avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+          avatarImg.alt = sender;
           
-          // Sicherere Datumskonvertierung
-          let isToday = false;
-          try {
-            isToday = !date || new Date(date).toISOString().split("T")[0] === today;
-          } catch (e) {
-            console.error('Fehler beim Parsen des Datums:', date, e);
-            isToday = !date; // Fallback: ohne Datum ist es für "heute"
-          }
-
-          if (type === "Erinnerung" && isToday) {
-            const li = document.createElement("li");
-            li.textContent = "🔔 " + content;
-            li.style.paddingLeft = "0.5rem";
-            reminders.appendChild(li);
-          }
-
-          if (type === "Nachricht") {
-            const p = document.createElement("p");
-            p.className = "message message-alert";
-            p.textContent = content;
-            const ts = document.createElement("div");
-            ts.className = "message-timestamp";
-            ts.textContent = new Date().toLocaleTimeString('de-DE', {
-              hour: '2-digit', minute: '2-digit'
-            });
-            p.appendChild(ts);
-            note.appendChild(p);
-          }
-        });
-        
-        // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
-        if (reminders.children.length === 0) {
-          reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+          avatarDiv.appendChild(avatarImg);
+          messageWrapper.appendChild(avatarDiv);
+          
+          // Absendername und Nachrichteninhalt
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "message-content";
+          
+          const senderDiv = document.createElement("div");
+          senderDiv.className = "message-sender";
+          senderDiv.textContent = sender;
+          contentDiv.appendChild(senderDiv);
+          
+          const p = document.createElement("p");
+          p.className = "message message-alert";
+          p.textContent = content;
+          
+          const ts = document.createElement("div");
+          ts.className = "message-timestamp";
+          ts.textContent = new Date().toLocaleTimeString('de-DE', {
+            hour: '2-digit', minute: '2-digit'
+          });
+          
+          p.appendChild(ts);
+          contentDiv.appendChild(p);
+          messageWrapper.appendChild(contentDiv);
+        } else {
+          // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
+          const p = document.createElement("p");
+          p.className = "message message-alert";
+          p.textContent = content;
+          
+          const ts = document.createElement("div");
+          ts.className = "message-timestamp";
+          ts.textContent = new Date().toLocaleTimeString('de-DE', {
+            hour: '2-digit', minute: '2-digit'
+          });
+          
+          p.appendChild(ts);
+          messageWrapper.appendChild(p);
         }
-      })
-      .catch(err => {
-        console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
-        document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
-      });
+        
+        note.appendChild(messageWrapper);
+      }
+    });
+    
+    // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+    if (reminders.children.length === 0) {
+      reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+    }
+  })
+  .catch(err => {
+    console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+    document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
+  });
 
     // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
