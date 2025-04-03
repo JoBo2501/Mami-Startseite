@@ -183,16 +183,39 @@
       letter-spacing: 2px;
     }
     
+    /* Frühlingsstil für den Titel */
     .board-title {
       background: #fff475;
       font-size: 1.2rem;
-      padding: 0.8rem;
+      padding: 0.8rem 1.2rem;
       border-radius: 1rem;
       display: inline-block;
       margin: 1rem auto;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       font-weight: bold;
       text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Blume links */
+    .board-title::before {
+      content: "🌼";
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+    }
+    
+    /* Schmetterling rechts */
+    .board-title::after {
+      content: "🦋";
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
     }
   </style>
 </head>
