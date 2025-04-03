@@ -166,7 +166,7 @@
       text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
       font-size: 1.8rem;
       font-weight: bold;
-      margin: 5px 0;
+      margin: 0 0 10px 0;
       padding: 5px 10px;
       font-family: 'Courier New', monospace;
       letter-spacing: 2px;
@@ -185,13 +185,14 @@
     
     .board-title {
       background: #fff475;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       padding: 0.8rem;
       border-radius: 1rem;
       display: inline-block;
       margin: 1rem auto;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       font-weight: bold;
+      text-transform: uppercase;
     }
   </style>
 </head>
@@ -200,8 +201,8 @@
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
   </div>
-  <div class="board-title">MUTTERS MESSAGEBOARD</div>
-  <div class="section"><div class="section-title">Nachricht von uns</div><div id="note"></div></div>
+  <div class="board-title section-title">MUTTERS MESSAGEBOARD</div>
+  <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
   <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
   <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
@@ -217,18 +218,20 @@
   <script>
     // Datum und Uhrzeit Anzeige
     const now = new Date();
-    // Formatiere Datum mit prominenterem Wochentag
+    // Formatiere Datum mit besserem Layout und ohne zu viele Punkte
     const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
-    const fullDate = now.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
-    document.getElementById("date").innerHTML = `<strong>${weekday}</strong>, ${fullDate}`;
+    const day = now.getDate();
+    const month = now.toLocaleDateString('de-DE', { month: 'long' });
+    const year = now.getFullYear();
+    document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
     
-    // Aktualisiere die Uhrzeit jede Sekunde mit größerer Anzeige
+    // Aktualisiere die Uhrzeit jede Sekunde mit größerer Anzeige und blasseren Sekunden
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById("time").innerHTML = `${hours}:${minutes}:<span style="font-size: 0.8em">${seconds}</span>`;
+      document.getElementById("time").innerHTML = `${hours}:${minutes}<span style="color: #a67c00; font-size: 0.7em">:${seconds}</span>`;
     }
     
     updateClock(); // Initial ausführen
