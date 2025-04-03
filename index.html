@@ -161,25 +161,46 @@
       display: inline-block;
       transform: scale(1, 1.2);
     }
-    #led-title {
+    .date-display {
       color: #f8b700;
       text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: bold;
       margin: 5px 0;
-      padding: 10px;
-      text-transform: uppercase;
+      padding: 5px 10px;
       font-family: 'Courier New', monospace;
-      letter-spacing: 4px;
+      letter-spacing: 2px;
+    }
+    
+    .time-display {
+      color: #f8b700;
+      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 0;
+      padding: 5px 10px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+    }
+    
+    .board-title {
+      background: #fff475;
+      font-size: 1.5rem;
+      padding: 0.8rem;
+      border-radius: 1rem;
+      display: inline-block;
+      margin: 1rem auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
   <div class="digital-board">
-    <h1 id="led-title">MUTTERS MESSAGEBOARD</h1>
+    <div id="date" class="date-display"></div>
+    <div id="time" class="time-display"></div>
   </div>
-  <div id="date"></div>
-  <div id="time"></div>
+  <div class="board-title">MUTTERS MESSAGEBOARD</div>
   <div class="section"><div class="section-title">Nachricht von uns</div><div id="note"></div></div>
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
   <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
@@ -196,12 +217,22 @@
   <script>
     // Datum und Uhrzeit Anzeige
     const now = new Date();
-    document.getElementById("date").innerText = now.toLocaleDateString('de-DE', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-    setInterval(() => {
-      document.getElementById("time").innerText = new Date().toLocaleTimeString('de-DE');
-    }, 1000);
+    // Formatiere Datum mit prominenterem Wochentag
+    const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
+    const fullDate = now.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById("date").innerHTML = `<strong>${weekday}</strong>, ${fullDate}`;
+    
+    // Aktualisiere die Uhrzeit jede Sekunde mit größerer Anzeige
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("time").innerHTML = `${hours}:${minutes}:<span style="font-size: 0.8em">${seconds}</span>`;
+    }
+    
+    updateClock(); // Initial ausführen
+    setInterval(updateClock, 1000);
 
     // Wetter-Anzeige mit CORS-Proxy
     const weatherCodes = {
