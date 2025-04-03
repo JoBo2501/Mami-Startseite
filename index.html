@@ -26,33 +26,22 @@
       word-break: break-word;
     }
     .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
-    /* Neuer blinkender Punkt mit "Neu" statt "Live" */
-    .message-new {
-      position: relative;
-    }
-    .message-new::before {
-      content: "Neu";
-      position: absolute;
-      left: -45px;
-      top: 0;
-      font-size: 0.8rem;
+    /* Neuer blinkender Punkt mit "Neu von [Sender]" */
+    .new-indicator {
+      font-size: 0.9rem;
       color: #FF0000;
-      background-color: transparent;
-      padding: 2px 5px;
-      border-radius: 3px;
       display: flex;
       align-items: center;
-      width: fit-content;
+      margin-bottom: 2px;
     }
-    .message-new::after {
+    .new-indicator::before {
       content: "";
-      position: absolute;
-      left: -55px;
-      top: 4px;
+      display: inline-block;
       width: 8px;
       height: 8px;
       background-color: red;
       border-radius: 50%;
+      margin-right: 6px;
       animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
@@ -240,11 +229,11 @@
       });
     }
 
-    // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 24 Stunden alt)
+    // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
     function isNewMessage(messageDate) {
       const now = new Date();
-      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      return messageDate > twentyFourHoursAgo;
+      const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+      return messageDate > fiveHoursAgo;
     }
 
     // Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
@@ -390,9 +379,22 @@
                   messageDate = new Date();
                 }
 
-                // Neue Nachricht markieren (weniger als 24 Stunden alt)
-                if (isNewMessage(messageDate)) {
-                  contentDiv.classList.add('message-new');
+                // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
+                const isReallyNew = (function() {
+                  const now = new Date();
+                  const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+                  return messageDate > fiveHoursAgo;
+                })();
+                
+                // Neue Nachricht markieren (weniger als 5 Stunden alt)
+                if (isReallyNew) {
+                  // Erstelle den "Neu von [Sender]" Indikator oberhalb der Nachricht
+                  const newIndicator = document.createElement("div");
+                  newIndicator.className = "new-indicator";
+                  newIndicator.textContent = `Neu von ${sender}`;
+                  
+                  // Füge den Indikator vor dem Absendernamen ein
+                  contentDiv.insertBefore(newIndicator, senderDiv);
                 }
 
                 // Formatiertes Datum und Uhrzeit anzeigen
