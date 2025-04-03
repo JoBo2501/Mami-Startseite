@@ -225,17 +225,16 @@
     const year = now.getFullYear();
     document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
     
-    // Aktualisiere die Uhrzeit jede Sekunde mit größerer Anzeige und blasseren Sekunden
+    // Aktualisiere die Uhrzeit jede Minute ohne Sekunden, mit "Uhr" am Ende
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById("time").innerHTML = `${hours}:${minutes}<span style="color: #a67c00; font-size: 0.7em">:${seconds}</span>`;
+      document.getElementById("time").innerHTML = `${hours}:${minutes} Uhr`;
     }
     
     updateClock(); // Initial ausführen
-    setInterval(updateClock, 1000);
+    setInterval(updateClock, 60000); // Alle 60 Sekunden aktualisieren (1 Minute)
 
     // Wetter-Anzeige mit CORS-Proxy
     const weatherCodes = {
