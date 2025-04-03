@@ -667,5 +667,200 @@
         document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
       });
   </script>
+  // Füge diesen Code am Ende der index.html Datei ein, direkt vor dem schließenden </body> Tag
+
+<div class="section">
+  <div class="section-title">Meine täglichen Erfolge</div>
+  <div class="daily-checklist">
+    <div class="checklist-description">
+      Bitte hake ab, was Du heute schon geschafft hast:
+    </div>
+    <div class="checklist-items">
+      <div class="checklist-item">
+        <label class="checklist-label">
+          <input type="checkbox" class="checklist-checkbox" data-item="water_morning">
+          <span class="checklist-text">💧 Heute Vormittag habe ich genügend Flüssigkeit zu mir genommen</span>
+        </label>
+      </div>
+      <div class="checklist-item">
+        <label class="checklist-label">
+          <input type="checkbox" class="checklist-checkbox" data-item="water_afternoon">
+          <span class="checklist-text">💧 Heute Nachmittag habe ich genügend Flüssigkeit zu mir genommen</span>
+        </label>
+      </div>
+      <div class="checklist-item">
+        <label class="checklist-label">
+          <input type="checkbox" class="checklist-checkbox" data-item="egg">
+          <span class="checklist-text">🥚 Mein tägliches weiches Ei habe ich gegessen (Tipp von Maria für meine Beine)</span>
+        </label>
+      </div>
+      <div class="checklist-item">
+        <label class="checklist-label">
+          <input type="checkbox" class="checklist-checkbox" data-item="emergency_band">
+          <span class="checklist-text">🆘 Mein Armband mit dem Notruf-Knopf von der Diakonie habe ich am Handgelenk</span>
+        </label>
+      </div>
+    </div>
+    <div id="success-message" class="checklist-success hidden">
+      <div class="success-icon">🌟</div>
+      <div class="success-text">Super gemacht! Du kümmerst Dich gut um Dich.</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .daily-checklist {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .checklist-description {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  
+  .checklist-items {
+    margin-bottom: 1rem;
+  }
+  
+  .checklist-item {
+    margin-bottom: 1rem;
+    padding-left: 10px;
+    border-left: 3px solid #fff475;
+  }
+  
+  .checklist-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .checklist-checkbox {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  
+  .checklist-text {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+  
+  .checklist-success {
+    background: #e7f7e3;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.5s;
+  }
+  
+  .success-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+  }
+  
+  .success-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Stil für abgehakte Elemente */
+  .checklist-checkbox:checked + .checklist-text {
+    text-decoration: none;
+    color: #28a745;
+    font-weight: bold;
+  }
+</style>
+
+<script>
+  // Funktion, um lokale Speicherung für die Checkliste zu verwalten
+  function setupChecklist() {
+    const checkboxes = document.querySelectorAll('.checklist-checkbox');
+    const successMessage = document.getElementById('success-message');
+    
+    // Funktion zum Generieren des heutigen Datums als String
+    function getTodayString() {
+      const today = new Date();
+      return `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`;
+    }
+    
+    // Speicherung-Schlüssel mit dem heutigen Datum
+    const storageKeyPrefix = 'motherboard_checklist_' + getTodayString() + '_';
+    
+    // Lade gespeicherte Werte
+    checkboxes.forEach(checkbox => {
+      const itemKey = storageKeyPrefix + checkbox.dataset.item;
+      const savedValue = localStorage.getItem(itemKey);
+      
+      if (savedValue === 'true') {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+      
+      // Eventlistener für Änderungen
+      checkbox.addEventListener('change', function() {
+        // Speichere neuen Wert
+        localStorage.setItem(itemKey, this.checked);
+        
+        // Prüfe, ob alle Checkboxen abgehakt sind
+        const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        
+        if (allChecked) {
+          successMessage.classList.remove('hidden');
+        } else {
+          successMessage.classList.add('hidden');
+        }
+      });
+    });
+    
+    // Prüfe initial, ob alle Checkboxen abgehakt sind
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    if (allChecked) {
+      successMessage.classList.remove('hidden');
+    }
+    
+    // Prüfe, ob es ein neuer Tag ist und setze die Checkboxen zurück
+    const lastResetDay = localStorage.getItem('last_reset_day');
+    const today = getTodayString();
+    
+    if (lastResetDay !== today) {
+      // Neuer Tag - Setze alle Checkboxen zurück
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+        localStorage.setItem(storageKeyPrefix + checkbox.dataset.item, false);
+      });
+      
+      // Speichere den heutigen Tag für den nächsten Reset
+      localStorage.setItem('last_reset_day', today);
+      
+      // Verstecke die Erfolgsmeldung
+      successMessage.classList.add('hidden');
+    }
+  }
+  
+  // Führe die Funktion aus, wenn die Seite geladen ist
+  document.addEventListener('DOMContentLoaded', setupChecklist);
+</script>
 </body>
 </html>
