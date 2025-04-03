@@ -931,7 +931,7 @@
 </script>  
 
 <div class="section">
-  <div class="section-title">Kleine tägliche Erfolge</div>
+  <div class="section-title">Meine täglichen Erfolge</div>
   <div class="daily-checklist">
     <div class="checklist-description">
       Bitte hake ab, was Du heute schon geschafft hast:
@@ -939,32 +939,43 @@
     <div class="checklist-items">
       <div class="checklist-item">
         <label class="checklist-label">
-          <input type="checkbox" class="checklist-checkbox" data-item="water_morning">
+          <input type="checkbox" class="checklist-checkbox" data-item="water_morning" data-feedback="Sehr gut! Ausreichend Trinken ist wichtig für Deine Gesundheit.">
           <span class="checklist-text">💧 Heute Vormittag habe ich genügend Flüssigkeit zu mir genommen</span>
+          <span class="item-feedback hidden"></span>
         </label>
       </div>
       <div class="checklist-item">
         <label class="checklist-label">
-          <input type="checkbox" class="checklist-checkbox" data-item="water_afternoon">
+          <input type="checkbox" class="checklist-checkbox" data-item="water_afternoon" data-feedback="Prima! Du kümmerst Dich gut um Deine Flüssigkeitszufuhr.">
           <span class="checklist-text">💧 Heute Nachmittag habe ich genügend Flüssigkeit zu mir genommen</span>
+          <span class="item-feedback hidden"></span>
         </label>
       </div>
       <div class="checklist-item">
         <label class="checklist-label">
-          <input type="checkbox" class="checklist-checkbox" data-item="egg">
+          <input type="checkbox" class="checklist-checkbox" data-item="egg" data-feedback="Ausgezeichnet! Das Ei tut Deinen Beinen gut.">
           <span class="checklist-text">🥚 Mein tägliches weiches Ei habe ich gegessen (Tipp von Maria für meine Beine)</span>
+          <span class="item-feedback hidden"></span>
         </label>
       </div>
       <div class="checklist-item">
         <label class="checklist-label">
-          <input type="checkbox" class="checklist-checkbox" data-item="emergency_band">
+          <input type="checkbox" class="checklist-checkbox" data-item="emergency_band" data-feedback="Toll! Mit dem Notruf-Armband bist Du auf der sicheren Seite.">
           <span class="checklist-text">🆘 Mein Armband mit dem Notruf-Knopf von der Diakonie habe ich am Handgelenk</span>
+          <span class="item-feedback hidden"></span>
+        </label>
+      </div>
+      <div class="checklist-item">
+        <label class="checklist-label">
+          <input type="checkbox" class="checklist-checkbox" data-item="daily_walk" data-feedback="Wunderbar! Bewegung an der frischen Luft ist gesund und stärkt Dich.">
+          <span class="checklist-text">🚶‍♀️ Meinen täglichen Spaziergang habe ich heute gemacht</span>
+          <span class="item-feedback hidden"></span>
         </label>
       </div>
     </div>
     <div id="success-message" class="checklist-success hidden">
       <div class="success-icon">🌟</div>
-      <div class="success-text">Prima gemacht! Du bist auf zack!</div>
+      <div class="success-text">Super gemacht! Du kümmerst Dich gut um Dich.</div>
     </div>
   </div>
 </div>
@@ -991,14 +1002,14 @@
   }
   
   .checklist-item {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     padding-left: 10px;
     border-left: 3px solid #fff475;
   }
   
   .checklist-label {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     cursor: pointer;
     user-select: none;
   }
@@ -1013,6 +1024,26 @@
   .checklist-text {
     font-size: 1.1rem;
     line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.3rem;
+  }
+  
+  .checklist-text::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  
+  .item-feedback {
+    margin-left: 36px;
+    font-size: 0.9rem;
+    color: #28a745;
+    font-style: italic;
+    animation: fadeIn 0.5s;
   }
   
   .checklist-success {
@@ -1072,9 +1103,15 @@
     checkboxes.forEach(checkbox => {
       const itemKey = storageKeyPrefix + checkbox.dataset.item;
       const savedValue = localStorage.getItem(itemKey);
+      const feedbackElement = checkbox.parentNode.querySelector('.item-feedback');
       
       if (savedValue === 'true') {
         checkbox.checked = true;
+        // Zeige das gespeicherte Feedback für bereits erledigte Aufgaben
+        if (feedbackElement) {
+          feedbackElement.textContent = checkbox.dataset.feedback || '';
+          feedbackElement.classList.remove('hidden');
+        }
       } else {
         checkbox.checked = false;
       }
@@ -1083,6 +1120,17 @@
       checkbox.addEventListener('change', function() {
         // Speichere neuen Wert
         localStorage.setItem(itemKey, this.checked);
+        
+        // Zeige Feedback für dieses Element
+        const feedbackElement = this.parentNode.querySelector('.item-feedback');
+        if (feedbackElement) {
+          if (this.checked) {
+            feedbackElement.textContent = this.dataset.feedback || '';
+            feedbackElement.classList.remove('hidden');
+          } else {
+            feedbackElement.classList.add('hidden');
+          }
+        }
         
         // Prüfe, ob alle Checkboxen abgehakt sind
         const allChecked = Array.from(checkboxes).every(cb => cb.checked);
@@ -1110,6 +1158,12 @@
       checkboxes.forEach(checkbox => {
         checkbox.checked = false;
         localStorage.setItem(storageKeyPrefix + checkbox.dataset.item, false);
+        
+        // Verstecke alle Feedback-Elemente
+        const feedbackElement = checkbox.parentNode.querySelector('.item-feedback');
+        if (feedbackElement) {
+          feedbackElement.classList.add('hidden');
+        }
       });
       
       // Speichere den heutigen Tag für den nächsten Reset
