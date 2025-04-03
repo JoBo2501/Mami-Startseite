@@ -932,23 +932,19 @@
 <!-- Füge diesen Code vor der Checkliste ein -->
 
 <div class="section">
-  <div class="section-title">Tägliches Gehirnjogging</div>
+  <div class="section-title">5 klassische Zitate zum Vervollständigen</div>
   <div class="brain-game">
     <div class="game-instructions">
-      Klassisches Zitat zum Vervollständigen:
+      Denke kurz über jedes Zitat nach. Wenn Du die Lösung weißt, klicke auf den Button.
     </div>
     
-    <div class="quote-container">
-      <div id="incomplete-quote" class="quote-text"></div>
-      <div id="quote-author" class="quote-author hidden"></div>
+    <div id="quotes-container">
+      <!-- Die 5 Zitate werden hier dynamisch eingefügt -->
     </div>
     
-    <div class="game-controls">
-      <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
-      <div id="quote-feedback" class="quote-feedback hidden">
-        <div class="feedback-icon">🧠</div>
-        <div class="feedback-text">Wunderbar! Ein Stück Literaturgeschichte gut gemeistert.</div>
-      </div>
+    <div id="daily-success" class="quote-success hidden">
+      <div class="success-icon">🏆</div>
+      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein Gedächtnis ist beeindruckend!</div>
     </div>
   </div>
 </div>
@@ -967,16 +963,22 @@
   
   .game-instructions {
     font-size: 1.1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: #444;
     font-weight: bold;
+  }
+  
+  .quote-item {
+    margin-bottom: 2rem;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 1.5rem;
   }
   
   .quote-container {
     background: #f9f9f9;
     border-radius: 8px;
     padding: 1.2rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.8rem;
     position: relative;
   }
   
@@ -984,7 +986,6 @@
     font-size: 1.2rem;
     line-height: 1.5;
     font-style: italic;
-    margin-bottom: 1rem;
     color: #444;
   }
   
@@ -1011,6 +1012,7 @@
     text-align: right;
     font-weight: bold;
     color: #555;
+    margin-top: 0.5rem;
     animation: fadeIn 1s;
   }
   
@@ -1024,6 +1026,8 @@
     cursor: pointer;
     transition: background-color 0.3s;
     font-weight: bold;
+    width: 100%;
+    text-align: center;
   }
   
   .reveal-button:hover {
@@ -1036,17 +1040,17 @@
   }
   
   .quote-feedback {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     display: flex;
     align-items: center;
-    animation: fadeIn.5s;
+    animation: fadeIn 0.5s;
     padding: 0.8rem;
     background: #fff5e6;
     border-radius: 6px;
   }
   
   .feedback-icon {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-right: 0.8rem;
   }
   
@@ -1055,13 +1059,29 @@
     color: #444;
   }
   
-  .hidden {
-    display: none;
+  .quote-success {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.5s;
+    padding: 1rem;
+    background: #e7f7e3;
+    border-radius: 6px;
   }
   
-  .completed {
-    text-decoration: line-through;
-    opacity: 0.7;
+  .success-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+  }
+  
+  .success-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #28a745;
+  }
+  
+  .hidden {
+    display: none;
   }
   
   @keyframes fadeIn {
@@ -1092,11 +1112,6 @@
       quote: "Es irrt der Mensch, solang er strebt.",
       incompleteQuote: "Es irrt der Mensch, solang er ...",
       author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Erkenne dich selbst, dann wirst du die Welt erkennen.",
-      incompleteQuote: "Erkenne dich selbst, dann wirst du ...",
-      author: "Johann Wolfgang von Goethe"
     },
     {
       quote: "Hier bin ich Mensch, hier darf ich's sein.",
@@ -1169,11 +1184,6 @@
       author: "Friedrich Schiller, Resignation"
     },
     {
-      quote: "Was ist des Deutschen Vaterland? So nenne mir das große Land!",
-      incompleteQuote: "Was ist des Deutschen Vaterland? So nenne mir ...",
-      author: "Ernst Moritz Arndt"
-    },
-    {
       quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil.",
       incompleteQuote: "Des Lebens ungemischte Freude ward keinem ...",
       author: "Friedrich Schiller, Der Ring des Polykrates"
@@ -1204,16 +1214,6 @@
       author: "Friedrich Schiller, Die Piccolomini"
     },
     {
-      quote: "Von hier und heute geht eine neue Epoche der Weltgeschichte aus, und ihr könnt sagen, ihr seid dabei gewesen.",
-      incompleteQuote: "Von hier und heute geht eine neue Epoche der Weltgeschichte aus, und ihr könnt sagen, ...",
-      author: "Johann Wolfgang von Goethe, nach der Schlacht von Valmy"
-    },
-    {
-      quote: "Es gibt nichts Gutes außer: Man tut es.",
-      incompleteQuote: "Es gibt nichts Gutes außer: ...",
-      author: "Erich Kästner"
-    },
-    {
       quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand!",
       incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, ...",
       author: "Friedrich Schiller, Das Lied von der Glocke"
@@ -1229,8 +1229,8 @@
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "O Augenbick, verweile doch, du bist so schön!",
-      incompleteQuote: "O Augenbick, verweile doch, du bist ...",
+      quote: "O Augenblick, verweile doch, du bist so schön!",
+      incompleteQuote: "O Augenblick, verweile doch, du bist ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
@@ -1244,19 +1244,9 @@
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "O glücklich, wer noch hoffen kann, aus diesem Meer des Irrtums aufzutauchen!",
-      incompleteQuote: "O glücklich, wer noch hoffen kann, aus diesem Meer des Irrtums ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
       quote: "Nun sag, wie hast du's mit der Religion?",
       incompleteQuote: "Nun sag, wie hast du's mit der ...?",
       author: "Johann Wolfgang von Goethe, Faust I (Gretchenfrage)"
-    },
-    {
-      quote: "So eine Arbeit wird eigentlich nie fertig, man muss sie für fertig erklären.",
-      incompleteQuote: "So eine Arbeit wird eigentlich nie fertig, man muss sie ...",
-      author: "Johann Wolfgang von Goethe, Italienische Reise"
     },
     {
       quote: "Alle Menschen werden Brüder, wo dein sanfter Flügel weilt.",
@@ -1267,80 +1257,178 @@
       quote: "Freude, schöner Götterfunken, Tochter aus Elysium.",
       incompleteQuote: "Freude, schöner Götterfunken, Tochter aus ...",
       author: "Friedrich Schiller, An die Freude"
+    },
+    {
+      quote: "Das Weib soll nicht dem Mann die Waffen gleichen, durch Anmut nur kann sie und Güte siegen.",
+      incompleteQuote: "Das Weib soll nicht dem Mann die Waffen gleichen, durch Anmut nur kann sie ...",
+      author: "Heinrich von Kleist, Penthesilea"
+    },
+    {
+      quote: "Der Krieg ist nichts als eine Fortsetzung der Politik mit anderen Mitteln.",
+      incompleteQuote: "Der Krieg ist nichts als eine Fortsetzung der Politik ...",
+      author: "Carl von Clausewitz"
+    },
+    {
+      quote: "Die Vernunft kann nicht wünschen, der Leidenschaft alle Kraft zu nehmen.",
+      incompleteQuote: "Die Vernunft kann nicht wünschen, der Leidenschaft ...",
+      author: "Heinrich von Kleist, Die Marquise von O..."
+    },
+    {
+      quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn?",
+      incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub ...",
+      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+    },
+    {
+      quote: "Was ist die Mehrheit? Mehrheit ist der Unsinn, Verstand ist stets bei wen'gen nur gewesen.",
+      incompleteQuote: "Was ist die Mehrheit? Mehrheit ist der Unsinn, Verstand ist stets ...",
+      author: "Friedrich Schiller, Demetrius"
+    },
+    {
+      quote: "Die Wahrheit ist dem Menschen zumutbar.",
+      incompleteQuote: "Die Wahrheit ist dem Menschen ...",
+      author: "Ingeborg Bachmann"
     }
   ];
 
-  // Funktion, um ein Zitat für den Tag auszuwählen, basierend auf dem Datum
-  function getQuoteOfTheDay() {
+  // Verschiedene Button-Texte
+  const buttonTexts = [
+    "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
+    "Lösung anzeigen",
+    "Hast Du es erraten? Hier klicken für die Lösung!",
+    "Klicke für die Auflösung!",
+    "Na, weißt Du es? Hier klicken!",
+    "Lösung aufdecken",
+    "Verrate mir die Antwort",
+    "Zeige mir das vollständige Zitat",
+    "Ich denke, ich hab's! Überprüfen..."
+  ];
+
+  // Verschiedene Feedback-Texte
+  const feedbackTexts = [
+    "Gut gemacht! Das hält den Geist fit.",
+    "Prima! Ein Klassiker gut gemeistert.",
+    "Ausgezeichnet! Dein Gedächtnis ist beeindruckend.",
+    "Wunderbar! Ein Stück Literaturgeschichte gut erkannt.",
+    "Sehr gut! Diese Werke sind zeitlos schön.",
+    "Hervorragend! Die Klassiker sind bei Dir in guten Händen.",
+    "Bravo! Deutsche Literatur auf höchstem Niveau.",
+    "Toll! Du kennst Dich wirklich gut aus.",
+    "Großartig! Ein literarischer Genuss."
+  ];
+
+  // Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
+  function getQuotesOfTheDay() {
     const today = new Date();
     const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     
-    // Einfacher Pseudozufall basierend auf dem Datum, damit das Zitat täglich wechselt
-    // aber für den gleichen Tag konstant bleibt
+    // Einfacher Pseudozufall basierend auf dem Datum
     let hash = 0;
     for (let i = 0; i < dateString.length; i++) {
       hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-      hash = hash & hash; // Zu 32bit Integer konvertieren
+      hash = hash & hash;
     }
     
-    // Positiven Index generieren
+    // Datum als Seed für den Zufallsgenerator verwenden
     const seed = Math.abs(hash);
-    const index = seed % quotesCollection.length;
     
-    return quotesCollection[index];
+    // Array mit allen Indizes erstellen
+    const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
+    
+    // Fisher-Yates Shuffle-Algorithmus mit deterministischem Seed
+    for (let i = allIndices.length - 1; i > 0; i--) {
+      const j = (seed * (i + 1)) % (i + 1) | 0;
+      [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+    }
+    
+    // Die ersten 5 Zitate auswählen
+    return allIndices.slice(0, 5).map(index => quotesCollection[index]);
   }
 
   // Funktion zur Initialisierung des Gehirnjoggings
   function initBrainTraining() {
-    const incompleteQuoteElement = document.getElementById('incomplete-quote');
-    const quoteAuthorElement = document.getElementById('quote-author');
-    const revealButton = document.getElementById('reveal-button');
-    const quoteFeedback = document.getElementById('quote-feedback');
+    const quotesContainer = document.getElementById('quotes-container');
+    const dailySuccess = document.getElementById('daily-success');
     
-    // Heutiges Zitat laden
-    const todayQuote = getQuoteOfTheDay();
-    
-    // Unvollständiges Zitat anzeigen
-    incompleteQuoteElement.textContent = todayQuote.incompleteQuote;
-    
-    // Autor für später speichern
-    quoteAuthorElement.textContent = '- ' + todayQuote.author;
+    // Heutige Zitate laden
+    const todayQuotes = getQuotesOfTheDay();
     
     // Speicherschlüssel für diesen Tag
     const today = new Date();
     const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    const storageKey = 'brain_training_completed_' + dateString;
+    const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
     
-    // Prüfen, ob das heutige Zitat bereits gelöst wurde
-    const isCompleted = localStorage.getItem(storageKey) === 'true';
+    // Zitate zur Seite hinzufügen
+    todayQuotes.forEach((quote, index) => {
+      const storageKey = storageKeyPrefix + index;
+      const isCompleted = localStorage.getItem(storageKey) === 'true';
+      
+      // Zufälligen Button-Text auswählen
+      const buttonText = buttonTexts[Math.floor((index * 1234) % buttonTexts.length)];
+      
+      // Zufälligen Feedback-Text auswählen
+      const feedbackText = feedbackTexts[Math.floor((index * 5678) % feedbackTexts.length)];
+      
+      // HTML für dieses Zitat erstellen
+      const quoteHtml = `
+        <div class="quote-item" data-index="${index}">
+          <div class="quote-container">
+            <div class="quote-text">${isCompleted ? quote.quote : quote.incompleteQuote}</div>
+            <div class="quote-author ${isCompleted ? '' : 'hidden'}">${quote.author}</div>
+          </div>
+          
+          <button class="reveal-button" data-index="${index}" ${isCompleted ? 'disabled' : ''}>${isCompleted ? 'Gelöst!' : buttonText}</button>
+          
+          <div class="quote-feedback ${isCompleted ? '' : 'hidden'}" data-index="${index}">
+            <div class="feedback-icon">🧠</div>
+            <div class="feedback-text">${feedbackText}</div>
+          </div>
+        </div>
+      `;
+      
+      quotesContainer.innerHTML += quoteHtml;
+    });
     
-    if (isCompleted) {
-      // Wenn bereits gelöst, vollständiges Zitat und Autor anzeigen
-      incompleteQuoteElement.textContent = todayQuote.quote;
-      quoteAuthorElement.classList.remove('hidden');
-      quoteFeedback.classList.remove('hidden');
-      revealButton.disabled = true;
-      revealButton.textContent = 'Bereits gelöst';
+    // Event-Listener für alle Buttons
+    document.querySelectorAll('.reveal-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const index = this.dataset.index;
+        const storageKey = storageKeyPrefix + index;
+        const quoteItem = this.closest('.quote-item');
+        
+        // Vollständiges Zitat anzeigen
+        quoteItem.querySelector('.quote-text').textContent = todayQuotes[index].quote;
+        
+        // Autor anzeigen
+        quoteItem.querySelector('.quote-author').classList.remove('hidden');
+        
+        // Feedback anzeigen
+        quoteItem.querySelector('.quote-feedback').classList.remove('hidden');
+        
+        // Button deaktivieren
+        this.disabled = true;
+        this.textContent = 'Gelöst!';
+        
+        // Als erledigt markieren im lokalen Speicher
+        localStorage.setItem(storageKey, 'true');
+        
+        // Prüfen, ob alle Zitate gelöst wurden
+        checkAllCompleted();
+      });
+    });
+    
+    // Funktion zum Prüfen, ob alle Zitate gelöst wurden
+    function checkAllCompleted() {
+      const allCompleted = Array.from({ length: 5 }, (_, i) => 
+        localStorage.getItem(storageKeyPrefix + i) === 'true'
+      ).every(Boolean);
+      
+      if (allCompleted) {
+        dailySuccess.classList.remove('hidden');
+      }
     }
     
-    // Event-Listener für den Button
-    revealButton.addEventListener('click', function() {
-      // Vollständiges Zitat anzeigen
-      incompleteQuoteElement.textContent = todayQuote.quote;
-      
-      // Autor anzeigen (mit Animation)
-      quoteAuthorElement.classList.remove('hidden');
-      
-      // Feedback anzeigen
-      quoteFeedback.classList.remove('hidden');
-      
-      // Button deaktivieren
-      revealButton.disabled = true;
-      revealButton.textContent = 'Gelöst!';
-      
-      // Als erledigt markieren im lokalen Speicher
-      localStorage.setItem(storageKey, 'true');
-    });
+    // Initial prüfen, ob alle Zitate bereits gelöst wurden
+    checkAllCompleted();
   }
 
   // Das Gehirnjogging initialisieren, wenn die Seite geladen ist
