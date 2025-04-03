@@ -929,7 +929,423 @@
     document.querySelector(".wisdom-icon").textContent = emoji;
   });
 </script>  
+<!-- Füge diesen Code vor der Checkliste ein -->
 
+<div class="section">
+  <div class="section-title">Tägliches Gehirnjogging</div>
+  <div class="brain-game">
+    <div class="game-instructions">
+      Klassisches Zitat zum Vervollständigen:
+    </div>
+    
+    <div class="quote-container">
+      <div id="incomplete-quote" class="quote-text"></div>
+      <div id="quote-author" class="quote-author hidden"></div>
+    </div>
+    
+    <div class="game-controls">
+      <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
+      <div id="quote-feedback" class="quote-feedback hidden">
+        <div class="feedback-icon">🧠</div>
+        <div class="feedback-text">Wunderbar! Ein Stück Literaturgeschichte gut gemeistert.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .brain-game {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    text-align: left;
+    border-left: 5px solid #ffb347; /* Orange für geistige Aktivität */
+  }
+  
+  .game-instructions {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #444;
+    font-weight: bold;
+  }
+  
+  .quote-container {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .quote-text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  
+  .quote-text:before {
+    content: '"';
+    font-size: 1.5em;
+    color: #ddd;
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+  }
+  
+  .quote-text:after {
+    content: '"';
+    font-size: 1.5em;
+    color: #ddd;
+    position: absolute;
+    right: 0.8rem;
+    bottom: 0.5rem;
+  }
+  
+  .quote-author {
+    font-size: 1rem;
+    text-align: right;
+    font-weight: bold;
+    color: #555;
+    animation: fadeIn 1s;
+  }
+  
+  .reveal-button {
+    padding: 0.8rem 1.2rem;
+    background-color: #ffb347;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+  }
+  
+  .reveal-button:hover {
+    background-color: #ff9f1c;
+  }
+  
+  .reveal-button:disabled {
+    background-color: #ccc;
+    cursor: default;
+  }
+  
+  .quote-feedback {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    animation: fadeIn.5s;
+    padding: 0.8rem;
+    background: #fff5e6;
+    border-radius: 6px;
+  }
+  
+  .feedback-icon {
+    font-size: 1.8rem;
+    margin-right: 0.8rem;
+  }
+  
+  .feedback-text {
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .completed {
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<script>
+  // Sammlung klassischer Zitate (Goethe, Schiller, Kleist, etc.)
+  const quotesCollection = [
+    {
+      quote: "Das also war des Pudels Kern!",
+      incompleteQuote: "Das also war des Pudels ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube.",
+      incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Wer immer strebend sich bemüht, den können wir erlösen.",
+      incompleteQuote: "Wer immer strebend sich bemüht, den können wir ...",
+      author: "Johann Wolfgang von Goethe, Faust II"
+    },
+    {
+      quote: "Es irrt der Mensch, solang er strebt.",
+      incompleteQuote: "Es irrt der Mensch, solang er ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Erkenne dich selbst, dann wirst du die Welt erkennen.",
+      incompleteQuote: "Erkenne dich selbst, dann wirst du ...",
+      author: "Johann Wolfgang von Goethe"
+    },
+    {
+      quote: "Hier bin ich Mensch, hier darf ich's sein.",
+      incompleteQuote: "Hier bin ich Mensch, hier darf ich's ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Warte nur, balde ruhest du auch.",
+      incompleteQuote: "Warte nur, balde ruhest du ...",
+      author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
+    },
+    {
+      quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum.",
+      incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Edel sei der Mensch, hilfreich und gut.",
+      incompleteQuote: "Edel sei der Mensch, hilfreich und ...",
+      author: "Johann Wolfgang von Goethe, Das Göttliche"
+    },
+    {
+      quote: "Zwei Seelen wohnen, ach! in meiner Brust.",
+      incompleteQuote: "Zwei Seelen wohnen, ach! in meiner ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn!",
+      incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind.",
+      incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit ...",
+      author: "Johann Wolfgang von Goethe, Erlkönig"
+    },
+    {
+      quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren.",
+      incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort.",
+      incompleteQuote: "Es erben sich Gesetz und Rechte wie ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Der Mensch ist frei geschaffen, ist frei, und würd' er in Ketten geboren.",
+      incompleteQuote: "Der Mensch ist frei geschaffen, ist frei, und würd' er in ...",
+      author: "Friedrich Schiller, Die Worte des Glaubens"
+    },
+    {
+      quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet!",
+      incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum ...",
+      author: "Friedrich Schiller, Das Lied von der Glocke"
+    },
+    {
+      quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld.",
+      incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist ...",
+      author: "Friedrich Schiller, Die Braut von Messina"
+    },
+    {
+      quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt.",
+      incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar ...",
+      author: "Friedrich Schiller, Wilhelm Tell"
+    },
+    {
+      quote: "Die Weltgeschichte ist das Weltgericht.",
+      incompleteQuote: "Die Weltgeschichte ist das ...",
+      author: "Friedrich Schiller, Resignation"
+    },
+    {
+      quote: "Was ist des Deutschen Vaterland? So nenne mir das große Land!",
+      incompleteQuote: "Was ist des Deutschen Vaterland? So nenne mir ...",
+      author: "Ernst Moritz Arndt"
+    },
+    {
+      quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil.",
+      incompleteQuote: "Des Lebens ungemischte Freude ward keinem ...",
+      author: "Friedrich Schiller, Der Ring des Polykrates"
+    },
+    {
+      quote: "Früh übt sich, was ein Meister werden will.",
+      incompleteQuote: "Früh übt sich, was ein ...",
+      author: "Friedrich Schiller, Wilhelm Tell"
+    },
+    {
+      quote: "Die Axt im Haus erspart den Zimmermann.",
+      incompleteQuote: "Die Axt im Haus erspart den ...",
+      author: "Friedrich Schiller, Wilhelm Tell"
+    },
+    {
+      quote: "Der brave Mann denkt an sich selbst zuletzt.",
+      incompleteQuote: "Der brave Mann denkt an sich selbst ...",
+      author: "Friedrich Schiller, Wilhelm Tell"
+    },
+    {
+      quote: "Ein jeder gibt den Wert sich selbst.",
+      incompleteQuote: "Ein jeder gibt den Wert ...",
+      author: "Friedrich Schiller, Wallensteins Lager"
+    },
+    {
+      quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären.",
+      incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, ...",
+      author: "Friedrich Schiller, Die Piccolomini"
+    },
+    {
+      quote: "Von hier und heute geht eine neue Epoche der Weltgeschichte aus, und ihr könnt sagen, ihr seid dabei gewesen.",
+      incompleteQuote: "Von hier und heute geht eine neue Epoche der Weltgeschichte aus, und ihr könnt sagen, ...",
+      author: "Johann Wolfgang von Goethe, nach der Schlacht von Valmy"
+    },
+    {
+      quote: "Es gibt nichts Gutes außer: Man tut es.",
+      incompleteQuote: "Es gibt nichts Gutes außer: ...",
+      author: "Erich Kästner"
+    },
+    {
+      quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand!",
+      incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, ...",
+      author: "Friedrich Schiller, Das Lied von der Glocke"
+    },
+    {
+      quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt.",
+      incompleteQuote: "Fest gemauert in der Erden steht die Form, ...",
+      author: "Friedrich Schiller, Das Lied von der Glocke"
+    },
+    {
+      quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen.",
+      incompleteQuote: "Was man schwarz auf weiß besitzt, kann man ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "O Augenbick, verweile doch, du bist so schön!",
+      incompleteQuote: "O Augenbick, verweile doch, du bist ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Der Menschheit ganzer Jammer fasst mich an.",
+      incompleteQuote: "Der Menschheit ganzer Jammer fasst ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Im Deutschen lügt man, wenn man höflich ist.",
+      incompleteQuote: "Im Deutschen lügt man, wenn man ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "O glücklich, wer noch hoffen kann, aus diesem Meer des Irrtums aufzutauchen!",
+      incompleteQuote: "O glücklich, wer noch hoffen kann, aus diesem Meer des Irrtums ...",
+      author: "Johann Wolfgang von Goethe, Faust I"
+    },
+    {
+      quote: "Nun sag, wie hast du's mit der Religion?",
+      incompleteQuote: "Nun sag, wie hast du's mit der ...?",
+      author: "Johann Wolfgang von Goethe, Faust I (Gretchenfrage)"
+    },
+    {
+      quote: "So eine Arbeit wird eigentlich nie fertig, man muss sie für fertig erklären.",
+      incompleteQuote: "So eine Arbeit wird eigentlich nie fertig, man muss sie ...",
+      author: "Johann Wolfgang von Goethe, Italienische Reise"
+    },
+    {
+      quote: "Alle Menschen werden Brüder, wo dein sanfter Flügel weilt.",
+      incompleteQuote: "Alle Menschen werden Brüder, wo dein sanfter Flügel ...",
+      author: "Friedrich Schiller, An die Freude"
+    },
+    {
+      quote: "Freude, schöner Götterfunken, Tochter aus Elysium.",
+      incompleteQuote: "Freude, schöner Götterfunken, Tochter aus ...",
+      author: "Friedrich Schiller, An die Freude"
+    }
+  ];
+
+  // Funktion, um ein Zitat für den Tag auszuwählen, basierend auf dem Datum
+  function getQuoteOfTheDay() {
+    const today = new Date();
+    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    
+    // Einfacher Pseudozufall basierend auf dem Datum, damit das Zitat täglich wechselt
+    // aber für den gleichen Tag konstant bleibt
+    let hash = 0;
+    for (let i = 0; i < dateString.length; i++) {
+      hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+      hash = hash & hash; // Zu 32bit Integer konvertieren
+    }
+    
+    // Positiven Index generieren
+    const seed = Math.abs(hash);
+    const index = seed % quotesCollection.length;
+    
+    return quotesCollection[index];
+  }
+
+  // Funktion zur Initialisierung des Gehirnjoggings
+  function initBrainTraining() {
+    const incompleteQuoteElement = document.getElementById('incomplete-quote');
+    const quoteAuthorElement = document.getElementById('quote-author');
+    const revealButton = document.getElementById('reveal-button');
+    const quoteFeedback = document.getElementById('quote-feedback');
+    
+    // Heutiges Zitat laden
+    const todayQuote = getQuoteOfTheDay();
+    
+    // Unvollständiges Zitat anzeigen
+    incompleteQuoteElement.textContent = todayQuote.incompleteQuote;
+    
+    // Autor für später speichern
+    quoteAuthorElement.textContent = '- ' + todayQuote.author;
+    
+    // Speicherschlüssel für diesen Tag
+    const today = new Date();
+    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    const storageKey = 'brain_training_completed_' + dateString;
+    
+    // Prüfen, ob das heutige Zitat bereits gelöst wurde
+    const isCompleted = localStorage.getItem(storageKey) === 'true';
+    
+    if (isCompleted) {
+      // Wenn bereits gelöst, vollständiges Zitat und Autor anzeigen
+      incompleteQuoteElement.textContent = todayQuote.quote;
+      quoteAuthorElement.classList.remove('hidden');
+      quoteFeedback.classList.remove('hidden');
+      revealButton.disabled = true;
+      revealButton.textContent = 'Bereits gelöst';
+    }
+    
+    // Event-Listener für den Button
+    revealButton.addEventListener('click', function() {
+      // Vollständiges Zitat anzeigen
+      incompleteQuoteElement.textContent = todayQuote.quote;
+      
+      // Autor anzeigen (mit Animation)
+      quoteAuthorElement.classList.remove('hidden');
+      
+      // Feedback anzeigen
+      quoteFeedback.classList.remove('hidden');
+      
+      // Button deaktivieren
+      revealButton.disabled = true;
+      revealButton.textContent = 'Gelöst!';
+      
+      // Als erledigt markieren im lokalen Speicher
+      localStorage.setItem(storageKey, 'true');
+    });
+  }
+
+  // Das Gehirnjogging initialisieren, wenn die Seite geladen ist
+  document.addEventListener('DOMContentLoaded', initBrainTraining);
+</script>
 <div class="section">
   <div class="section-title">Kleine tägliche Erfolge</div>
   <div class="daily-checklist">
