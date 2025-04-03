@@ -276,7 +276,63 @@
       .then(data => {
         const w = data.current_weather;
         const emoji = weatherCodes[w.weathercode] || "🌡️";
-        document.getElementById("weather").innerText = `${emoji} Temperatur: ${w.temperature}°C, Wind: ${w.windspeed} km/h`;
+        
+        // Freundlichere Wetterkommentare basierend auf den aktuellen Bedingungen
+        let weatherComment = "";
+        let temperatureComment = "";
+        let windComment = "";
+        
+        // Wetterkommentar basierend auf dem Wetterzustand
+        if (w.weathercode <= 2) { // Sonnig oder überwiegend klar
+          weatherComment = "– heute wird ein sehr schöner Tag!";
+        } else if (w.weathercode === 3) { // Bedeckt
+          weatherComment = "– heute ist der Himmel bedeckt.";
+        } else if (w.weathercode >= 45 && w.weathercode <= 48) { // Nebel
+          weatherComment = "– heute ist es neblig, bitte vorsichtig fahren!";
+        } else if (w.weathercode >= 51 && w.weathercode <= 67) { // Nieselregen bis Regen
+          weatherComment = "– heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
+        } else if (w.weathercode >= 80 && w.weathercode <= 86) { // Regenschauer
+          weatherComment = "– heute kommt immer wieder Regen runter, besser drinnen bleiben.";
+        } else if (w.weathercode >= 95) { // Gewitter
+          weatherComment = "– heute gibt es Gewitter, bitte bleib zu Hause!";
+        }
+        
+        // Temperaturkommentar
+        if (w.temperature < 5) {
+          temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
+        } else if (w.temperature < 12) {
+          temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
+        } else if (w.temperature < 20) {
+          temperatureComment = "Die Temperatur ist angenehm.";
+        } else if (w.temperature < 26) {
+          temperatureComment = "Es ist schön warm heute.";
+        } else {
+          temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
+        }
+        
+        // Windkommentar
+        if (w.windspeed < 5) {
+          windComment = "Kaum Wind heute.";
+        } else if (w.windspeed < 15) {
+          windComment = "Eine leichte Brise weht.";
+        } else if (w.windspeed < 25) {
+          windComment = "Es ist etwas windig draußen.";
+        } else {
+          windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
+        }
+        
+        // Zusammengesetzte Meldung
+        document.getElementById("weather").innerHTML = `
+          <div style="font-size: 1.2rem; margin-bottom: 10px">
+            <strong>${emoji} ${weatherCodes[w.weathercode] || "Aktuell"}</strong> ${weatherComment}
+          </div>
+          <div style="margin: 5px 0">
+            🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
+          </div>
+          <div style="margin: 5px 0">
+            💨 <strong>${w.windspeed} km/h</strong> - ${windComment}
+          </div>
+        `;
       })
       .catch(error => {
         console.error("Fehler beim Laden der Wetterdaten:", error);
