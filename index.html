@@ -932,14 +932,37 @@
 <!-- Füge diesen Code vor der Checkliste ein -->
 
 <div class="section">
-  <div class="section-title">5 klassische Zitate zum Vervollständigen</div>
+  <div class="section-title">Tägliche Literatur-Herausforderung</div>
   <div class="brain-game">
-    <div class="game-instructions">
-      Denke über jedes Zitat nach und versuche, den fehlenden Teil zu ergänzen. Eine echte Herausforderung für Literaturkenner!
+    <div class="game-progress">
+      <span id="quote-counter">Zitat 1 von 5</span>
+      <div class="progress-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+        <span class="dot" data-index="4"></span>
+      </div>
     </div>
     
-    <div id="quotes-container">
-      <!-- Die 5 Zitate werden hier dynamisch eingefügt -->
+    <div id="quote-carousel">
+      <div class="quote-container">
+        <div id="current-quote" class="quote-text"></div>
+        <div id="current-author" class="quote-author hidden"></div>
+      </div>
+      
+      <div class="quote-controls">
+        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
+        <div id="quote-feedback" class="quote-feedback hidden">
+          <div class="feedback-icon">🧠</div>
+          <div id="feedback-text" class="feedback-text"></div>
+        </div>
+      </div>
+      
+      <div class="navigation-controls">
+        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
+        <button id="next-button" class="nav-button">Nächstes Zitat</button>
+      </div>
     </div>
     
     <div id="daily-success" class="quote-success hidden">
@@ -961,25 +984,46 @@
     border-left: 5px solid #ffb347; /* Orange für geistige Aktivität */
   }
   
-  .game-instructions {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    color: #444;
-    font-weight: bold;
+  .game-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
   }
   
-  .quote-item {
-    margin-bottom: 2rem;
-    border-bottom: 1px dashed #eee;
-    padding-bottom: 1.5rem;
+  #quote-counter {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .progress-dots {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background-color: #ffb347;
+  }
+  
+  .dot.completed {
+    background-color: #28a745;
   }
   
   .quote-container {
     background: #f9f9f9;
     border-radius: 8px;
-    padding: 1.2rem;
-    margin-bottom: 0.8rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
     position: relative;
+    min-height: 120px;
   }
   
   .quote-text {
@@ -987,6 +1031,7 @@
     line-height: 1.5;
     font-style: italic;
     color: #444;
+    margin-bottom: 1rem;
   }
   
   .quote-text:before {
@@ -1012,8 +1057,11 @@
     text-align: right;
     font-weight: bold;
     color: #555;
-    margin-top: 0.5rem;
     animation: fadeIn 1s;
+  }
+  
+  .quote-controls {
+    margin-bottom: 1.5rem;
   }
   
   .reveal-button {
@@ -1040,7 +1088,7 @@
   }
   
   .quote-feedback {
-    margin-top: 0.8rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     animation: fadeIn 0.5s;
@@ -1057,6 +1105,34 @@
   .feedback-text {
     font-size: 1rem;
     color: #444;
+  }
+  
+  .navigation-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .nav-button {
+    padding: 0.6rem 1rem;
+    background-color: #f0f0f0;
+    color: #444;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+  }
+  
+  .nav-button:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+  
+  .nav-button:disabled {
+    background-color: #f8f8f8;
+    color: #aaa;
+    cursor: default;
   }
   
   .quote-success {
@@ -1232,46 +1308,6 @@
       quote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, der kennt euch nicht, ihr himmlischen Mächte.",
       incompleteQuote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, ...",
       author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-    },
-    {
-      quote: "Die Ehrfurcht ist ein gutes Ding, ohne das niemand existieren könnte, obgleich ich ihren Wert nur in einigen großen Herzen entdeckt habe.",
-      incompleteQuote: "Die Ehrfurcht ist ein gutes Ding, ohne das niemand existieren könnte, ...",
-      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Wanderjahre"
-    },
-    {
-      quote: "So fühlt' ich mich nur von Lüften umweht. Alles gibt sie reichlich und gern; Natur hat weder Kern noch Schale, alles ist sie mit einem Male.",
-      incompleteQuote: "So fühlt' ich mich nur von Lüften umweht. Alles gibt sie reichlich und gern; ...",
-      author: "Johann Wolfgang von Goethe, Allerdings"
-    },
-    {
-      quote: "Der Knoten von hundert Eichen wird vom schwächsten Winde gefällt, wenn seine Zeit gekommen ist. Aber nicht früher.",
-      incompleteQuote: "Der Knoten von hundert Eichen wird vom schwächsten Winde gefällt, ...",
-      author: "Heinrich von Kleist, Das Käthchen von Heilbronn"
-    },
-    {
-      quote: "Das Schicksal setzt den Hobel an, wo Knorren sind, der Mensch den Hochmut aller Orten, wo eine Blöße nur sich zeigt.",
-      incompleteQuote: "Das Schicksal setzt den Hobel an, wo Knorren sind, ...",
-      author: "Heinrich von Kleist, Der zerbrochene Krug"
-    },
-    {
-      quote: "In der Brust der Menschen wohnen zwei Seelen, die eine ist für die Freude empfänglich, die andere für den Schmerz.",
-      incompleteQuote: "In der Brust der Menschen wohnen zwei Seelen, ...",
-      author: "Friedrich Hölderlin"
-    },
-    {
-      quote: "Wie des Feldes Blumen kehren wieder, wenn der Sommer wiederkehrt, ach so kehrt nicht wieder, was uns freuet, was uns die Seele entzückt.",
-      incompleteQuote: "Wie des Feldes Blumen kehren wieder, wenn der Sommer wiederkehrt, ...",
-      author: "Friedrich Hölderlin, Hyperion"
-    },
-    {
-      quote: "Der Tod fürchtet sich vor ihm, weil er das Leben liebt. Nur wer das Leben liebt, kann die Mauern des Todes durchbrechen.",
-      incompleteQuote: "Der Tod fürchtet sich vor ihm, weil er das Leben liebt. ...",
-      author: "Heinrich von Kleist, Prinz Friedrich von Homburg"
-    },
-    {
-      quote: "Wie soll ich fliehen? Wohin? Ist überall wie hier. Und soll ich aus der Welt gehn? Ist nicht das Tor des Grabes der Eingang nur in deine Heimat?",
-      incompleteQuote: "Wie soll ich fliehen? Wohin? Ist überall wie hier. ...",
-      author: "Heinrich von Kleist, Prinz Friedrich von Homburg"
     }
   ];
 
@@ -1331,73 +1367,104 @@
 
   // Funktion zur Initialisierung des Gehirnjoggings
   function initBrainTraining() {
-    const quotesContainer = document.getElementById('quotes-container');
+    const currentQuote = document.getElementById('current-quote');
+    const currentAuthor = document.getElementById('current-author');
+    const quoteCounter = document.getElementById('quote-counter');
+    const revealButton = document.getElementById('reveal-button');
+    const quoteFeedback = document.getElementById('quote-feedback');
+    const feedbackText = document.getElementById('feedback-text');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
     const dailySuccess = document.getElementById('daily-success');
+    const dots = document.querySelectorAll('.dot');
     
     // Heutige Zitate laden
     const todayQuotes = getQuotesOfTheDay();
+    let currentIndex = 0;
     
     // Speicherschlüssel für diesen Tag
     const today = new Date();
     const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
     
-    // Zitate zur Seite hinzufügen
-    todayQuotes.forEach((quote, index) => {
-      const storageKey = storageKeyPrefix + index;
-      const isCompleted = localStorage.getItem(storageKey) === 'true';
+    // Funktion zum Aktualisieren des aktuellen Zitats
+    function updateCurrentQuote() {
+      const quote = todayQuotes[currentIndex];
+      const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
       
-      // Zufälligen Button-Text auswählen
-      const buttonText = buttonTexts[Math.floor((index * 1234) % buttonTexts.length)];
+      // Text und Autor aktualisieren
+      currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
+      currentAuthor.textContent = quote.author;
+      currentAuthor.classList.toggle('hidden', !isCompleted);
       
-      // Zufälligen Feedback-Text auswählen
-      const feedbackText = feedbackTexts[Math.floor((index * 5678) % feedbackTexts.length)];
+      // Button-Status aktualisieren
+      revealButton.disabled = isCompleted;
+      revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
       
-      // HTML für dieses Zitat erstellen
-      const quoteHtml = `
-        <div class="quote-item" data-index="${index}">
-          <div class="quote-container">
-            <div class="quote-text">${isCompleted ? quote.quote : quote.incompleteQuote}</div>
-            <div class="quote-author ${isCompleted ? '' : 'hidden'}">${quote.author}</div>
-          </div>
-          
-          <button class="reveal-button" data-index="${index}" ${isCompleted ? 'disabled' : ''}>${isCompleted ? 'Gelöst!' : buttonText}</button>
-          
-          <div class="quote-feedback ${isCompleted ? '' : 'hidden'}" data-index="${index}">
-            <div class="feedback-icon">🧠</div>
-            <div class="feedback-text">${feedbackText}</div>
-          </div>
-        </div>
-      `;
+      // Feedback ein-/ausblenden
+      quoteFeedback.classList.toggle('hidden', !isCompleted);
+      if (isCompleted) {
+        feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+      }
       
-      quotesContainer.innerHTML += quoteHtml;
+      // Zähler aktualisieren
+      quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
+      
+      // Navigation aktualisieren
+      prevButton.disabled = currentIndex === 0;
+      nextButton.disabled = currentIndex === 4;
+      
+      // Aktiven Punkt markieren
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+        dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
+      });
+    }
+    
+    // Event-Listener für den Aufdecken-Button
+    revealButton.addEventListener('click', function() {
+      // Vollständiges Zitat und Autor anzeigen
+      currentQuote.textContent = todayQuotes[currentIndex].quote;
+      currentAuthor.classList.remove('hidden');
+      
+      // Feedback anzeigen
+      quoteFeedback.classList.remove('hidden');
+      feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+      
+      // Button deaktivieren
+      revealButton.disabled = true;
+      revealButton.textContent = 'Gelöst!';
+      
+      // Als erledigt markieren im lokalen Speicher
+      localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
+      
+      // Aktuellen Dot als erledigt markieren
+      dots[currentIndex].classList.add('completed');
+      
+      // Prüfen, ob alle Zitate gelöst wurden
+      checkAllCompleted();
     });
     
-    // Event-Listener für alle Buttons
-    document.querySelectorAll('.reveal-button').forEach(button => {
-      button.addEventListener('click', function() {
-        const index = this.dataset.index;
-        const storageKey = storageKeyPrefix + index;
-        const quoteItem = this.closest('.quote-item');
-        
-        // Vollständiges Zitat anzeigen
-        quoteItem.querySelector('.quote-text').textContent = todayQuotes[index].quote;
-        
-        // Autor anzeigen
-        quoteItem.querySelector('.quote-author').classList.remove('hidden');
-        
-        // Feedback anzeigen
-        quoteItem.querySelector('.quote-feedback').classList.remove('hidden');
-        
-        // Button deaktivieren
-        this.disabled = true;
-        this.textContent = 'Gelöst!';
-        
-        // Als erledigt markieren im lokalen Speicher
-        localStorage.setItem(storageKey, 'true');
-        
-        // Prüfen, ob alle Zitate gelöst wurden
-        checkAllCompleted();
+    // Event-Listener für Navigationsbuttons
+    prevButton.addEventListener('click', function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCurrentQuote();
+      }
+    });
+    
+    nextButton.addEventListener('click', function() {
+      if (currentIndex < 4) {
+        currentIndex++;
+        updateCurrentQuote();
+      }
+    });
+    
+    // Event-Listener für Punkte
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', function() {
+        currentIndex = index;
+        updateCurrentQuote();
       });
     });
     
@@ -1412,7 +1479,8 @@
       }
     }
     
-    // Initial prüfen, ob alle Zitate bereits gelöst wurden
+    // Initialisierung
+    updateCurrentQuote();
     checkAllCompleted();
   }
 
