@@ -667,9 +667,271 @@
         document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
       });
   </script>
+<!-- Füge diesen Code direkt vor der Checkliste ein, also vor dem <div class="section"> der Checkliste -->
 
 <div class="section">
-  <div class="section-title">Kleine täglichen Erfolge</div>
+  <div class="section-title">Gedanke für heute</div>
+  <div class="daily-wisdom">
+    <div class="wisdom-icon">☀️</div>
+    <div class="wisdom-content">
+      <div id="daily-quote" class="wisdom-text"></div>
+      <div id="daily-source" class="wisdom-source"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .daily-wisdom {
+    background: #f8f8ff; /* Sanfter hellblauer Hintergrund */
+    border-radius: 8px;
+    border-left: 5px solid #bbd4ff;
+    padding: 1.2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    display: flex;
+    align-items: center;
+  }
+  
+  .wisdom-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+    color: #666;
+  }
+  
+  .wisdom-content {
+    flex: 1;
+  }
+  
+  .wisdom-text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    color: #444;
+  }
+  
+  .wisdom-source {
+    font-size: 0.9rem;
+    text-align: right;
+    color: #666;
+  }
+</style>
+
+<script>
+  // Sammlung von beruhigenden Sprichwörtern und Weisheiten
+  const wisdomCollection = [
+    {
+      quote: "Ruhe ist die erste Bürgerpflicht.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
+      source: "Chinesische Weisheit"
+    },
+    {
+      quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
+      source: "Afrikanisches Sprichwort"
+    },
+    {
+      quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
+      source: "Persisches Sprichwort"
+    },
+    {
+      quote: "Wenn du in Eile bist, gehe langsam.",
+      source: "Japanisches Sprichwort"
+    },
+    {
+      quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
+      source: "Abgewandeltes deutsches Sprichwort"
+    },
+    {
+      quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
+      source: "Volksmund"
+    },
+    {
+      quote: "Es ist noch kein Meister vom Himmel gefallen.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
+      source: "Aus der Bibel, Matthäus 6,34"
+    },
+    {
+      quote: "Mit Geduld und Zeit kommt man weit.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Auch dunkle Wolken haben einen silbernen Rand.",
+      source: "Englisches Sprichwort"
+    },
+    {
+      quote: "Morgenstund hat Gold im Mund.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Ein ruhiges Herz ist des Lebens Frucht.",
+      source: "Aus der Bibel, Sprüche 14,30"
+    },
+    {
+      quote: "Nach Regen scheint Sonnenschein.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Klein aber fein.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Jeder Tag ist ein neuer Anfang.",
+      source: "Lebensweisheit"
+    },
+    {
+      quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
+      source: "Amerikanische Lebensweisheit"
+    },
+    {
+      quote: "Nimm dir Zeit, glücklich zu sein.",
+      source: "Lebensweisheit"
+    },
+    {
+      quote: "Übung macht den Meister.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
+      source: "Seneca"
+    },
+    {
+      quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Aufgeschoben ist nicht aufgehoben.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
+      source: "Türkisches Sprichwort"
+    },
+    {
+      quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
+      source: "Chinesische Weisheit"
+    },
+    {
+      quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
+      source: "Charlie Chaplin"
+    },
+    {
+      quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
+      source: "Lebensweisheit"
+    },
+    {
+      quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
+      source: "Albert Einstein"
+    },
+    {
+      quote: "Geduld bringt Rosen.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
+      source: "Lebensweisheit"
+    },
+    {
+      quote: "Es gibt nichts Gutes, außer man tut es.",
+      source: "Erich Kästner"
+    },
+    {
+      quote: "In der Ruhe liegt die Kraft.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Wo ein Wille ist, ist auch ein Weg.",
+      source: "Englisches Sprichwort"
+    },
+    {
+      quote: "Wer nicht wagt, der nicht gewinnt.",
+      source: "Deutsches Sprichwort"
+    },
+    {
+      quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
+      source: "Chinesisches Sprichwort"
+    },
+    {
+      quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
+      source: "Gotthold Ephraim Lessing"
+    },
+    {
+      quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
+      source: "Jean de La Fontaine"
+    },
+    {
+      quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
+      source: "Sokrates"
+    },
+    {
+      quote: "Freude, nicht Trauer verlängert das Leben.",
+      source: "Jüdisches Sprichwort"
+    }
+  ];
+
+  // Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
+  function getWisdomOfTheDay() {
+    const today = new Date();
+    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    
+    // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
+    // aber für den gleichen Tag konstant bleibt
+    let hash = 0;
+    for (let i = 0; i < dateString.length; i++) {
+      hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+      hash = hash & hash; // Zu 32bit Integer konvertieren
+    }
+    
+    // Positiven Index generieren
+    const seed = Math.abs(hash);
+    const index = seed % wisdomCollection.length;
+    
+    return wisdomCollection[index];
+  }
+
+  // Lade das Sprichwort beim Seitenaufbau
+  document.addEventListener('DOMContentLoaded', function() {
+    const wisdom = getWisdomOfTheDay();
+    document.getElementById('daily-quote').textContent = wisdom.quote;
+    document.getElementById('daily-source').textContent = wisdom.source;
+    
+    // Emoji basierend auf dem Ton des Sprichworts auswählen (vereinfachte Version)
+    let emoji = "☀️"; // Standard: Sonne
+    
+    if (wisdom.quote.toLowerCase().includes("ruhe") || 
+        wisdom.quote.toLowerCase().includes("geduld") || 
+        wisdom.quote.toLowerCase().includes("frieden")) {
+      emoji = "🕊️"; // Friedenstaube für beruhigende Sprichwörter
+    } else if (wisdom.quote.toLowerCase().includes("freude") || 
+               wisdom.quote.toLowerCase().includes("glück") || 
+               wisdom.quote.toLowerCase().includes("lächeln")) {
+      emoji = "😊"; // Lächeln für freudvolle Sprichwörter
+    } else if (wisdom.quote.toLowerCase().includes("weg") || 
+               wisdom.quote.toLowerCase().includes("schritt") || 
+               wisdom.quote.toLowerCase().includes("ziel")) {
+      emoji = "🌱"; // Sämling für Wachstums-/Fortschrittssprichwörter
+    }
+    
+    document.querySelector(".wisdom-icon").textContent = emoji;
+  });
+</script>  
+
+<div class="section">
+  <div class="section-title">Kleine tägliche Erfolge</div>
   <div class="daily-checklist">
     <div class="checklist-description">
       Bitte hake ab, was Du heute schon geschafft hast:
