@@ -284,17 +284,17 @@
         
         // Wetterkommentar basierend auf dem Wetterzustand
         if (w.weathercode <= 2) { // Sonnig oder überwiegend klar
-          weatherComment = "– heute wird ein sehr schöner Tag!";
+          weatherComment = "– Heute wird ein sehr schöner Tag!";
         } else if (w.weathercode === 3) { // Bedeckt
-          weatherComment = "– heute ist der Himmel bedeckt.";
+          weatherComment = "– Heute ist der Himmel bedeckt.";
         } else if (w.weathercode >= 45 && w.weathercode <= 48) { // Nebel
-          weatherComment = "– heute ist es neblig, bitte vorsichtig fahren!";
+          weatherComment = "– Heute ist es neblig, bitte vorsichtig fahren!";
         } else if (w.weathercode >= 51 && w.weathercode <= 67) { // Nieselregen bis Regen
-          weatherComment = "– heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
+          weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
         } else if (w.weathercode >= 80 && w.weathercode <= 86) { // Regenschauer
-          weatherComment = "– heute kommt immer wieder Regen runter, besser drinnen bleiben.";
+          weatherComment = "– Heute kommt immer wieder Regen runter, besser drinnen bleiben.";
         } else if (w.weathercode >= 95) { // Gewitter
-          weatherComment = "– heute gibt es Gewitter, bitte bleib zu Hause!";
+          weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
         }
         
         // Temperaturkommentar
@@ -323,13 +323,13 @@
         
         // Zusammengesetzte Meldung
         document.getElementById("weather").innerHTML = `
-          <div style="font-size: 1.2rem; margin-bottom: 10px">
-            <strong>${emoji} ${weatherCodes[w.weathercode] || "Aktuell"}</strong> ${weatherComment}
+          <div style="font-size: 1.1rem; margin-bottom: 10px">
+            <strong>${emoji}</strong> ${weatherCodes[w.weathercode] || "Aktuell"} ${weatherComment}
           </div>
-          <div style="margin: 5px 0">
+          <div style="margin: 5px 0; font-size: 1.1rem">
             🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
           </div>
-          <div style="margin: 5px 0">
+          <div style="margin: 5px 0; font-size: 1.1rem">
             💨 <strong>${w.windspeed} km/h</strong> - ${windComment}
           </div>
         `;
