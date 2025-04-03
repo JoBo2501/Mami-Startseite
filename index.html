@@ -935,7 +935,7 @@
   <div class="section-title">5 klassische Zitate zum Vervollständigen</div>
   <div class="brain-game">
     <div class="game-instructions">
-      Denke kurz über jedes Zitat nach. Wenn Du die Lösung weißt, klicke auf den Button.
+      Denke über jedes Zitat nach und versuche, den fehlenden Teil zu ergänzen. Eine echte Herausforderung für Literaturkenner!
     </div>
     
     <div id="quotes-container">
@@ -944,7 +944,7 @@
     
     <div id="daily-success" class="quote-success hidden">
       <div class="success-icon">🏆</div>
-      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein Gedächtnis ist beeindruckend!</div>
+      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
     </div>
   </div>
 </div>
@@ -1091,229 +1091,214 @@
 </style>
 
 <script>
-  // Sammlung klassischer Zitate (Goethe, Schiller, Kleist, etc.)
+  // Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
   const quotesCollection = [
     {
-      quote: "Das also war des Pudels Kern!",
-      incompleteQuote: "Das also war des Pudels ...",
+      quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
+      incompleteQuote: "Das also war des Pudels Kern! ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube.",
-      incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt ...",
+      quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
+      incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Wer immer strebend sich bemüht, den können wir erlösen.",
-      incompleteQuote: "Wer immer strebend sich bemüht, den können wir ...",
+      quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
+      incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
       author: "Johann Wolfgang von Goethe, Faust II"
     },
     {
-      quote: "Es irrt der Mensch, solang er strebt.",
-      incompleteQuote: "Es irrt der Mensch, solang er ...",
+      quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
+      incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Hier bin ich Mensch, hier darf ich's sein.",
-      incompleteQuote: "Hier bin ich Mensch, hier darf ich's ...",
+      quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
+      incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Warte nur, balde ruhest du auch.",
-      incompleteQuote: "Warte nur, balde ruhest du ...",
+      quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
+      incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
       author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
     },
     {
-      quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum.",
-      incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens ...",
+      quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
+      incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Edel sei der Mensch, hilfreich und gut.",
-      incompleteQuote: "Edel sei der Mensch, hilfreich und ...",
-      author: "Johann Wolfgang von Goethe, Das Göttliche"
-    },
-    {
-      quote: "Zwei Seelen wohnen, ach! in meiner Brust.",
-      incompleteQuote: "Zwei Seelen wohnen, ach! in meiner ...",
+      quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
+      incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn!",
-      incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich ...",
+      quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
+      incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind.",
-      incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit ...",
+      quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
+      incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
       author: "Johann Wolfgang von Goethe, Erlkönig"
     },
     {
-      quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren.",
-      incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt ...",
+      quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. Was heute noch nicht ist, wird morgen sein.",
+      incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort.",
-      incompleteQuote: "Es erben sich Gesetz und Rechte wie ...",
+      quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. Sie schleppen von Geschlecht sich zum Geschlechte und rücken sacht von Ort zu Ort.",
+      incompleteQuote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Der Mensch ist frei geschaffen, ist frei, und würd' er in Ketten geboren.",
-      incompleteQuote: "Der Mensch ist frei geschaffen, ist frei, und würd' er in ...",
-      author: "Friedrich Schiller, Die Worte des Glaubens"
-    },
-    {
-      quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet!",
-      incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum ...",
+      quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! Der Wahn ist kurz, die Reu ist lang.",
+      incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! ...",
       author: "Friedrich Schiller, Das Lied von der Glocke"
     },
     {
-      quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld.",
-      incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist ...",
+      quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. Ein Unglück fürchtet der Edle nicht, den Schmerz nicht, nur die Schmach.",
+      incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. ...",
       author: "Friedrich Schiller, Die Braut von Messina"
     },
     {
-      quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt.",
-      incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar ...",
+      quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. Was Hände bauten, können Hände stürzen.",
+      incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. ...",
       author: "Friedrich Schiller, Wilhelm Tell"
     },
     {
-      quote: "Die Weltgeschichte ist das Weltgericht.",
-      incompleteQuote: "Die Weltgeschichte ist das ...",
-      author: "Friedrich Schiller, Resignation"
-    },
-    {
-      quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil.",
-      incompleteQuote: "Des Lebens ungemischte Freude ward keinem ...",
+      quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. Den Göttern schenkt man nur die Liebe, die nimmer bereut.",
+      incompleteQuote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. ...",
       author: "Friedrich Schiller, Der Ring des Polykrates"
     },
     {
-      quote: "Früh übt sich, was ein Meister werden will.",
-      incompleteQuote: "Früh übt sich, was ein ...",
+      quote: "Die Axt im Haus erspart den Zimmermann. Mit leichtem Mut und leichter Hand schwingt er das Beil im Hausgebrauch.",
+      incompleteQuote: "Die Axt im Haus erspart den Zimmermann. ...",
       author: "Friedrich Schiller, Wilhelm Tell"
     },
     {
-      quote: "Die Axt im Haus erspart den Zimmermann.",
-      incompleteQuote: "Die Axt im Haus erspart den ...",
-      author: "Friedrich Schiller, Wilhelm Tell"
-    },
-    {
-      quote: "Der brave Mann denkt an sich selbst zuletzt.",
-      incompleteQuote: "Der brave Mann denkt an sich selbst ...",
-      author: "Friedrich Schiller, Wilhelm Tell"
-    },
-    {
-      quote: "Ein jeder gibt den Wert sich selbst.",
-      incompleteQuote: "Ein jeder gibt den Wert ...",
-      author: "Friedrich Schiller, Wallensteins Lager"
-    },
-    {
-      quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären.",
-      incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, ...",
+      quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. Dem Schicksal ist sein Opfer unverloren.",
+      incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. ...",
       author: "Friedrich Schiller, Die Piccolomini"
     },
     {
-      quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand!",
-      incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, ...",
+      quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! Den schlechten Mann muss man verachten, der nie bedacht, was er vollbringt.",
+      incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! ...",
       author: "Friedrich Schiller, Das Lied von der Glocke"
     },
     {
-      quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt.",
-      incompleteQuote: "Fest gemauert in der Erden steht die Form, ...",
+      quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. Heute muss die Glocke werden! Frisch, Gesellen, seid zur Hand!",
+      incompleteQuote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. ...",
       author: "Friedrich Schiller, Das Lied von der Glocke"
     },
     {
-      quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen.",
-      incompleteQuote: "Was man schwarz auf weiß besitzt, kann man ...",
+      quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. Denn was ein Geistlicher verspricht, das ist den Hörern wohlbehäglich.",
+      incompleteQuote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "O Augenblick, verweile doch, du bist so schön!",
-      incompleteQuote: "O Augenblick, verweile doch, du bist ...",
+      quote: "O Augenblick, verweile doch, du bist so schön! Es kann die Spur von meinen Erdentagen nicht in Äonen untergehen.",
+      incompleteQuote: "O Augenblick, verweile doch, du bist so schön! ...",
       author: "Johann Wolfgang von Goethe, Faust I"
     },
     {
-      quote: "Der Menschheit ganzer Jammer fasst mich an.",
-      incompleteQuote: "Der Menschheit ganzer Jammer fasst ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Im Deutschen lügt man, wenn man höflich ist.",
-      incompleteQuote: "Im Deutschen lügt man, wenn man ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Nun sag, wie hast du's mit der Religion?",
-      incompleteQuote: "Nun sag, wie hast du's mit der ...?",
-      author: "Johann Wolfgang von Goethe, Faust I (Gretchenfrage)"
-    },
-    {
-      quote: "Alle Menschen werden Brüder, wo dein sanfter Flügel weilt.",
-      incompleteQuote: "Alle Menschen werden Brüder, wo dein sanfter Flügel ...",
+      quote: "Freude, schöner Götterfunken, Tochter aus Elysium, wir betreten feuertrunken, Himmlische, dein Heiligtum.",
+      incompleteQuote: "Freude, schöner Götterfunken, Tochter aus Elysium, ...",
       author: "Friedrich Schiller, An die Freude"
     },
     {
-      quote: "Freude, schöner Götterfunken, Tochter aus Elysium.",
-      incompleteQuote: "Freude, schöner Götterfunken, Tochter aus ...",
+      quote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! Brüder, über'm Sternenzelt muss ein lieber Vater wohnen.",
+      incompleteQuote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! ...",
       author: "Friedrich Schiller, An die Freude"
     },
     {
-      quote: "Das Weib soll nicht dem Mann die Waffen gleichen, durch Anmut nur kann sie und Güte siegen.",
-      incompleteQuote: "Das Weib soll nicht dem Mann die Waffen gleichen, durch Anmut nur kann sie ...",
-      author: "Heinrich von Kleist, Penthesilea"
-    },
-    {
-      quote: "Der Krieg ist nichts als eine Fortsetzung der Politik mit anderen Mitteln.",
-      incompleteQuote: "Der Krieg ist nichts als eine Fortsetzung der Politik ...",
-      author: "Carl von Clausewitz"
-    },
-    {
-      quote: "Die Vernunft kann nicht wünschen, der Leidenschaft alle Kraft zu nehmen.",
-      incompleteQuote: "Die Vernunft kann nicht wünschen, der Leidenschaft ...",
-      author: "Heinrich von Kleist, Die Marquise von O..."
-    },
-    {
-      quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn?",
-      incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub ...",
+      quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ein sanfter Wind vom blauen Himmel weht, die Myrte still und hoch der Lorbeer steht?",
+      incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ...",
       author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
     },
     {
-      quote: "Was ist die Mehrheit? Mehrheit ist der Unsinn, Verstand ist stets bei wen'gen nur gewesen.",
-      incompleteQuote: "Was ist die Mehrheit? Mehrheit ist der Unsinn, Verstand ist stets ...",
-      author: "Friedrich Schiller, Demetrius"
+      quote: "Du musst herrschen und gewinnen, oder dienen und verlieren, leiden oder triumphieren, Amboss oder Hammer sein.",
+      incompleteQuote: "Du musst herrschen und gewinnen, oder dienen und verlieren, ...",
+      author: "Johann Wolfgang von Goethe, Der Groß-Cophta"
     },
     {
-      quote: "Die Wahrheit ist dem Menschen zumutbar.",
-      incompleteQuote: "Die Wahrheit ist dem Menschen ...",
-      author: "Ingeborg Bachmann"
+      quote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, wenn wir einen trefflichen Mann, ein herrliches Buch kennen lernen.",
+      incompleteQuote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, ...",
+      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+    },
+    {
+      quote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, der kennt euch nicht, ihr himmlischen Mächte.",
+      incompleteQuote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, ...",
+      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+    },
+    {
+      quote: "Die Ehrfurcht ist ein gutes Ding, ohne das niemand existieren könnte, obgleich ich ihren Wert nur in einigen großen Herzen entdeckt habe.",
+      incompleteQuote: "Die Ehrfurcht ist ein gutes Ding, ohne das niemand existieren könnte, ...",
+      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Wanderjahre"
+    },
+    {
+      quote: "So fühlt' ich mich nur von Lüften umweht. Alles gibt sie reichlich und gern; Natur hat weder Kern noch Schale, alles ist sie mit einem Male.",
+      incompleteQuote: "So fühlt' ich mich nur von Lüften umweht. Alles gibt sie reichlich und gern; ...",
+      author: "Johann Wolfgang von Goethe, Allerdings"
+    },
+    {
+      quote: "Der Knoten von hundert Eichen wird vom schwächsten Winde gefällt, wenn seine Zeit gekommen ist. Aber nicht früher.",
+      incompleteQuote: "Der Knoten von hundert Eichen wird vom schwächsten Winde gefällt, ...",
+      author: "Heinrich von Kleist, Das Käthchen von Heilbronn"
+    },
+    {
+      quote: "Das Schicksal setzt den Hobel an, wo Knorren sind, der Mensch den Hochmut aller Orten, wo eine Blöße nur sich zeigt.",
+      incompleteQuote: "Das Schicksal setzt den Hobel an, wo Knorren sind, ...",
+      author: "Heinrich von Kleist, Der zerbrochene Krug"
+    },
+    {
+      quote: "In der Brust der Menschen wohnen zwei Seelen, die eine ist für die Freude empfänglich, die andere für den Schmerz.",
+      incompleteQuote: "In der Brust der Menschen wohnen zwei Seelen, ...",
+      author: "Friedrich Hölderlin"
+    },
+    {
+      quote: "Wie des Feldes Blumen kehren wieder, wenn der Sommer wiederkehrt, ach so kehrt nicht wieder, was uns freuet, was uns die Seele entzückt.",
+      incompleteQuote: "Wie des Feldes Blumen kehren wieder, wenn der Sommer wiederkehrt, ...",
+      author: "Friedrich Hölderlin, Hyperion"
+    },
+    {
+      quote: "Der Tod fürchtet sich vor ihm, weil er das Leben liebt. Nur wer das Leben liebt, kann die Mauern des Todes durchbrechen.",
+      incompleteQuote: "Der Tod fürchtet sich vor ihm, weil er das Leben liebt. ...",
+      author: "Heinrich von Kleist, Prinz Friedrich von Homburg"
+    },
+    {
+      quote: "Wie soll ich fliehen? Wohin? Ist überall wie hier. Und soll ich aus der Welt gehn? Ist nicht das Tor des Grabes der Eingang nur in deine Heimat?",
+      incompleteQuote: "Wie soll ich fliehen? Wohin? Ist überall wie hier. ...",
+      author: "Heinrich von Kleist, Prinz Friedrich von Homburg"
     }
   ];
 
   // Verschiedene Button-Texte
   const buttonTexts = [
     "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
-    "Lösung anzeigen",
-    "Hast Du es erraten? Hier klicken für die Lösung!",
-    "Klicke für die Auflösung!",
-    "Na, weißt Du es? Hier klicken!",
-    "Lösung aufdecken",
-    "Verrate mir die Antwort",
-    "Zeige mir das vollständige Zitat",
-    "Ich denke, ich hab's! Überprüfen..."
+    "Weißt Du, wie es weitergeht? Hier klicken!",
+    "Hast Du es erraten? Vervollständige das Zitat!",
+    "Klicke für die Auflösung der Herausforderung!",
+    "Na, weißt Du, wie der Klassiker weitergeht?",
+    "Zeige mir die vollständige Passage",
+    "Ich denke, ich kenne die Fortsetzung. Prüfen...",
+    "Diese anspruchsvolle Passage vervollständigen",
+    "Die literarische Meisterleistung aufdecken"
   ];
 
   // Verschiedene Feedback-Texte
   const feedbackTexts = [
-    "Gut gemacht! Das hält den Geist fit.",
-    "Prima! Ein Klassiker gut gemeistert.",
-    "Ausgezeichnet! Dein Gedächtnis ist beeindruckend.",
-    "Wunderbar! Ein Stück Literaturgeschichte gut erkannt.",
-    "Sehr gut! Diese Werke sind zeitlos schön.",
-    "Hervorragend! Die Klassiker sind bei Dir in guten Händen.",
-    "Bravo! Deutsche Literatur auf höchstem Niveau.",
-    "Toll! Du kennst Dich wirklich gut aus.",
-    "Großartig! Ein literarischer Genuss."
+    "Beeindruckend! Dieses Werk der Klassik ist Dir wohlbekannt.",
+    "Großartig! Diese literarische Herausforderung hast Du gemeistert.",
+    "Brillant! Solche anspruchsvollen Passagen sind kein Problem für Dich.",
+    "Wunderbar! Du beherrschst die hohe Kunst der deutschen Literatur.",
+    "Hervorragend! Diese komplexen klassischen Texte kennst Du gut.",
+    "Ausgezeichnet! Dein Wissen über die deutsche Literatur ist bewundernswert.",
+    "Prächtig! Diese anspruchsvolle literarische Aufgabe hast Du gelöst.",
+    "Exzellent! Die Schönheit dieser literarischen Passage ist Dir vertraut.",
+    "Vortrefflich! Du kennst die Feinheiten der klassischen Literatur."
   ];
 
   // Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
