@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mutters Messageboard</title>
- <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
+  <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 2rem; background: #f8f9fa; color: #333; text-align: center; margin: 0; }
     h1 { background: #fff475; font-size: 2rem; padding: 1rem; border-radius: 1rem; display: inline-block; margin: 2rem auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -13,185 +13,170 @@
     .weather, .termin-eintrag, .message {
       background: white; border-radius: 8px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; text-align: left;
     }
-    .message { background: #dcf8c6; border-left: 5px solid #444; position: relative; }
+    .message { 
+      background: #dcf8c6; 
+      border-left: 5px solid #444; 
+      position: relative; 
+      font-size: 1.1rem; /* Größerer Nachrichtentext */
+      line-height: 1.4;
+    }
+    .message a {
+      color: #0066cc;
+      text-decoration: underline;
+      word-break: break-word;
+    }
     .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
-    .message-alert::before {
-      content: ""; position: absolute; left: -1.5rem; top: 1.2rem; width: 10px; height: 10px; background: red;
-      border-radius: 50%; box-shadow: 0 0 8px red; animation: pulse 1.5s infinite;
+    /* Neuer blinkender Punkt mit "Neu" statt "Live" */
+    .message-new {
+      position: relative;
+    }
+    .message-new::before {
+      content: "Neu";
+      position: absolute;
+      left: -45px;
+      top: 0;
+      font-size: 0.8rem;
+      color: #FF0000;
+      background-color: transparent;
+      padding: 2px 5px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      width: fit-content;
+    }
+    .message-new::after {
+      content: "";
+      position: absolute;
+      left: -55px;
+      top: 4px;
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
     }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0px red; }
-      50% { box-shadow: 0 0 12px red; }
-      100% { box-shadow: 0 0 0px red; }
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
     }
     .termin-eintrag { border-left: 5px solid #cc0000; margin-top: 1rem; }
     .reminder-list { list-style: none; padding: 0; max-width: 500px; margin: 0 auto; text-align: left; }
     .reminder-list li { margin-bottom: 0.5rem; }
     .message-with-avatar {
-  display: flex;
-  margin-bottom: 1rem;
-  align-items: flex-start;
-}
-
-.message-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-  flex-shrink: 0;
-  border: 1px solid #ddd;
-}
-
-.message-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.message-content {
-  flex-grow: 1;
-}
-
-.message-sender {
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-bottom: 2px;
-  color: #555;
-}
-
-.message {
-  background: #dcf8c6; 
-  border-left: 5px solid #444; 
-  position: relative;
-  padding: 1rem;
-  margin-top: 0;
-  border-radius: 8px;
-}
-    /* Blinkenden Punkt entfernen und Avatar-Anzeige verbessern */
-.message-alert::before {
-  display: none;
-}
-
-.message-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 10px;
-  flex-shrink: 0;
-  border: 1px solid #ddd;
-  background-color: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.message-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: flex-start;
+    }
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px;
+      flex-shrink: 0;
+      border: 1px solid #ddd;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .message-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .message-content {
+      flex-grow: 1;
+      position: relative;
+    }
+    .message-sender {
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #555;
+    }
     .message-with-avatar {
-  display: flex;
-  margin-bottom: 1rem;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 600px; /* Maximale Breite begrenzen */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.message-timestamp {
-  font-size: 0.8rem;
-  color: #666;
-  text-align: right;
-  margin-top: 0.5rem;
-}
-
-/* Stellen Sie sicher, dass der Avatar immer bei der Nachricht bleibt */
-@media (orientation: landscape) {
-  .message-with-avatar {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    max-width: 600px;
-  }
-}
-
-/* Blinkenden Punkt entfernen */
-.message-alert::before {
-  display: none;
-}
-   .digital-board {
-  font-family: 'Courier New', monospace;
-  background-color: #222;
-  color: #f8b700;
-  text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-  border: 8px solid #8b5a2b;
-  border-radius: 8px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
-  padding: 20px 15px;
-  text-align: center;
-  letter-spacing: 2px;
-  margin: 20px auto;
-  max-width: 600px;
-  position: relative;
-  background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-  background-size: 5px 5px;
-}
-
-.digital-board::before {
-  content: "MESSAGE BOARD";
-  position: absolute;
-  top: 5px;
-  left: 10px;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.digital-board::after {
-  content: "DIGITAL";
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.digital-board h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  background: none;
-  border-radius: 0;
-  margin: 5px 0;
-  padding: 10px;
-  box-shadow: none;
-  text-transform: uppercase;
-  display: inline-block;
-  transform: scale(1, 1.2);
-}
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+    }
+    @media (orientation: landscape) {
+      .message-with-avatar {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 600px;
+      }
+    }
+    .digital-board {
+      font-family: 'Courier New', monospace;
+      background-color: #222;
+      color: #f8b700;
+      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
+      border: 8px solid #8b5a2b;
+      border-radius: 8px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
+      padding: 20px 15px;
+      text-align: center;
+      letter-spacing: 2px;
+      margin: 20px auto;
+      max-width: 600px;
+      position: relative;
+      background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+      background-size: 5px 5px;
+    }
+    .digital-board::before {
+      content: "MESSAGE BOARD";
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    .digital-board::after {
+      content: "DIGITAL";
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    .digital-board h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      background: none;
+      border-radius: 0;
+      margin: 5px 0;
+      padding: 10px;
+      box-shadow: none;
+      text-transform: uppercase;
+      display: inline-block;
+      transform: scale(1, 1.2);
+    }
     #led-title {
-  color: #f8b700;
-  text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 5px 0;
-  padding: 10px;
-  text-transform: uppercase;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 4px;
-}
-
-/* LED-Effekt für Buchstaben */
-
+      color: #f8b700;
+      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 5px 0;
+      padding: 10px;
+      text-transform: uppercase;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 4px;
+    }
   </style>
 </head>
 <body>
   <div class="digital-board">
-  <h1 id="led-title">MUTTERS MESSAGEBOARD</h1>
-</div>
+    <h1 id="led-title">MUTTERS MESSAGEBOARD</h1>
+  </div>
   <div id="date"></div>
   <div id="time"></div>
   <div class="section"><div class="section-title">Nachricht von uns</div><div id="note"></div></div>
@@ -241,220 +226,241 @@
         document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten: " + error.message;
       });
 
-    // Google Sheet Abruf mit CORS-Proxy
-   // Profilbilder der Söhne mit korrekten Pfaden und Fallback
-const senderImages = {
-  'Daniel': './Daniel.jpg',    // Mit relativer Pfadangabe
-  'Joachim': './Joachim.jpg'   // Mit relativer Pfadangabe
-};
+    // Profilbilder der Söhne mit korrekten Pfaden und Fallback
+    const senderImages = {
+      'Daniel': './Daniel.jpg',
+      'Joachim': './Joachim.jpg'
+    };
 
-// Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
-function fetchSheetData() {
-  // Timestamp für Cache-Busting hinzufügen
-  const timestamp = new Date().getTime();
-  const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
-  
-  fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
-      }
-      return res.text();
-    })
-    .then(text => {
-      if (!text || text.trim() === '') {
-        throw new Error('Leere Antwort vom Server');
-      }
+    // Funktion zum Erkennen und Verlinken von URLs im Text
+    function linkifyText(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+      });
+    }
+
+    // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 24 Stunden alt)
+    function isNewMessage(messageDate) {
+      const now = new Date();
+      const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      return messageDate > twentyFourHoursAgo;
+    }
+
+    // Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
+    function fetchSheetData() {
+      // Timestamp für Cache-Busting hinzufügen
+      const timestamp = new Date().getTime();
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
       
-      const rows = text.trim().split('\n').map(row => row.split('\t'));
-      
-      const reminders = document.getElementById("reminders");
-      const note = document.getElementById("note");
-      reminders.innerHTML = "";
-      note.innerHTML = "";
-
-      const today = new Date().toISOString().split("T")[0];
-
-      rows.forEach((row, index) => {
-        // Sicherere Destrukturierung mit Prüfung
-        if (!row || row.length < 2) {
-          console.log('Ungültige Zeile übersprungen:', row);
-          return;
-        }
-        
-        // Erweiterte Struktur: Typ, Inhalt, Absender, Datum, Zeitstempel
-        const type = row[0];
-        const content = row[1];
-        const sender = row[2] || ""; // Absender
-        const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
-        const timestamp = row[4]; // Zeitstempel aus Google Sheets
-        
-        if (!type || !content) return;
-
-        // Sicherere Datumskonvertierung
-        let isToday = false;
-        try {
-          isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
-        } catch (e) {
-          console.error('Fehler beim Parsen des Datums:', rawDate, e);
-          isToday = !rawDate; // Fallback: ohne Datum ist es für "heute"
-        }
-
-        if (type === "Erinnerung" && isToday) {
-          const li = document.createElement("li");
-          li.textContent = "🔔 " + content;
-          li.style.paddingLeft = "0.5rem";
-          reminders.appendChild(li);
-        }
-
-        if (type === "Nachricht") {
-          // Neues HTML-Structure für Nachrichten mit Absender
-          const messageWrapper = document.createElement("div");
-          messageWrapper.className = "message-with-avatar";
+      fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+          }
+          return res.text();
+        })
+        .then(text => {
+          if (!text || text.trim() === '') {
+            throw new Error('Leere Antwort vom Server');
+          }
           
-          // Profilbild für den Absender
-          if (sender) {
-            const avatarDiv = document.createElement("div");
-            avatarDiv.className = "message-avatar";
-            
-            const avatarImg = document.createElement("img");
-            avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
-            avatarImg.alt = sender;
-            
-            // Fehlerbehandlung für Bilder
-            avatarImg.onerror = function() {
-              console.log(`Bild konnte nicht geladen werden: ${this.src}`);
-              this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
-            };
-            
-            avatarDiv.appendChild(avatarImg);
-            messageWrapper.appendChild(avatarDiv);
-            
-            // Absendername und Nachrichteninhalt
-            const contentDiv = document.createElement("div");
-            contentDiv.className = "message-content";
-            
-            const senderDiv = document.createElement("div");
-            senderDiv.className = "message-sender";
-            senderDiv.textContent = sender;
-            contentDiv.appendChild(senderDiv);
-            
-            const p = document.createElement("p");
-            p.className = "message";
-            p.textContent = content;
-            
-            const ts = document.createElement("div");
-            ts.className = "message-timestamp";
+          const rows = text.trim().split('\n').map(row => row.split('\t'));
+          
+          const reminders = document.getElementById("reminders");
+          const note = document.getElementById("note");
+          reminders.innerHTML = "";
+          note.innerHTML = "";
 
-            // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
-            let messageDate;
-            if (timestamp && timestamp.trim()) {
-              try {
-                messageDate = new Date(timestamp.trim());
-                if (isNaN(messageDate.getTime())) { // Ungültiges Zeitstempel-Format
-                  // Fallback zum regulären Datum
-                  if (rawDate && rawDate.trim()) {
-                    messageDate = new Date(rawDate.trim());
-                    if (isNaN(messageDate.getTime())) { // Auch ungültiges Datum
-                      messageDate = new Date(); // Aktuelles Datum als letzter Fallback
+          const today = new Date().toISOString().split("T")[0];
+
+          rows.forEach((row, index) => {
+            // Sicherere Destrukturierung mit Prüfung
+            if (!row || row.length < 2) {
+              console.log('Ungültige Zeile übersprungen:', row);
+              return;
+            }
+            
+            // Erweiterte Struktur: Typ, Inhalt, Absender, Datum, Zeitstempel
+            const type = row[0];
+            const content = row[1];
+            const sender = row[2] || ""; // Absender
+            const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
+            const timestamp = row[4]; // Zeitstempel aus Google Sheets
+            
+            if (!type || !content) return;
+
+            // Sicherere Datumskonvertierung
+            let isToday = false;
+            try {
+              isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+            } catch (e) {
+              console.error('Fehler beim Parsen des Datums:', rawDate, e);
+              isToday = !rawDate; // Fallback: ohne Datum ist es für "heute"
+            }
+
+            if (type === "Erinnerung" && isToday) {
+              const li = document.createElement("li");
+              li.textContent = "🔔 " + content;
+              li.style.paddingLeft = "0.5rem";
+              reminders.appendChild(li);
+            }
+
+            if (type === "Nachricht") {
+              // Neues HTML-Structure für Nachrichten mit Absender
+              const messageWrapper = document.createElement("div");
+              messageWrapper.className = "message-with-avatar";
+              
+              // Profilbild für den Absender
+              if (sender) {
+                const avatarDiv = document.createElement("div");
+                avatarDiv.className = "message-avatar";
+                
+                const avatarImg = document.createElement("img");
+                avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+                avatarImg.alt = sender;
+                
+                // Fehlerbehandlung für Bilder
+                avatarImg.onerror = function() {
+                  console.log(`Bild konnte nicht geladen werden: ${this.src}`);
+                  this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+                };
+                
+                avatarDiv.appendChild(avatarImg);
+                messageWrapper.appendChild(avatarDiv);
+                
+                // Absendername und Nachrichteninhalt
+                const contentDiv = document.createElement("div");
+                contentDiv.className = "message-content";
+                
+                const senderDiv = document.createElement("div");
+                senderDiv.className = "message-sender";
+                senderDiv.textContent = sender;
+                contentDiv.appendChild(senderDiv);
+                
+                const p = document.createElement("p");
+                p.className = "message";
+
+                // Links in Nachricht verlinken
+                p.innerHTML = linkifyText(content);
+                
+                const ts = document.createElement("div");
+                ts.className = "message-timestamp";
+
+                // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
+                let messageDate;
+                if (timestamp && timestamp.trim()) {
+                  try {
+                    messageDate = new Date(timestamp.trim());
+                    if (isNaN(messageDate.getTime())) { // Ungültiges Zeitstempel-Format
+                      // Fallback zum regulären Datum
+                      if (rawDate && rawDate.trim()) {
+                        messageDate = new Date(rawDate.trim());
+                        if (isNaN(messageDate.getTime())) { // Auch ungültiges Datum
+                          messageDate = new Date(); // Aktuelles Datum als letzter Fallback
+                        }
+                      } else {
+                        messageDate = new Date();
+                      }
                     }
-                  } else {
-                    messageDate = new Date();
+                  } catch (e) {
+                    console.error("Fehler beim Parsen des Zeitstempels:", timestamp, e);
+                    // Versuche es mit dem regulären Datum
+                    if (rawDate && rawDate.trim()) {
+                      try {
+                        messageDate = new Date(rawDate.trim());
+                      } catch {
+                        messageDate = new Date();
+                      }
+                    } else {
+                      messageDate = new Date();
+                    }
                   }
-                }
-              } catch (e) {
-                console.error("Fehler beim Parsen des Zeitstempels:", timestamp, e);
-                // Versuche es mit dem regulären Datum
-                if (rawDate && rawDate.trim()) {
+                } else if (rawDate && rawDate.trim()) {
+                  // Kein Zeitstempel, versuche es mit dem regulären Datum
                   try {
                     messageDate = new Date(rawDate.trim());
-                  } catch {
+                    if (isNaN(messageDate.getTime())) {
+                      messageDate = new Date();
+                    }
+                  } catch (e) {
                     messageDate = new Date();
                   }
                 } else {
                   messageDate = new Date();
                 }
-              }
-            } else if (rawDate && rawDate.trim()) {
-              // Kein Zeitstempel, versuche es mit dem regulären Datum
-              try {
-                messageDate = new Date(rawDate.trim());
-                if (isNaN(messageDate.getTime())) {
-                  messageDate = new Date();
+
+                // Neue Nachricht markieren (weniger als 24 Stunden alt)
+                if (isNewMessage(messageDate)) {
+                  contentDiv.classList.add('message-new');
                 }
-              } catch (e) {
-                messageDate = new Date();
+
+                // Formatiertes Datum und Uhrzeit anzeigen
+                const today = new Date();
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                let datePrefix = "";
+                if (messageDate.toDateString() === today.toDateString()) {
+                  datePrefix = "Heute";
+                } else if (messageDate.toDateString() === yesterday.toDateString()) {
+                  datePrefix = "Gestern";
+                } else {
+                  datePrefix = messageDate.toLocaleDateString('de-DE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                  });
+                }
+
+                // Zeitstempel setzen
+                ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  hour12: false // Diese Option erzwingt das 24-Stunden-Format
+                })}`;
+                
+                p.appendChild(ts);
+                contentDiv.appendChild(p);
+                messageWrapper.appendChild(contentDiv);
+              } else {
+                // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
+                const p = document.createElement("p");
+                p.className = "message";
+                p.innerHTML = linkifyText(content);
+                
+                const ts = document.createElement("div");
+                ts.className = "message-timestamp";
+                ts.textContent = new Date().toLocaleTimeString('de-DE', {
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  hour12: false
+                });
+                
+                p.appendChild(ts);
+                messageWrapper.appendChild(p);
               }
-            } else {
-              messageDate = new Date();
+              
+              note.appendChild(messageWrapper);
             }
-
-            // Formatiertes Datum und Uhrzeit anzeigen
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-
-            let datePrefix = "";
-            if (messageDate.toDateString() === today.toDateString()) {
-              datePrefix = "Heute";
-            } else if (messageDate.toDateString() === yesterday.toDateString()) {
-              datePrefix = "Gestern";
-            } else {
-              datePrefix = messageDate.toLocaleDateString('de-DE', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit'
-              });
-            }
-
-            // Zeitstempel setzen
-            ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: false // Diese Option erzwingt das 24-Stunden-Format
-            })}`;
-            
-            p.appendChild(ts);
-            contentDiv.appendChild(p);
-            messageWrapper.appendChild(contentDiv);
-          } else {
-            // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
-            const p = document.createElement("p");
-            p.className = "message";
-            p.textContent = content;
-            
-            const ts = document.createElement("div");
-            ts.className = "message-timestamp";
-            ts.textContent = new Date().toLocaleTimeString('de-DE', {
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: false
-            });
-            
-            p.appendChild(ts);
-            messageWrapper.appendChild(p);
-          }
+          });
           
-          note.appendChild(messageWrapper);
-        }
-      });
-      
-      // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
-      if (reminders.children.length === 0) {
-        reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
-      }
-    })
-    .catch(err => {
-      console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
-      document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
-    });
-}
+          // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+          if (reminders.children.length === 0) {
+            reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+          }
+        })
+        .catch(err => {
+          console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+          document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
+        });
+    }
 
-// Initial ausführen
-fetchSheetData();
+    // Initial ausführen
+    fetchSheetData();
 
-// Alle 30 Sekunden nach Updates suchen
-setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
+    // Alle 30 Sekunden nach Updates suchen
+    setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
 
     // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
@@ -532,7 +538,6 @@ setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
         console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
         document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
       });
-    
   </script>
 </body>
 </html>
