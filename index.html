@@ -321,10 +321,10 @@
           windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
         }
         
-        // Zusammengesetzte Meldung
+        // Zusammengesetzte Meldung mit korrigierter Anzeige (ohne Dopplung)
         document.getElementById("weather").innerHTML = `
           <div style="font-size: 1.1rem; margin-bottom: 10px">
-            <strong>${emoji}</strong> ${weatherCodes[w.weathercode] || "Aktuell"} ${weatherComment}
+            <strong>${emoji}</strong> ${weatherComment}
           </div>
           <div style="margin: 5px 0; font-size: 1.1rem">
             🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
