@@ -19,6 +19,7 @@
       position: relative; 
       font-size: 1.1rem; /* Größerer Nachrichtentext */
       line-height: 1.4;
+      margin-top: 2px;
     }
     .message a {
       color: #0066cc;
@@ -26,24 +27,8 @@
       word-break: break-word;
     }
     .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
-    /* Neuer blinkender Punkt mit "Neu von [Sender]" */
-    .new-indicator {
-      font-size: 0.9rem;
-      color: #FF0000;
-      display: flex;
-      align-items: center;
-      margin-bottom: 2px;
-    }
-    .new-indicator::before {
-      content: "";
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: red;
-      border-radius: 50%;
-      margin-right: 6px;
-      animation: pulse 1.5s infinite;
-    }
+    /* Dieser Block wird durch den neuen ersetzt */
+    
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
       70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
@@ -84,6 +69,33 @@
       font-weight: bold;
       margin-bottom: 4px;
       color: #555;
+    }
+    
+    /* Verbesserte Darstellung des Neu-Indikators */
+    .new-indicator {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Roter Punkt vor "Neu von..." */
+    .new-indicator::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: red;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    /* Verringerter Abstand zwischen Senderinfo und Nachricht */
+    .message {
+      margin-top: 2px;
     }
     .message-with-avatar {
       display: flex;
@@ -322,22 +334,11 @@
                 const contentDiv = document.createElement("div");
                 contentDiv.className = "message-content";
                 
-                const senderDiv = document.createElement("div");
-                senderDiv.className = "message-sender";
-                senderDiv.textContent = sender;
-                contentDiv.appendChild(senderDiv);
-                
-                const p = document.createElement("p");
-                p.className = "message";
-
-                // Links in Nachricht verlinken
-                p.innerHTML = linkifyText(content);
-                
-                const ts = document.createElement("div");
-                ts.className = "message-timestamp";
-
-                // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
+                // Hier den sender-div nur erstellen, wenn es keine "Neu von" Anzeige gibt
+                let senderDiv;
                 let messageDate;
+                
+                // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
                 if (timestamp && timestamp.trim()) {
                   try {
                     messageDate = new Date(timestamp.trim());
@@ -388,14 +389,27 @@
                 
                 // Neue Nachricht markieren (weniger als 5 Stunden alt)
                 if (isReallyNew) {
-                  // Erstelle den "Neu von [Sender]" Indikator oberhalb der Nachricht
+                  // Erstelle den "Neu von [Sender]" Indikator, der den Absendernamen bereits enthält
                   const newIndicator = document.createElement("div");
                   newIndicator.className = "new-indicator";
                   newIndicator.textContent = `Neu von ${sender}`;
-                  
-                  // Füge den Indikator vor dem Absendernamen ein
-                  contentDiv.insertBefore(newIndicator, senderDiv);
+                  contentDiv.appendChild(newIndicator);
+                } else {
+                  // Nur einen normalen Absendernamen anzeigen, wenn die Nachricht nicht neu ist
+                  senderDiv = document.createElement("div");
+                  senderDiv.className = "message-sender";
+                  senderDiv.textContent = sender;
+                  contentDiv.appendChild(senderDiv);
                 }
+                
+                const p = document.createElement("p");
+                p.className = "message";
+
+                // Links in Nachricht verlinken
+                p.innerHTML = linkifyText(content);
+                
+                const ts = document.createElement("div");
+                ts.className = "message-timestamp";
 
                 // Formatiertes Datum und Uhrzeit anzeigen
                 const today = new Date();
