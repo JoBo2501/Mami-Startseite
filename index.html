@@ -226,6 +226,24 @@
   </div>
   <div class="board-title section-title">MUTTERS MESSAGEBOARD</div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
+  <div class="section">
+  <div class="section-title">Hier neue Termine eintragen</div>
+  <div class="termin-form">
+    <p style="margin-bottom: 10px; font-size: 0.9rem; color: #555;">
+      Der Kalender übernimmt sie dann automatisch!
+    </p>
+    <textarea id="termin-text" 
+      placeholder="Hier deinen Termin eintragen, z.B.: Hautarzt nächsten Donnerstag 14 Uhr" 
+      rows="3" 
+      style="width: 100%; max-width: 600px; padding: 10px; font-size: 1.1rem; border-radius: 8px; border: 1px solid #ddd; margin: 0 auto; display: block;"></textarea>
+    <button onclick="sendTermin()" 
+      style="background: #4CAF50; color: white; padding: 12px 20px; 
+      border: none; border-radius: 8px; font-size: 1.1rem; 
+      margin-top: 10px; cursor: pointer;">
+      Termin absenden
+    </button>
+  </div>
+</div>
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
   <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
   <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
@@ -586,7 +604,48 @@
 
     // Initial ausführen
     fetchSheetData();
-
+function sendTermin() {
+  const terminText = document.getElementById('termin-text').value;
+  if (!terminText.trim()) {
+    alert('Bitte gib einen Termin ein.');
+    return;
+  }
+  
+  // Aktuelle Zeit für Zeitstempel
+  const timestamp = new Date().getTime();
+  
+  // Gleiche Google Sheet verwenden wie für Nachrichten
+  // Nutze das Web App URL deines Google App Scripts
+  const scriptURL = https://script.google.com/macros/s/AKfycbyZLgfDzAkw_lMtsGMA8y5vPPmb5vn38rYzl5YnqxhsiDuILTDOZyWKnGvC2KTgvRCANQ/exec;
+  
+  // Daten vorbereiten - wir verwenden die gleiche Struktur wie für Nachrichten,
+  // aber mit Typ "Termin" statt "Nachricht"
+  const formData = new FormData();
+  formData.append('typ', 'Termin');
+  formData.append('inhalt', terminText);
+  formData.append('timestamp', new Date().toISOString());
+  
+  // Senden der Daten
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Netzwerkantwort war nicht ok.');
+    }
+    // Erfolgsmeldung und Formularfeld leeren
+    alert('Danke! Dein Termin wurde eingetragen.');
+    document.getElementById('termin-text').value = '';
+    
+    // Aktualisiere die Anzeige nach dem Senden
+    fetchSheetData();
+  })
+  .catch(error => {
+    console.error('Fehler beim Senden des Termins:', error);
+    alert('Es gab ein Problem beim Senden des Termins. Bitte versuche es später noch einmal.');
+  });
+}
     // Alle 30 Sekunden nach Updates suchen
     setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
 
@@ -716,6 +775,28 @@
     text-align: right;
     color: #666;
   }
+  .termin-form {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.termin-form textarea {
+  resize: vertical;
+  font-family: Arial, sans-serif;
+}
+
+.termin-form button {
+  transition: background-color 0.3s;
+}
+
+.termin-form button:hover {
+  background-color: #45a049;
+}
 </style>
 
 <script>
