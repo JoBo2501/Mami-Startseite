@@ -610,40 +610,49 @@ function sendTermin() {
     alert('Bitte gib einen Termin ein.');
     return;
   }
-  
-  // Aktuelle Zeit für Zeitstempel
-  const timestamp = new Date().getTime();
-  
-  // Gleiche Google Sheet verwenden wie für Nachrichten
-  // Nutze das Web App URL deines Google App Scripts
+
+  // Dies ist die URL deines veröffentlichten Skripts
   const scriptURL = 'https://script.google.com/macros/s/AKfycbyZLgfDzAkw_lMtsGMA8y5vPPmb5vn38rYz15YnqxhsiDuILTDOzyWKnGvC2KTgvRCANQ/exec';
-  
-  // Daten vorbereiten - wir verwenden die gleiche Struktur wie für Nachrichten,
-  // aber mit Typ "Termin" statt "Nachricht"
   const formData = new FormData();
   formData.append('typ', 'Termin');
   formData.append('inhalt', terminText);
+  // Wir senden den Zeitstempel vom Client mit, auch wenn der Server ihn überschreibt.
+  // Das Skript erwartet ihn aktuell noch.
   formData.append('timestamp', new Date().toISOString());
-  
-  // Senden der Daten
+
   fetch(scriptURL, {
     method: 'POST',
     body: formData
   })
   .then(response => {
+    // Erster Check: War die grundsätzliche Verbindung/Anfrage okay?
     if (!response.ok) {
-      throw new Error('Netzwerkantwort war nicht ok.');
+      // Wenn nicht, werfen wir einen Fehler mit mehr Details
+      throw new Error(`Netzwerkantwort war nicht ok: ${response.status} ${response.statusText}`);
     }
-    // Erfolgsmeldung und Formularfeld leeren
-    alert('Danke! Dein Termin wurde eingetragen.');
-    document.getElementById('termin-text').value = '';
-    
-    // Aktualisiere die Anzeige nach dem Senden
-    fetchSheetData();
+    // Wenn die Verbindung okay war, versuchen wir die Antwort als JSON zu lesen
+    // Das Google Skript sollte immer JSON zurücksenden
+    return response.json(); // Gibt ein Promise zurück, das mit dem JSON-Objekt aufgelöst wird
+  })
+  .then(data => {
+    // Jetzt prüfen wir, was im JSON vom Skript steht
+    if (data.success) {
+      // Fall 1: Das Skript meldet Erfolg!
+      alert('Danke! Dein Termin wurde eingetragen.');
+      document.getElementById('termin-text').value = ''; // Feld leeren
+      fetchSheetData(); // Daten neu laden, um den Termin anzuzeigen (falls zutreffend)
+    } else {
+      // Fall 2: Das Skript meldet einen Fehler!
+      // Wir werfen einen neuen Fehler, der dann im .catch unten behandelt wird
+      // Wir nutzen die Fehlermeldung aus dem Skript, falls vorhanden
+      throw new Error(`Fehler vom Skript: ${data.error || 'Unbekannter Fehler im Skript.'}`);
+    }
   })
   .catch(error => {
+    // Fall 3: Irgendetwas ist schiefgelaufen (Netzwerkfehler ODER Fehler vom Skript)
     console.error('Fehler beim Senden des Termins:', error);
-    alert('Es gab ein Problem beim Senden des Termins. Bitte versuche es später noch einmal.');
+    // Zeige eine detailliertere Fehlermeldung an
+    alert(`Es gab ein Problem beim Senden des Termins. Bitte versuche es später noch einmal.\n\nDetails: ${error.message}`);
   });
 }
     // Alle 30 Sekunden nach Updates suchen
