@@ -217,6 +217,84 @@
       transform: translateY(-50%);
       font-size: 1rem;
     }
+/* Hervorgehobener Terminbereich */
+.termin-form {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  padding: 15px;
+  background: #f0f8ff; /* Hellblauer Hintergrund */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: 2px solid #4CAF50;
+  position: relative;
+  animation: pulse-border 2s infinite;
+}
+
+/* Pulsierende Umrandung */
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(76,175,80,0); }
+  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+}
+
+/* Auffälligere Überschrift */
+.termin-section .section-title {
+  font-size: 1.4rem;
+  color: #d32f2f; /* Rot für Wichtigkeit */
+  margin-bottom: 15px;
+  padding: 8px;
+  background: #fff475;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* Icon für mehr Aufmerksamkeit */
+.termin-section .section-title::before {
+  content: "⚠️"; /* Wichtig-Symbol */
+  margin-right: 8px;
+}
+
+/* Größeres Textfeld */
+.termin-form textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  min-height: 80px;
+  border: 1px solid #4CAF50;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+/* Auffälligerer Button */
+.termin-form button {
+  background: #4CAF50;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+.termin-form button:hover {
+  background: #45a049;
+  transform: scale(1.05);
+}
+
+/* Hilfetext auffälliger */
+.termin-form p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -226,22 +304,14 @@
   </div>
   <div class="board-title section-title">MUTTERS MESSAGEBOARD</div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
-  <div class="section">
-  <div class="section-title">Hier neue Termine eintragen</div>
+  <div class="section termin-section">
+  <div class="section-title">WICHTIG: Hier alle neuen Termine eintragen!</div>
   <div class="termin-form">
-    <p style="margin-bottom: 10px; font-size: 0.9rem; color: #555;">
-      Der Kalender übernimmt sie dann automatisch!
-    </p>
+    <p>Alle Termine werden automatisch in den Kalender übernommen!</p>
     <textarea id="termin-text" 
       placeholder="Hier deinen Termin eintragen, z.B.: Hautarzt nächsten Donnerstag 14 Uhr" 
-      rows="3" 
-      style="width: 100%; max-width: 600px; padding: 10px; font-size: 1.1rem; border-radius: 8px; border: 1px solid #ddd; margin: 0 auto; display: block;"></textarea>
-    <button onclick="sendTermin()" 
-      style="background: #4CAF50; color: white; padding: 12px 20px; 
-      border: none; border-radius: 8px; font-size: 1.1rem; 
-      margin-top: 10px; cursor: pointer;">
-      Termin absenden
-    </button>
+      rows="3"></textarea>
+    <button onclick="sendTermin()">Termin jetzt absenden</button>
   </div>
 </div>
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
