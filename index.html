@@ -416,7 +416,6 @@
   <div class="board-title section-title">MUTTERS MESSAGEBOARD</div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
   <div class="section termin-section">
-  <div class="section termin-section">
   <div class="section-title">Neue Termine hier eintragen</div>
   <div class="termin-form">
     <p>Alle Termine werden direkt in den Kalender übernommen!</p>
@@ -993,6 +992,134 @@ function sendTermin() {
 
 .termin-form button:hover {
   background-color: #45a049;
+}
+/* Pfeile nach unten für bessere Benutzerführung */
+.arrow-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 20px;
+}
+
+.arrow-down {
+  font-size: 1.5rem;
+  color: #4CAF50;
+  animation: bounce 2s infinite;
+}
+
+/* Leichte Hüpfanimation für die Pfeile */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* NUR für die Terminsektion - Spezifischerer Selektor */
+.termin-section .section-title {
+  font-size: 1.4rem;
+  color: #4a6700; /* Freundliches Grün statt Rot */
+  margin-bottom: 15px;
+  padding: 8px;
+  background: #fff475;
+  border-radius: 8px;
+  display: inline-block;
+  position: relative; /* Wichtig für die Pseudoelemente */
+}
+
+/* NUR für die Terminsektion - Icons mit spezifischeren Selektoren */
+.termin-section .section-title::before {
+  content: "📅"; /* Kalender-Emoji */
+  margin-right: 8px;
+  position: relative;
+}
+
+.termin-section .section-title::after {
+  content: "✏️"; /* Stift-Emoji */
+  margin-left: 8px;
+  position: relative;
+}
+
+/* Normale Sektionsüberschriften wiederherstellen */
+.section:not(.termin-section) .section-title {
+  /* Hier die ursprüngliche Formatierung wiederherstellen */
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* Explizit die Pseudoelemente für andere Sektionen entfernen */
+.section:not(.termin-section) .section-title::before,
+.section:not(.termin-section) .section-title::after {
+  content: none;
+}
+
+/* Hervorgehobener Terminbereich */
+.termin-form {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  padding: 15px;
+  background: #f0fff0; /* Sehr helles Grün */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 2px solid #8bc34a; /* Helleres Grün */
+  position: relative;
+  animation: pulse-border 3s infinite; /* Langsamere Animation */
+}
+
+/* Sanftere pulsierende Umrandung */
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.3); }
+  70% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
+  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+}
+
+/* Größeres Textfeld */
+.termin-form textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2rem;
+  min-height: 80px;
+  border: 1px solid #4CAF50;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+/* Auffälligerer Button */
+.termin-form button {
+  background: #4CAF50;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+.termin-form button:hover {
+  background: #45a049;
+  transform: scale(1.05);
+}
+
+/* Hilfetext auffälliger */
+.termin-form p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
 </style>
 
