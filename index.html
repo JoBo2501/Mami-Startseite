@@ -853,40 +853,16 @@ function sendTermin() {
     // Alle 30 Sekunden nach Updates suchen
     setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
 
-   // Google Kalender Abruf mit Cache-Busting
-function fetchCalendarData() {
-  // Timestamp für Cache-Busting hinzufügen
-  const timestamp = new Date().getTime();
-  const calendarUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
-  
-  fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(calendarUrl) + '&timestamp=' + timestamp)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
-      }
-      return res.text();
-    })
-    .then(data => {
-      console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
-      
-      try {
-        // Rest des bestehenden Codes...
-      } catch (parseError) {
-        console.error("Fehler beim Parsen der Kalenderdaten:", parseError);
-        throw parseError; // Weiterleiten an den catch-Block
-      }
-    })
-    .catch(error => {
-      console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
-      document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
-    });
-}
-
-// Initial ausführen
-fetchCalendarData();
-
-// Kalender regelmäßig aktualisieren (alle 5 Minuten)
-setInterval(fetchCalendarData, 5 * 60 * 1000);
+    // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
+      'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
+    ))
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+        }
+        return res.text();
+      })
       .then(data => {
         console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
         
