@@ -1170,6 +1170,7 @@ function sendTermin() {
   display: none;
 }
 </style>
+<script>
 // Batteriestand-Überwachung für Fully Kiosk Browser
 function checkBatteryFullyKiosk() {
   // Prüfe, ob die Fully Kiosk API verfügbar ist
@@ -1229,6 +1230,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Warte kurz, damit Fully Kiosk API geladen werden kann
   setTimeout(checkBatteryFullyKiosk, 1000);
 });
+</script>
 <script>
   // Sammlung von beruhigenden Sprichwörtern und Weisheiten
   const wisdomCollection = [
