@@ -2271,5 +2271,73 @@ window.addEventListener('load', function() {
   }
 });
 </script>
+<script>
+// Inaktivitätserkennung und Warnung
+let lastActivityTime = Date.now();
+const inactivityWarningElement = document.createElement('div');
+
+// Inaktivitätswarnung erstellen und Styling hinzufügen
+function setupInactivityWarning() {
+  inactivityWarningElement.id = 'inactivity-warning';
+  inactivityWarningElement.className = 'battery-warning hidden';
+  inactivityWarningElement.innerHTML = `
+    <div class="battery-icon">⏰</div>
+    <div class="battery-message">
+      <div class="battery-title">Brauchst Du mich noch?</div>
+      <div>Wenn nicht, bringe mich doch bitte gleich zurück in die Ladestation!</div>
+    </div>
+  `;
+  document.body.appendChild(inactivityWarningElement);
+  
+  // Jegliche Benutzeraktivität erfassen
+  ['click', 'touchstart', 'mousemove', 'keypress', 'scroll'].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer);
+  });
+  
+  // Timer starten
+  checkInactivity();
+}
+
+// Inaktivitätstimer zurücksetzen
+function resetInactivityTimer() {
+  lastActivityTime = Date.now();
+  // Warnung ausblenden, falls sie angezeigt wird
+  inactivityWarningElement.classList.add('hidden');
+}
+
+// Regelmäßige Überprüfung der Inaktivität
+function checkInactivity() {
+  const inactivityThreshold = 20 * 60 * 1000; // 20 Minuten in Millisekunden
+  const currentTime = Date.now();
+  const inactiveTime = currentTime - lastActivityTime;
+  
+  // Bei Fully Kiosk prüfen, ob wir wirklich inaktiv sind
+  let reallyInactive = true;
+  
+  if (typeof fully !== 'undefined') {
+    // Prüfen, ob wir am Laden sind und nutzen das auch als "Aktivität"
+    if (fully.isPlugged()) {
+      resetInactivityTimer(); // Reset, wenn am Ladegerät
+      reallyInactive = false;
+    }
+  }
+  
+  // Wenn inaktiv und nicht am Laden, Warnung anzeigen
+  if (inactiveTime >= inactivityThreshold && reallyInactive) {
+    inactivityWarningElement.classList.remove('hidden');
+    
+    // Optional: Sound abspielen bei Inaktivität
+    if (typeof fully !== 'undefined' && typeof fully.playSound !== 'undefined') {
+      fully.playSound("https://www.soundjay.com/buttons/sounds/button-09.mp3");
+    }
+  }
+  
+  // Alle 60 Sekunden prüfen
+  setTimeout(checkInactivity, 60 * 1000);
+}
+
+// Beim Laden der Seite initialisieren
+document.addEventListener('DOMContentLoaded', setupInactivityWarning);
+</script>
 </body>
 </html>
