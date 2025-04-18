@@ -2250,7 +2250,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 // Seite alle 5 Minuten aktualisieren (300000 ms)
 function setupPageRefresh() {
-  const refreshInterval = 5 * 60 * 1000; // 5 Minuten
+  const refreshInterval = 30 * 60 * 1000; // 30 Minuten
   setTimeout(function() {
     // Aktuelle Scrollposition speichern
     localStorage.setItem('scrollPosition', window.scrollY);
@@ -2307,7 +2307,7 @@ function resetInactivityTimer() {
 
 // Regelmäßige Überprüfung der Inaktivität
 function checkInactivity() {
-  const inactivityThreshold = 20 * 60 * 1000; // 20 Minuten in Millisekunden
+  const inactivityThreshold = 10 * 60 * 1000; // 10 Minuten in Millisekunden
   const currentTime = Date.now();
   const inactiveTime = currentTime - lastActivityTime;
   
