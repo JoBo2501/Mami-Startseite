@@ -409,6 +409,14 @@
   </style>
 </head>
 <body>
+<!-- Batteriestand-Warnung -->
+<div id="battery-warning" class="battery-warning hidden">
+  <div class="battery-icon">🔋</div>
+  <div class="battery-message">
+    <div class="battery-title">LIEBE MAMI, KANNST DU MICH JETZT BITTE IN DIE LADESTATION BRINGEN?</div>
+    <div class="battery-level">Batteriestand: <span id="battery-percentage">--</span>%</div>
+  </div>
+</div>
   <div class="digital-board">
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
@@ -1121,8 +1129,106 @@ function sendTermin() {
   margin-bottom: 15px;
   font-weight: bold;
 }
-</style>
+.battery-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ff3b30;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: pulse-warning 2s infinite;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 
+@keyframes pulse-warning {
+  0% { background-color: #ff3b30; }
+  50% { background-color: #ff6651; }
+  100% { background-color: #ff3b30; }
+}
+
+.battery-icon {
+  font-size: 2.5rem;
+  margin-right: 15px;
+}
+
+.battery-message {
+  font-size: 1.2rem;
+}
+
+.battery-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+// Batteriestand-Überwachung für Fully Kiosk Browser
+function checkBatteryFullyKiosk() {
+  // Prüfe, ob die Fully Kiosk API verfügbar ist
+  if (typeof fully !== 'undefined') {
+    // Fully Kiosk API verwenden
+    const batteryLevel = fully.getBatteryLevel();
+    const isPluggedIn = fully.isPlugged();
+    
+    const warningElement = document.getElementById('battery-warning');
+    const percentageElement = document.getElementById('battery-percentage');
+    
+    percentageElement.textContent = batteryLevel;
+    
+    // Warnung anzeigen bei <= 30% und nicht am Laden
+    if (batteryLevel <= 30 && !isPluggedIn) {
+      warningElement.classList.remove('hidden');
+      
+      // Bei kritischem Batteriestand visuelles und akustisches Signal
+      if (batteryLevel <= 15) {
+        // Blinkeffekt aktivieren
+        warningElement.style.animation = "pulse-warning 0.5s infinite";
+        
+        // Ton abspielen (falls erlaubt)
+        if (typeof fully.playSound !== 'undefined') {
+          fully.playSound("https://www.soundjay.com/buttons/beep-07.wav");
+        }
+      }
+    } else {
+      warningElement.classList.add('hidden');
+    }
+  } else {
+    // Fallback für normale Browser
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function(battery) {
+        const warningElement = document.getElementById('battery-warning');
+        const percentageElement = document.getElementById('battery-percentage');
+        const level = Math.floor(battery.level * 100);
+        
+        percentageElement.textContent = level;
+        
+        // Warnung anzeigen bei <= 30% und nicht am Laden
+        if (level <= 30 && !battery.charging) {
+          warningElement.classList.remove('hidden');
+        } else {
+          warningElement.classList.add('hidden');
+        }
+      });
+    }
+  }
+  
+  // Alle 5 Minuten prüfen
+  setTimeout(checkBatteryFullyKiosk, 5 * 60 * 1000);
+}
+
+// Starte Batterie-Überwachung
+document.addEventListener('DOMContentLoaded', function() {
+  // Warte kurz, damit Fully Kiosk API geladen werden kann
+  setTimeout(checkBatteryFullyKiosk, 1000);
+});
 <script>
   // Sammlung von beruhigenden Sprichwörtern und Weisheiten
   const wisdomCollection = [
@@ -2139,5 +2245,27 @@ function sendTermin() {
   // Führe die Funktion aus, wenn die Seite geladen ist
   document.addEventListener('DOMContentLoaded', setupChecklist);
 </script>
+// Seite alle 5 Minuten aktualisieren (300000 ms)
+function setupPageRefresh() {
+  const refreshInterval = 5 * 60 * 1000; // 5 Minuten
+  setTimeout(function() {
+    // Aktuelle Scrollposition speichern
+    localStorage.setItem('scrollPosition', window.scrollY);
+    // Seite neu laden
+    window.location.reload();
+  }, refreshInterval);
+}
+
+// Nach dem Laden die Scrollposition wiederherstellen
+window.addEventListener('load', function() {
+  // Starte den Aktualisierungstimer
+  setupPageRefresh();
+  
+  // Scrollposition wiederherstellen, falls vorhanden
+  const savedScrollPosition = localStorage.getItem('scrollPosition');
+  if (savedScrollPosition) {
+    window.scrollTo(0, parseInt(savedScrollPosition));
+  }
+});
 </body>
 </html>
