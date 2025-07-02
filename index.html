@@ -406,6 +406,133 @@
   margin-bottom: 15px;
   font-weight: bold;
 }
+
+/* Permanenter Post-it Sticker (links positioniert) */
+.post-it-sticker {
+  position: fixed;
+  top: 20%;
+  left: -20px;
+  width: 200px;
+  height: auto;
+  background: #ffeb3b;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  transform: rotate(-3deg);
+  z-index: 1000;
+  font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
+  border: 1px solid #f4d03f;
+  animation: gentle-sway 6s ease-in-out infinite;
+}
+
+/* Sanfte Schwankung für Aufmerksamkeit */
+@keyframes gentle-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(1deg); }
+}
+
+.post-it-content {
+  padding: 15px 15px 15px 20px;
+  text-align: center;
+}
+
+.post-it-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.post-it-text {
+  font-size: 0.85rem;
+  color: #333;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+/* Kleiner "Klebepunkt" oben */
+.post-it-sticker::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 20px;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  border: 2px solid #f1c40f;
+}
+
+/* Responsive Anpassung für kleinere Bildschirme */
+@media (max-width: 768px) {
+  .post-it-sticker {
+    left: -10px;
+    width: 180px;
+    top: 25%;
+  }
+  
+  .post-it-title {
+    font-size: 0.8rem;
+  }
+  
+  .post-it-text {
+    font-size: 0.75rem;
+  }
+}
+
+/* Hover-Effekt für Interaktivität */
+.post-it-sticker:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 
+    0 6px 12px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: all 0.3s ease;
+}
+
+.battery-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ff3b30;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: pulse-warning 2s infinite;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+@keyframes pulse-warning {
+  0% { background-color: #ff3b30; }
+  50% { background-color: #ff6651; }
+  100% { background-color: #ff3b30; }
+}
+
+.battery-icon {
+  font-size: 2.5rem;
+  margin-right: 15px;
+}
+
+.battery-message {
+  font-size: 1.2rem;
+}
+
+.battery-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -417,6 +544,17 @@
     <div class="battery-level">Batteriestand: <span id="battery-percentage">--</span>%</div>
   </div>
 </div>
+
+<!-- Permanenter Post-it Sticker -->
+<div class="post-it-sticker">
+  <div class="post-it-content">
+    <div class="post-it-title">WICHTIGER HINWEIS</div>
+    <div class="post-it-text">
+      Sanja muss bis auf weiteres nicht mehr bar bezahlt werden, das erfolgt jetzt online!
+    </div>
+  </div>
+</div>
+
   <div class="digital-board">
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
@@ -1127,46 +1265,6 @@ function sendTermin() {
   color: #555;
   margin-bottom: 15px;
   font-weight: bold;
-}
-.battery-warning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #ff3b30;
-  color: white;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: pulse-warning 2s infinite;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-@keyframes pulse-warning {
-  0% { background-color: #ff3b30; }
-  50% { background-color: #ff6651; }
-  100% { background-color: #ff3b30; }
-}
-
-.battery-icon {
-  font-size: 2.5rem;
-  margin-right: 15px;
-}
-
-.battery-message {
-  font-size: 1.2rem;
-}
-
-.battery-title {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-bottom: 5px;
-}
-
-.hidden {
-  display: none;
 }
 </style>
 <script>
@@ -1946,64 +2044,3 @@ document.addEventListener('DOMContentLoaded', function() {
       // Button deaktivieren
       revealButton.disabled = true;
       revealButton.textContent = 'Gelöst!';
-      
-      // Als erledigt markieren im lokalen Speicher
-      localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
-      
-      // Aktuellen Dot als erledigt markieren
-      dots[currentIndex].classList.add('completed');
-      
-      // Prüfen, ob alle Zitate gelöst wurden
-      checkAllCompleted();
-    });
-    
-    // Event-Listener für Navigationsbuttons
-    prevButton.addEventListener('click', function() {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCurrentQuote();
-      }
-    });
-    
-    nextButton.addEventListener('click', function() {
-      if (currentIndex < 4) {
-        currentIndex++;
-        updateCurrentQuote();
-      }
-    });
-    
-    // Event-Listener für Punkte
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', function() {
-        currentIndex = index;
-        updateCurrentQuote();
-      });
-    });
-    
-    // Funktion zum Prüfen, ob alle Zitate gelöst wurden
-    function checkAllCompleted() {
-      const allCompleted = Array.from({ length: 5 }, (_, i) => 
-        localStorage.getItem(storageKeyPrefix + i) === 'true'
-      ).every(Boolean);
-      
-      if (allCompleted) {
-        dailySuccess.classList.remove('hidden');
-      }
-    }
-    
-    // Initialisierung
-    updateCurrentQuote();
-    checkAllCompleted();
-  }
-
-  // Das Gehirnjogging initialisieren, wenn die Seite geladen ist
-  document.addEventListener('DOMContentLoaded', initBrainTraining);
-</script>
-<div class="section">
-  <div class="section-title">Kleine tägliche Erfolge</div>
-  <div class="daily-checklist">
-    <div class="checklist-description">
-      Bitte hake ab, was Du heute schon geschafft hast:
-    </div>
-    <div class="checklist-items">
-      <div class="checklist-item">
