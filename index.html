@@ -17,7 +17,7 @@
       background: #dcf8c6; 
       border-left: 5px solid #444; 
       position: relative; 
-      font-size: 1.1rem; /* Größerer Nachrichtentext */
+      font-size: 1.1rem;
       line-height: 1.4;
       margin-top: 2px;
     }
@@ -27,7 +27,6 @@
       word-break: break-word;
     }
     .message-timestamp { font-size: 0.8rem; color: #666; text-align: right; margin-top: 0.5rem; }
-    /* Dieser Block wird durch den neuen ersetzt */
     
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
@@ -71,7 +70,6 @@
       color: #555;
     }
     
-    /* Verbesserte Darstellung des Neu-Indikators */
     .new-indicator {
       font-size: 0.9rem;
       font-weight: bold;
@@ -81,7 +79,6 @@
       align-items: center;
     }
     
-    /* Roter Punkt vor "Neu von..." */
     .new-indicator::before {
       content: "";
       display: inline-block;
@@ -93,7 +90,6 @@
       animation: pulse 1.5s infinite;
     }
     
-    /* Verringerter Abstand zwischen Senderinfo und Nachricht */
     .message {
       margin-top: 2px;
     }
@@ -115,75 +111,99 @@
         max-width: 600px;
       }
     }
+
+    /* Modernisierte Apple Watch-Style Uhr */
     .digital-board {
-      font-family: 'Courier New', monospace;
-      background-color: #222;
-      color: #f8b700;
-      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-      border: 8px solid #8b5a2b;
-      border-radius: 8px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
-      padding: 20px 15px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, 
+        rgba(40, 40, 40, 0.95) 0%, 
+        rgba(60, 60, 60, 0.95) 25%,
+        rgba(45, 45, 45, 0.95) 50%,
+        rgba(35, 35, 35, 0.95) 75%,
+        rgba(50, 50, 50, 0.95) 100%),
+        /* Ketten-Hintergrundmuster */
+        radial-gradient(circle at 20% 30%, rgba(180, 160, 120, 0.3) 2px, transparent 2px),
+        radial-gradient(circle at 40% 60%, rgba(200, 180, 140, 0.2) 1px, transparent 1px),
+        radial-gradient(circle at 70% 20%, rgba(160, 140, 100, 0.25) 1.5px, transparent 1.5px),
+        radial-gradient(circle at 80% 80%, rgba(190, 170, 130, 0.2) 1px, transparent 1px),
+        linear-gradient(45deg, 
+          rgba(120, 100, 70, 0.1) 25%, 
+          transparent 25%, 
+          transparent 75%, 
+          rgba(120, 100, 70, 0.1) 75%);
+      background-size: 100% 100%, 40px 40px, 60px 60px, 80px 80px, 30px 30px, 20px 20px;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      border-radius: 25px;
+      box-shadow: 
+        inset 0 2px 10px rgba(255,255,255,0.1),
+        inset 0 -2px 10px rgba(0,0,0,0.3),
+        0 8px 32px rgba(0,0,0,0.3),
+        0 2px 8px rgba(0,0,0,0.2);
+      padding: 30px 25px;
       text-align: center;
-      letter-spacing: 2px;
       margin: 20px auto;
       max-width: 600px;
       position: relative;
-      background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-      background-size: 5px 5px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
     }
+
+    /* Subtiler Glanz-Effekt */
     .digital-board::before {
-      content: "MESSAGE BOARD";
+      content: "";
       position: absolute;
-      top: 5px;
-      left: 10px;
-      font-size: 12px;
-      opacity: 0.7;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, 
+        rgba(255,255,255,0.08) 0%, 
+        rgba(255,255,255,0.02) 50%, 
+        transparent 100%);
+      border-radius: 25px 25px 0 0;
+      pointer-events: none;
     }
-    .digital-board::after {
-      content: "DIGITAL";
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      font-size: 12px;
-      opacity: 0.7;
-    }
-    .digital-board h1 {
-      font-size: 2rem;
-      font-weight: bold;
-      background: none;
-      border-radius: 0;
-      margin: 5px 0;
-      padding: 10px;
-      box-shadow: none;
-      text-transform: uppercase;
-      display: inline-block;
-      transform: scale(1, 1.2);
-    }
+
     .date-display {
-      color: #f8b700;
-      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin: 0 0 10px 0;
+      color: #e8e8e8;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0 0 8px 0;
       padding: 5px 10px;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
     }
     
     .time-display {
-      color: #f8b700;
-      text-shadow: 0 0 5px #f8b700, 0 0 10px #f8b700;
-      font-size: 3rem;
-      font-weight: bold;
+      color: #ffffff;
+      font-size: 3.2rem;
+      font-weight: 300;
       margin: 0;
       padding: 5px 10px;
-      font-family: 'Courier New', monospace;
-      letter-spacing: 2px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .digital-board {
+        padding: 20px 15px;
+        margin: 15px auto;
+      }
+      
+      .date-display {
+        font-size: 1.1rem;
+      }
+      
+      .time-display {
+        font-size: 2.5rem;
+      }
     }
     
-    /* Frühlingsstil für den Titel */
     .board-title {
       background: #fff475;
       font-size: 1.2rem;
@@ -198,7 +218,6 @@
       overflow: hidden;
     }
     
-    /* Blume links */
     .board-title::before {
       content: "🌼";
       position: absolute;
@@ -208,7 +227,6 @@
       font-size: 1rem;
     }
     
-    /* Schmetterling rechts */
     .board-title::after {
       content: "🦋";
       position: absolute;
@@ -217,322 +235,469 @@
       transform: translateY(-50%);
       font-size: 1rem;
     }
-/* Hervorgehobener Terminbereich */
-.termin-form {
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
-  padding: 15px;
-  background: #f0f8ff; /* Hellblauer Hintergrund */
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  border: 2px solid #4CAF50;
-  position: relative;
-  animation: pulse-border 2s infinite;
-}
 
-/* Pulsierende Umrandung */
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(76,175,80,0); }
-  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
-}
+    .termin-form {
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      padding: 15px;
+      background: #f0fff0;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      border: 2px solid #8bc34a;
+      position: relative;
+      animation: pulse-border 3s infinite;
+    }
 
-/* Auffälligere Überschrift */
-.termin-section .section-title {
-  font-size: 1.4rem;
-  color: #d32f2f; /* Rot für Wichtigkeit */
-  margin-bottom: 15px;
-  padding: 8px;
-  background: #fff475;
-  border-radius: 8px;
-  display: inline-block;
-}
+    @keyframes pulse-border {
+      0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.3); }
+      70% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
+      100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+    }
 
-/* Icon für mehr Aufmerksamkeit */
-.termin-section .section-title::before {
-  content: "⚠️"; /* Wichtig-Symbol */
-  margin-right: 8px;
-}
+    .termin-section .section-title {
+      font-size: 1.4rem;
+      color: #4a6700;
+      margin-bottom: 15px;
+      padding: 8px;
+      background: #fff475;
+      border-radius: 8px;
+      display: inline-block;
+      position: relative;
+    }
 
-/* Größeres Textfeld */
-.termin-form textarea {
-  width: 100%;
-  padding: 15px;
-  font-size: 1.2rem;
-  min-height: 80px;
-  border: 1px solid #4CAF50;
-  border-radius: 8px;
-  resize: vertical;
-  margin-bottom: 15px;
-}
+    .termin-section .section-title::before {
+      content: "📅";
+      margin-right: 8px;
+      position: relative;
+    }
 
-/* Auffälligerer Button */
-.termin-form button {
-  background: #4CAF50;
-  color: white;
-  padding: 15px 25px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
-}
+    .termin-section .section-title::after {
+      content: "✏️";
+      margin-left: 8px;
+      position: relative;
+    }
 
-.termin-form button:hover {
-  background: #45a049;
-  transform: scale(1.05);
-}
+    .section:not(.termin-section) .section-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
 
-/* Hilfetext auffälliger */
-.termin-form p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-/* Pfeile nach unten für bessere Benutzerführung */
-.arrow-container {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 0 20px;
-}
+    .section:not(.termin-section) .section-title::before,
+    .section:not(.termin-section) .section-title::after {
+      content: none;
+    }
 
-.arrow-down {
-  font-size: 1.5rem;
-  color: #4CAF50;
-  animation: bounce 2s infinite;
-}
+    .arrow-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0 20px;
+    }
 
-/* Leichte Hüpfanimation für die Pfeile */
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
+    .arrow-down {
+      font-size: 1.5rem;
+      color: #4CAF50;
+      animation: bounce 2s infinite;
+    }
 
-/* Freundlichere Überschrift */
-.termin-section .section-title {
-  font-size: 1.4rem;
-  color: #4a6700; /* Freundliches Grün statt Rot */
-  margin-bottom: 15px;
-  padding: 8px;
-  background: #fff475;
-  border-radius: 8px;
-  display: inline-block;
-}
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
 
-/* Fröhliches Icon */
-.termin-section .section-title::before {
-  content: "📅"; /* Kalender-Emoji */
-  margin-right: 8px;
-}
+    .termin-form textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      min-height: 80px;
+      border: 1px solid #4CAF50;
+      border-radius: 8px;
+      resize: vertical;
+      margin-bottom: 15px;
+    }
 
-/* Zweites Icon am Ende */
-.termin-section .section-title::after {
-  content: "✏️"; /* Stift-Emoji */
-  margin-left: 8px;
-}
+    .termin-form button {
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+      display: block;
+    }
 
-/* Hervorgehobener Terminbereich */
-.termin-form {
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
-  padding: 15px;
-  background: #f0fff0; /* Sehr helles Grün */
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border: 2px solid #8bc34a; /* Helleres Grün */
-  position: relative;
-  animation: pulse-border 3s infinite; /* Langsamere Animation */
-}
+    .termin-form button:hover {
+      background: #45a049;
+      transform: scale(1.05);
+    }
 
-/* Sanftere pulsierende Umrandung */
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.3); }
-  70% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
-  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
-}
+    .termin-form p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
 
-/* Größeres Textfeld */
-.termin-form textarea {
-  width: 100%;
-  padding: 15px;
-  font-size: 1.2rem;
-  min-height: 80px;
-  border: 1px solid #4CAF50;
-  border-radius: 8px;
-  resize: vertical;
-  margin-bottom: 15px;
-}
+    .post-it-sticker {
+      position: fixed;
+      top: 20%;
+      left: -20px;
+      width: 200px;
+      height: auto;
+      background: #ffeb3b;
+      border-radius: 8px 8px 8px 8px;
+      box-shadow: 
+        0 4px 8px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+      transform: rotate(-3deg);
+      z-index: 1000;
+      font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
+      border: 1px solid #f4d03f;
+      animation: gentle-sway 6s ease-in-out infinite;
+    }
 
-/* Auffälligerer Button */
-.termin-form button {
-  background: #4CAF50;
-  color: white;
-  padding: 15px 25px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
-}
+    @keyframes gentle-sway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(1deg); }
+    }
 
-.termin-form button:hover {
-  background: #45a049;
-  transform: scale(1.05);
-}
+    .post-it-content {
+      padding: 15px 15px 15px 20px;
+      text-align: center;
+    }
 
-/* Hilfetext auffälliger */
-.termin-form p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
+    .post-it-title {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #d32f2f;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-/* Permanenter Post-it Sticker (links positioniert) */
-.post-it-sticker {
-  position: fixed;
-  top: 20%;
-  left: -20px;
-  width: 200px;
-  height: auto;
-  background: #ffeb3b;
-  border-radius: 8px 8px 8px 8px;
-  box-shadow: 
-    0 4px 8px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-  transform: rotate(-3deg);
-  z-index: 1000;
-  font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
-  border: 1px solid #f4d03f;
-  animation: gentle-sway 6s ease-in-out infinite;
-}
+    .post-it-text {
+      font-size: 0.85rem;
+      color: #333;
+      line-height: 1.3;
+      font-weight: 500;
+    }
 
-/* Sanfte Schwankung für Aufmerksamkeit */
-@keyframes gentle-sway {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(1deg); }
-}
+    .post-it-sticker::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 20px;
+      width: 15px;
+      height: 15px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 2px solid #f1c40f;
+    }
 
-.post-it-content {
-  padding: 15px 15px 15px 20px;
-  text-align: center;
-}
+    @media (max-width: 768px) {
+      .post-it-sticker {
+        left: -10px;
+        width: 180px;
+        top: 25%;
+      }
+      
+      .post-it-title {
+        font-size: 0.8rem;
+      }
+      
+      .post-it-text {
+        font-size: 0.75rem;
+      }
+    }
 
-.post-it-title {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #d32f2f;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+    .post-it-sticker:hover {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 
+        0 6px 12px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+      transition: all 0.3s ease;
+    }
 
-.post-it-text {
-  font-size: 0.85rem;
-  color: #333;
-  line-height: 1.3;
-  font-weight: 500;
-}
+    .battery-warning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ff3b30;
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: pulse-warning 2s infinite;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
 
-/* Kleiner "Klebepunkt" oben */
-.post-it-sticker::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 20px;
-  width: 15px;
-  height: 15px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  border: 2px solid #f1c40f;
-}
+    @keyframes pulse-warning {
+      0% { background-color: #ff3b30; }
+      50% { background-color: #ff6651; }
+      100% { background-color: #ff3b30; }
+    }
 
-/* Responsive Anpassung für kleinere Bildschirme */
-@media (max-width: 768px) {
-  .post-it-sticker {
-    left: -10px;
-    width: 180px;
-    top: 25%;
-  }
-  
-  .post-it-title {
-    font-size: 0.8rem;
-  }
-  
-  .post-it-text {
-    font-size: 0.75rem;
-  }
-}
+    .battery-icon {
+      font-size: 2.5rem;
+      margin-right: 15px;
+    }
 
-/* Hover-Effekt für Interaktivität */
-.post-it-sticker:hover {
-  transform: rotate(0deg) scale(1.05);
-  box-shadow: 
-    0 6px 12px rgba(0,0,0,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-  transition: all 0.3s ease;
-}
+    .battery-message {
+      font-size: 1.2rem;
+    }
 
-.battery-warning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #ff3b30;
-  color: white;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: pulse-warning 2s infinite;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
+    .battery-title {
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
 
-@keyframes pulse-warning {
-  0% { background-color: #ff3b30; }
-  50% { background-color: #ff6651; }
-  100% { background-color: #ff3b30; }
-}
+    .hidden {
+      display: none;
+    }
 
-.battery-icon {
-  font-size: 2.5rem;
-  margin-right: 15px;
-}
+    .daily-wisdom {
+      background: #f8f8ff;
+      border-radius: 8px;
+      border-left: 5px solid #bbd4ff;
+      padding: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      display: flex;
+      align-items: center;
+    }
+    
+    .wisdom-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      color: #666;
+    }
+    
+    .wisdom-content {
+      flex: 1;
+    }
+    
+    .wisdom-text {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+      color: #444;
+    }
+    
+    .wisdom-source {
+      font-size: 0.9rem;
+      text-align: right;
+      color: #666;
+    }
 
-.battery-message {
-  font-size: 1.2rem;
-}
-
-.battery-title {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-bottom: 5px;
-}
-
-.hidden {
-  display: none;
-}
+    .brain-game {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      text-align: left;
+      border-left: 5px solid #ffb347;
+    }
+    
+    .game-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    #quote-counter {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .progress-dots {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #ddd;
+      cursor: pointer;
+    }
+    
+    .dot.active {
+      background-color: #ffb347;
+    }
+    
+    .dot.completed {
+      background-color: #28a745;
+    }
+    
+    .quote-container {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      min-height: 120px;
+    }
+    
+    .quote-text {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-style: italic;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+    
+    .quote-text:before {
+      content: '"';
+      font-size: 1.5em;
+      color: #ddd;
+      position: absolute;
+      left: 0.5rem;
+      top: 0;
+    }
+    
+    .quote-text:after {
+      content: '"';
+      font-size: 1.5em;
+      color: #ddd;
+      position: absolute;
+      right: 0.8rem;
+      bottom: 0.5rem;
+    }
+    
+    .quote-author {
+      font-size: 1rem;
+      text-align: right;
+      font-weight: bold;
+      color: #555;
+      animation: fadeIn 1s;
+    }
+    
+    .quote-controls {
+      margin-bottom: 1.5rem;
+    }
+    
+    .reveal-button {
+      padding: 0.8rem 1.2rem;
+      background-color: #ffb347;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .reveal-button:hover {
+      background-color: #ff9f1c;
+    }
+    
+    .reveal-button:disabled {
+      background-color: #ccc;
+      cursor: default;
+    }
+    
+    .quote-feedback {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 0.5s;
+      padding: 0.8rem;
+      background: #fff5e6;
+      border-radius: 6px;
+    }
+    
+    .feedback-icon {
+      font-size: 1.5rem;
+      margin-right: 0.8rem;
+    }
+    
+    .feedback-text {
+      font-size: 1rem;
+      color: #444;
+    }
+    
+    .navigation-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    
+    .nav-button {
+      padding: 0.6rem 1rem;
+      background-color: #f0f0f0;
+      color: #444;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+      background-color: #e0e0e0;
+    }
+    
+    .nav-button:disabled {
+      background-color: #f8f8f8;
+      color: #aaa;
+      cursor: default;
+    }
+    
+    .quote-success {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 0.5s;
+      padding: 1rem;
+      background: #e7f7e3;
+      border-radius: 6px;
+    }
+    
+    .success-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+    }
+    
+    .success-text {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #28a745;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -603,7 +768,7 @@
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById("time").innerHTML = `${hours}:${minutes} Uhr`;
+      document.getElementById("time").innerHTML = `${hours}:${minutes}`;
     }
     
     updateClock(); // Initial ausführen
@@ -936,6 +1101,7 @@
 
     // Initial ausführen
     fetchSheetData();
+
 function sendTermin() {
   const terminText = document.getElementById('termin-text').value;
   if (!terminText.trim()) {
@@ -1067,8 +1233,8 @@ function sendTermin() {
         document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
       });
   </script>
-<!-- Füge diesen Code direkt vor der Checkliste ein, also vor dem <div class="section"> der Checkliste -->
 
+<!-- Gedanke für heute Section -->
 <div class="section">
   <div class="section-title">Gedanke für heute</div>
   <div class="daily-wisdom">
@@ -1080,193 +1246,48 @@ function sendTermin() {
   </div>
 </div>
 
-<style>
-  .daily-wisdom {
-    background: #f8f8ff; /* Sanfter hellblauer Hintergrund */
-    border-radius: 8px;
-    border-left: 5px solid #bbd4ff;
-    padding: 1.2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    max-width: 600px;
-    margin: 0 auto 2rem auto;
-    display: flex;
-    align-items: center;
-  }
-  
-  .wisdom-icon {
-    font-size: 2rem;
-    margin-right: 1rem;
-    color: #666;
-  }
-  
-  .wisdom-content {
-    flex: 1;
-  }
-  
-  .wisdom-text {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    margin-bottom: 0.5rem;
-    font-style: italic;
-    color: #444;
-  }
-  
-  .wisdom-source {
-    font-size: 0.9rem;
-    text-align: right;
-    color: #666;
-  }
-  .termin-form {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  padding: 10px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+<!-- Tägliche Literatur-Herausforderung Section -->
+<div class="section">
+  <div class="section-title">Tägliche Literatur-Herausforderung</div>
+  <div class="brain-game">
+    <div class="game-progress">
+      <span id="quote-counter">Zitat 1 von 5</span>
+      <div class="progress-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+        <span class="dot" data-index="4"></span>
+      </div>
+    </div>
+    
+    <div id="quote-carousel">
+      <div class="quote-container">
+        <div id="current-quote" class="quote-text"></div>
+        <div id="current-author" class="quote-author hidden"></div>
+      </div>
+      
+      <div class="quote-controls">
+        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
+        <div id="quote-feedback" class="quote-feedback hidden">
+          <div class="feedback-icon">🧠</div>
+          <div id="feedback-text" class="feedback-text"></div>
+        </div>
+      </div>
+      
+      <div class="navigation-controls">
+        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
+        <button id="next-button" class="nav-button">Nächstes Zitat</button>
+      </div>
+    </div>
+    
+    <div id="daily-success" class="quote-success hidden">
+      <div class="success-icon">🏆</div>
+      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
+    </div>
+  </div>
+</div>
 
-.termin-form textarea {
-  resize: vertical;
-  font-family: Arial, sans-serif;
-}
-
-.termin-form button {
-  transition: background-color 0.3s;
-}
-
-.termin-form button:hover {
-  background-color: #45a049;
-}
-/* Pfeile nach unten für bessere Benutzerführung */
-.arrow-container {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 0 20px;
-}
-
-.arrow-down {
-  font-size: 1.5rem;
-  color: #4CAF50;
-  animation: bounce 2s infinite;
-}
-
-/* Leichte Hüpfanimation für die Pfeile */
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-}
-
-/* NUR für die Terminsektion - Spezifischerer Selektor */
-.termin-section .section-title {
-  font-size: 1.4rem;
-  color: #4a6700; /* Freundliches Grün statt Rot */
-  margin-bottom: 15px;
-  padding: 8px;
-  background: #fff475;
-  border-radius: 8px;
-  display: inline-block;
-  position: relative; /* Wichtig für die Pseudoelemente */
-}
-
-/* NUR für die Terminsektion - Icons mit spezifischeren Selektoren */
-.termin-section .section-title::before {
-  content: "📅"; /* Kalender-Emoji */
-  margin-right: 8px;
-  position: relative;
-}
-
-.termin-section .section-title::after {
-  content: "✏️"; /* Stift-Emoji */
-  margin-left: 8px;
-  position: relative;
-}
-
-/* Normale Sektionsüberschriften wiederherstellen */
-.section:not(.termin-section) .section-title {
-  /* Hier die ursprüngliche Formatierung wiederherstellen */
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-/* Explizit die Pseudoelemente für andere Sektionen entfernen */
-.section:not(.termin-section) .section-title::before,
-.section:not(.termin-section) .section-title::after {
-  content: none;
-}
-
-/* Hervorgehobener Terminbereich */
-.termin-form {
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
-  padding: 15px;
-  background: #f0fff0; /* Sehr helles Grün */
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border: 2px solid #8bc34a; /* Helleres Grün */
-  position: relative;
-  animation: pulse-border 3s infinite; /* Langsamere Animation */
-}
-
-/* Sanftere pulsierende Umrandung */
-@keyframes pulse-border {
-  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.3); }
-  70% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
-  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
-}
-
-/* Größeres Textfeld */
-.termin-form textarea {
-  width: 100%;
-  padding: 15px;
-  font-size: 1.2rem;
-  min-height: 80px;
-  border: 1px solid #4CAF50;
-  border-radius: 8px;
-  resize: vertical;
-  margin-bottom: 15px;
-}
-
-/* Auffälligerer Button */
-.termin-form button {
-  background: #4CAF50;
-  color: white;
-  padding: 15px 25px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  max-width: 300px;
-  margin: 0 auto;
-  display: block;
-}
-
-.termin-form button:hover {
-  background: #45a049;
-  transform: scale(1.05);
-}
-
-/* Hilfetext auffälliger */
-.termin-form p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-</style>
 <script>
 // Batteriestand-Überwachung für Fully Kiosk Browser
 function checkBatteryFullyKiosk() {
@@ -1327,720 +1348,444 @@ document.addEventListener('DOMContentLoaded', function() {
   // Warte kurz, damit Fully Kiosk API geladen werden kann
   setTimeout(checkBatteryFullyKiosk, 1000);
 });
-</script>
-<script>
-  // Sammlung von beruhigenden Sprichwörtern und Weisheiten
-  const wisdomCollection = [
-    {
-      quote: "Ruhe ist die erste Bürgerpflicht.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
-      source: "Chinesische Weisheit"
-    },
-    {
-      quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
-      source: "Afrikanisches Sprichwort"
-    },
-    {
-      quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
-      source: "Persisches Sprichwort"
-    },
-    {
-      quote: "Wenn du in Eile bist, gehe langsam.",
-      source: "Japanisches Sprichwort"
-    },
-    {
-      quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
-      source: "Abgewandeltes deutsches Sprichwort"
-    },
-    {
-      quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
-      source: "Volksmund"
-    },
-    {
-      quote: "Es ist noch kein Meister vom Himmel gefallen.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
-      source: "Aus der Bibel, Matthäus 6,34"
-    },
-    {
-      quote: "Mit Geduld und Zeit kommt man weit.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Auch dunkle Wolken haben einen silbernen Rand.",
-      source: "Englisches Sprichwort"
-    },
-    {
-      quote: "Morgenstund hat Gold im Mund.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Ein ruhiges Herz ist des Lebens Frucht.",
-      source: "Aus der Bibel, Sprüche 14,30"
-    },
-    {
-      quote: "Nach Regen scheint Sonnenschein.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Klein aber fein.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Jeder Tag ist ein neuer Anfang.",
-      source: "Lebensweisheit"
-    },
-    {
-      quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
-      source: "Amerikanische Lebensweisheit"
-    },
-    {
-      quote: "Nimm dir Zeit, glücklich zu sein.",
-      source: "Lebensweisheit"
-    },
-    {
-      quote: "Übung macht den Meister.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
-      source: "Seneca"
-    },
-    {
-      quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Aufgeschoben ist nicht aufgehoben.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
-      source: "Türkisches Sprichwort"
-    },
-    {
-      quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
-      source: "Chinesische Weisheit"
-    },
-    {
-      quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
-      source: "Charlie Chaplin"
-    },
-    {
-      quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
-      source: "Lebensweisheit"
-    },
-    {
-      quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
-      source: "Albert Einstein"
-    },
-    {
-      quote: "Geduld bringt Rosen.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
-      source: "Lebensweisheit"
-    },
-    {
-      quote: "Es gibt nichts Gutes, außer man tut es.",
-      source: "Erich Kästner"
-    },
-    {
-      quote: "In der Ruhe liegt die Kraft.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Wo ein Wille ist, ist auch ein Weg.",
-      source: "Englisches Sprichwort"
-    },
-    {
-      quote: "Wer nicht wagt, der nicht gewinnt.",
-      source: "Deutsches Sprichwort"
-    },
-    {
-      quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
-      source: "Chinesisches Sprichwort"
-    },
-    {
-      quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
-      source: "Gotthold Ephraim Lessing"
-    },
-    {
-      quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
-      source: "Jean de La Fontaine"
-    },
-    {
-      quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
-      source: "Sokrates"
-    },
-    {
-      quote: "Freude, nicht Trauer verlängert das Leben.",
-      source: "Jüdisches Sprichwort"
-    }
-  ];
 
-  // Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
-  function getWisdomOfTheDay() {
-    const today = new Date();
-    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    
-    // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
-    // aber für den gleichen Tag konstant bleibt
-    let hash = 0;
-    for (let i = 0; i < dateString.length; i++) {
-      hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-      hash = hash & hash; // Zu 32bit Integer konvertieren
-    }
-    
-    // Positiven Index generieren
-    const seed = Math.abs(hash);
-    const index = seed % wisdomCollection.length;
-    
-    return wisdomCollection[index];
+// Sammlung von beruhigenden Sprichwörtern und Weisheiten
+const wisdomCollection = [
+  {
+    quote: "Ruhe ist die erste Bürgerpflicht.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
+    source: "Chinesische Weisheit"
+  },
+  {
+    quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
+    source: "Afrikanisches Sprichwort"
+  },
+  {
+    quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
+    source: "Persisches Sprichwort"
+  },
+  {
+    quote: "Wenn du in Eile bist, gehe langsam.",
+    source: "Japanisches Sprichwort"
+  },
+  {
+    quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
+    source: "Abgewandeltes deutsches Sprichwort"
+  },
+  {
+    quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
+    source: "Volksmund"
+  },
+  {
+    quote: "Es ist noch kein Meister vom Himmel gefallen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
+    source: "Aus der Bibel, Matthäus 6,34"
+  },
+  {
+    quote: "Mit Geduld und Zeit kommt man weit.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Auch dunkle Wolken haben einen silbernen Rand.",
+    source: "Englisches Sprichwort"
+  },
+  {
+    quote: "Morgenstund hat Gold im Mund.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Ein ruhiges Herz ist des Lebens Frucht.",
+    source: "Aus der Bibel, Sprüche 14,30"
+  },
+  {
+    quote: "Nach Regen scheint Sonnenschein.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Klein aber fein.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Jeder Tag ist ein neuer Anfang.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
+    source: "Amerikanische Lebensweisheit"
+  },
+  {
+    quote: "Nimm dir Zeit, glücklich zu sein.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Übung macht den Meister.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
+    source: "Seneca"
+  },
+  {
+    quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Aufgeschoben ist nicht aufgehoben.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
+    source: "Türkisches Sprichwort"
+  },
+  {
+    quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
+    source: "Chinesische Weisheit"
+  },
+  {
+    quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
+    source: "Charlie Chaplin"
+  },
+  {
+    quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
+    source: "Albert Einstein"
+  },
+  {
+    quote: "Geduld bringt Rosen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Es gibt nichts Gutes, außer man tut es.",
+    source: "Erich Kästner"
+  },
+  {
+    quote: "In der Ruhe liegt die Kraft.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wo ein Wille ist, ist auch ein Weg.",
+    source: "Englisches Sprichwort"
+  },
+  {
+    quote: "Wer nicht wagt, der nicht gewinnt.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
+    source: "Chinesisches Sprichwort"
+  },
+  {
+    quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
+    source: "Gotthold Ephraim Lessing"
+  },
+  {
+    quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
+    source: "Jean de La Fontaine"
+  },
+  {
+    quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
+    source: "Sokrates"
+  },
+  {
+    quote: "Freude, nicht Trauer verlängert das Leben.",
+    source: "Jüdisches Sprichwort"
   }
+];
 
-  // Lade das Sprichwort beim Seitenaufbau
-  document.addEventListener('DOMContentLoaded', function() {
-    const wisdom = getWisdomOfTheDay();
-    document.getElementById('daily-quote').textContent = wisdom.quote;
-    document.getElementById('daily-source').textContent = wisdom.source;
-    
-    // Emoji basierend auf dem Ton des Sprichworts auswählen (vereinfachte Version)
-    let emoji = "☀️"; // Standard: Sonne
-    
-    if (wisdom.quote.toLowerCase().includes("ruhe") || 
-        wisdom.quote.toLowerCase().includes("geduld") || 
-        wisdom.quote.toLowerCase().includes("frieden")) {
-      emoji = "🕊️"; // Friedenstaube für beruhigende Sprichwörter
-    } else if (wisdom.quote.toLowerCase().includes("freude") || 
-               wisdom.quote.toLowerCase().includes("glück") || 
-               wisdom.quote.toLowerCase().includes("lächeln")) {
-      emoji = "😊"; // Lächeln für freudvolle Sprichwörter
-    } else if (wisdom.quote.toLowerCase().includes("weg") || 
-               wisdom.quote.toLowerCase().includes("schritt") || 
-               wisdom.quote.toLowerCase().includes("ziel")) {
-      emoji = "🌱"; // Sämling für Wachstums-/Fortschrittssprichwörter
-    }
-    
-    document.querySelector(".wisdom-icon").textContent = emoji;
-  });
-</script>  
-<!-- Füge diesen Code vor der Checkliste ein -->
+// Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
+function getWisdomOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
+  // aber für den gleichen Tag konstant bleibt
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash; // Zu 32bit Integer konvertieren
+  }
+  
+  // Positiven Index generieren
+  const seed = Math.abs(hash);
+  const index = seed % wisdomCollection.length;
+  
+  return wisdomCollection[index];
+}
 
-<div class="section">
-  <div class="section-title">Tägliche Literatur-Herausforderung</div>
-  <div class="brain-game">
-    <div class="game-progress">
-      <span id="quote-counter">Zitat 1 von 5</span>
-      <div class="progress-dots">
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-        <span class="dot" data-index="3"></span>
-        <span class="dot" data-index="4"></span>
-      </div>
-    </div>
-    
-    <div id="quote-carousel">
-      <div class="quote-container">
-        <div id="current-quote" class="quote-text"></div>
-        <div id="current-author" class="quote-author hidden"></div>
-      </div>
-      
-      <div class="quote-controls">
-        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
-        <div id="quote-feedback" class="quote-feedback hidden">
-          <div class="feedback-icon">🧠</div>
-          <div id="feedback-text" class="feedback-text"></div>
-        </div>
-      </div>
-      
-      <div class="navigation-controls">
-        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
-        <button id="next-button" class="nav-button">Nächstes Zitat</button>
-      </div>
-    </div>
-    
-    <div id="daily-success" class="quote-success hidden">
-      <div class="success-icon">🏆</div>
-      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
-    </div>
-  </div>
-</div>
+// Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
+const quotesCollection = [
+  {
+    quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
+    incompleteQuote: "Das also war des Pudels Kern! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
+    incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
+    incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
+    author: "Johann Wolfgang von Goethe, Faust II"
+  },
+  {
+    quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
+    incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
+    incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
+    incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
+    author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
+  },
+  {
+    quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
+    incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
+    incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
+    incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
+    incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
+    author: "Johann Wolfgang von Goethe, Erlkönig"
+  }
+];
 
-<style>
-  .brain-game {
-    background: white;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    max-width: 600px;
-    margin: 0 auto 2rem auto;
-    text-align: left;
-    border-left: 5px solid #ffb347; /* Orange für geistige Aktivität */
-  }
-  
-  .game-progress {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  #quote-counter {
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  .progress-dots {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #ddd;
-    cursor: pointer;
-  }
-  
-  .dot.active {
-    background-color: #ffb347;
-  }
-  
-  .dot.completed {
-    background-color: #28a745;
-  }
-  
-  .quote-container {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    position: relative;
-    min-height: 120px;
-  }
-  
-  .quote-text {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    font-style: italic;
-    color: #444;
-    margin-bottom: 1rem;
-  }
-  
-  .quote-text:before {
-    content: '"';
-    font-size: 1.5em;
-    color: #ddd;
-    position: absolute;
-    left: 0.5rem;
-    top: 0;
-  }
-  
-  .quote-text:after {
-    content: '"';
-    font-size: 1.5em;
-    color: #ddd;
-    position: absolute;
-    right: 0.8rem;
-    bottom: 0.5rem;
-  }
-  
-  .quote-author {
-    font-size: 1rem;
-    text-align: right;
-    font-weight: bold;
-    color: #555;
-    animation: fadeIn 1s;
-  }
-  
-  .quote-controls {
-    margin-bottom: 1.5rem;
-  }
-  
-  .reveal-button {
-    padding: 0.8rem 1.2rem;
-    background-color: #ffb347;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .reveal-button:hover {
-    background-color: #ff9f1c;
-  }
-  
-  .reveal-button:disabled {
-    background-color: #ccc;
-    cursor: default;
-  }
-  
-  .quote-feedback {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    animation: fadeIn 0.5s;
-    padding: 0.8rem;
-    background: #fff5e6;
-    border-radius: 6px;
-  }
-  
-  .feedback-icon {
-    font-size: 1.5rem;
-    margin-right: 0.8rem;
-  }
-  
-  .feedback-text {
-    font-size: 1rem;
-    color: #444;
-  }
-  
-  .navigation-controls {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .nav-button {
-    padding: 0.6rem 1rem;
-    background-color: #f0f0f0;
-    color: #444;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex: 1;
-  }
-  
-  .nav-button:hover:not(:disabled) {
-    background-color: #e0e0e0;
-  }
-  
-  .nav-button:disabled {
-    background-color: #f8f8f8;
-    color: #aaa;
-    cursor: default;
-  }
-  
-  .quote-success {
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    animation: fadeIn 0.5s;
-    padding: 1rem;
-    background: #e7f7e3;
-    border-radius: 6px;
-  }
-  
-  .success-icon {
-    font-size: 2rem;
-    margin-right: 1rem;
-  }
-  
-  .success-text {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #28a745;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-</style>
+// Verschiedene Button-Texte
+const buttonTexts = [
+  "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
+  "Weißt Du, wie es weitergeht? Hier klicken!",
+  "Vervollständige das Zitat!",
+  "Ich komm nicht drauf. Du?",
+  "Wie der Klassiker weiter?",
+  "Sag mir die vollständige Passage",
+  "Ich denke, ich kenne die Fortsetzung. Prüfen...",
+  "Diese Passage vervollständigen",
+  "Diesen Klassiker aufdecken"
+];
 
-<script>
-  // Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
-  const quotesCollection = [
-    {
-      quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
-      incompleteQuote: "Das also war des Pudels Kern! ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
-      incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
-      incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
-      author: "Johann Wolfgang von Goethe, Faust II"
-    },
-    {
-      quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
-      incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
-      incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
-      incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
-      author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
-    },
-    {
-      quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
-      incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
-      incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
-      incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
-      incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
-      author: "Johann Wolfgang von Goethe, Erlkönig"
-    },
-    {
-      quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. Was heute noch nicht ist, wird morgen sein.",
-      incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. Sie schleppen von Geschlecht sich zum Geschlechte und rücken sacht von Ort zu Ort.",
-      incompleteQuote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! Der Wahn ist kurz, die Reu ist lang.",
-      incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! ...",
-      author: "Friedrich Schiller, Das Lied von der Glocke"
-    },
-    {
-      quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. Ein Unglück fürchtet der Edle nicht, den Schmerz nicht, nur die Schmach.",
-      incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. ...",
-      author: "Friedrich Schiller, Die Braut von Messina"
-    },
-    {
-      quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. Was Hände bauten, können Hände stürzen.",
-      incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. ...",
-      author: "Friedrich Schiller, Wilhelm Tell"
-    },
-    {
-      quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. Den Göttern schenkt man nur die Liebe, die nimmer bereut.",
-      incompleteQuote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. ...",
-      author: "Friedrich Schiller, Der Ring des Polykrates"
-    },
-    {
-      quote: "Die Axt im Haus erspart den Zimmermann. Mit leichtem Mut und leichter Hand schwingt er das Beil im Hausgebrauch.",
-      incompleteQuote: "Die Axt im Haus erspart den Zimmermann. ...",
-      author: "Friedrich Schiller, Wilhelm Tell"
-    },
-    {
-      quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. Dem Schicksal ist sein Opfer unverloren.",
-      incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. ...",
-      author: "Friedrich Schiller, Die Piccolomini"
-    },
-    {
-      quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! Den schlechten Mann muss man verachten, der nie bedacht, was er vollbringt.",
-      incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! ...",
-      author: "Friedrich Schiller, Das Lied von der Glocke"
-    },
-    {
-      quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. Heute muss die Glocke werden! Frisch, Gesellen, seid zur Hand!",
-      incompleteQuote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. ...",
-      author: "Friedrich Schiller, Das Lied von der Glocke"
-    },
-    {
-      quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. Denn was ein Geistlicher verspricht, das ist den Hörern wohlbehäglich.",
-      incompleteQuote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "O Augenblick, verweile doch, du bist so schön! Es kann die Spur von meinen Erdentagen nicht in Äonen untergehen.",
-      incompleteQuote: "O Augenblick, verweile doch, du bist so schön! ...",
-      author: "Johann Wolfgang von Goethe, Faust I"
-    },
-    {
-      quote: "Freude, schöner Götterfunken, Tochter aus Elysium, wir betreten feuertrunken, Himmlische, dein Heiligtum.",
-      incompleteQuote: "Freude, schöner Götterfunken, Tochter aus Elysium, ...",
-      author: "Friedrich Schiller, An die Freude"
-    },
-    {
-      quote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! Brüder, über'm Sternenzelt muss ein lieber Vater wohnen.",
-      incompleteQuote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! ...",
-      author: "Friedrich Schiller, An die Freude"
-    },
-    {
-      quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ein sanfter Wind vom blauen Himmel weht, die Myrte still und hoch der Lorbeer steht?",
-      incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ...",
-      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-    },
-    {
-      quote: "Du musst herrschen und gewinnen, oder dienen und verlieren, leiden oder triumphieren, Amboss oder Hammer sein.",
-      incompleteQuote: "Du musst herrschen und gewinnen, oder dienen und verlieren, ...",
-      author: "Johann Wolfgang von Goethe, Der Groß-Cophta"
-    },
-    {
-      quote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, wenn wir einen trefflichen Mann, ein herrliches Buch kennen lernen.",
-      incompleteQuote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, ...",
-      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-    },
-    {
-      quote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, der kennt euch nicht, ihr himmlischen Mächte.",
-      incompleteQuote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, ...",
-      author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-    }
-  ];
+// Verschiedene Feedback-Texte
+const feedbackTexts = [
+  "Beeindruckend!",
+  "Großartig!",
+  "Wusstest Du es?",
+  "Sehr gut!",
+  "Klasse.",
+  "Ich hätte es nicht gewusst!",
+  "Sehr schön.",
+  "Gut!",
+  "War nicht einfach!"
+];
 
-  // Verschiedene Button-Texte
-  const buttonTexts = [
-    "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
-    "Weißt Du, wie es weitergeht? Hier klicken!",
-    "Vervollständige das Zitat!",
-    "Ich komm nicht drauf. Du?",
-    "Wie der Klassiker weiter?",
-    "Sag mir die vollständige Passage",
-    "Ich denke, ich kenne die Fortsetzung. Prüfen...",
-    "Diese Passage vervollständigen",
-    "Diesen Klassiker aufdecken"
-  ];
-
-  // Verschiedene Feedback-Texte
-  const feedbackTexts = [
-    "Beeindruckend!",
-    "Großartig!",
-    "Wusstest Du es?",
-    "Sehr gut!",
-    "Klasse.",
-    "Ich hätte es nicht gewusst!",
-    "Sehr schön.",
-    "Gut!",
-    "War nicht einfach!"
-  ];
-
-  // Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
-  function getQuotesOfTheDay() {
-    const today = new Date();
-    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    
-    // Einfacher Pseudozufall basierend auf dem Datum
-    let hash = 0;
-    for (let i = 0; i < dateString.length; i++) {
-      hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-      hash = hash & hash;
-    }
-    
-    // Datum als Seed für den Zufallsgenerator verwenden
-    const seed = Math.abs(hash);
-    
-    // Array mit allen Indizes erstellen
-    const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
-    
-    // Fisher-Yates Shuffle-Algorithmus mit deterministischem Seed
-    for (let i = allIndices.length - 1; i > 0; i--) {
-      const j = (seed * (i + 1)) % (i + 1) | 0;
-      [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
-    }
-    
-    // Die ersten 5 Zitate auswählen
-    return allIndices.slice(0, 5).map(index => quotesCollection[index]);
+// Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
+function getQuotesOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  // Einfacher Pseudozufall basierend auf dem Datum
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash;
   }
+  
+  // Datum als Seed für den Zufallsgenerator verwenden
+  const seed = Math.abs(hash);
+  
+  // Array mit allen Indizes erstellen
+  const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
+  
+  // Fisher-Yates Shuffle-Algorithmus mit deterministischem Seed
+  for (let i = allIndices.length - 1; i > 0; i--) {
+    const j = (seed * (i + 1)) % (i + 1) | 0;
+    [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+  }
+  
+  // Die ersten 5 Zitate auswählen
+  return allIndices.slice(0, 5).map(index => quotesCollection[index]);
+}
 
-  // Funktion zur Initialisierung des Gehirnjoggings
-  function initBrainTraining() {
-    const currentQuote = document.getElementById('current-quote');
-    const currentAuthor = document.getElementById('current-author');
-    const quoteCounter = document.getElementById('quote-counter');
-    const revealButton = document.getElementById('reveal-button');
-    const quoteFeedback = document.getElementById('quote-feedback');
-    const feedbackText = document.getElementById('feedback-text');
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
-    const dailySuccess = document.getElementById('daily-success');
-    const dots = document.querySelectorAll('.dot');
+// Funktion zur Initialisierung des Gehirnjoggings
+function initBrainTraining() {
+  const currentQuote = document.getElementById('current-quote');
+  const currentAuthor = document.getElementById('current-author');
+  const quoteCounter = document.getElementById('quote-counter');
+  const revealButton = document.getElementById('reveal-button');
+  const quoteFeedback = document.getElementById('quote-feedback');
+  const feedbackText = document.getElementById('feedback-text');
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+  const dailySuccess = document.getElementById('daily-success');
+  const dots = document.querySelectorAll('.dot');
+  
+  // Heutige Zitate laden
+  const todayQuotes = getQuotesOfTheDay();
+  let currentIndex = 0;
+  
+  // Speicherschlüssel für diesen Tag
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
+  
+  // Funktion zum Aktualisieren des aktuellen Zitats
+  function updateCurrentQuote() {
+    const quote = todayQuotes[currentIndex];
+    const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
     
-    // Heutige Zitate laden
-    const todayQuotes = getQuotesOfTheDay();
-    let currentIndex = 0;
+    // Text und Autor aktualisieren
+    currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
+    currentAuthor.textContent = quote.author;
+    currentAuthor.classList.toggle('hidden', !isCompleted);
     
-    // Speicherschlüssel für diesen Tag
-    const today = new Date();
-    const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
+    // Button-Status aktualisieren
+    revealButton.disabled = isCompleted;
+    revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
     
-    // Funktion zum Aktualisieren des aktuellen Zitats
-    function updateCurrentQuote() {
-      const quote = todayQuotes[currentIndex];
-      const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
-      
-      // Text und Autor aktualisieren
-      currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
-      currentAuthor.textContent = quote.author;
-      currentAuthor.classList.toggle('hidden', !isCompleted);
-      
-      // Button-Status aktualisieren
-      revealButton.disabled = isCompleted;
-      revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
-      
-      // Feedback ein-/ausblenden
-      quoteFeedback.classList.toggle('hidden', !isCompleted);
-      if (isCompleted) {
-        feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
-      }
-      
-      // Zähler aktualisieren
-      quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
-      
-      // Navigation aktualisieren
-      prevButton.disabled = currentIndex === 0;
-      nextButton.disabled = currentIndex === 4;
-      
-      // Aktiven Punkt markieren
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentIndex);
-        dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
-      });
-    }
-    
-    // Event-Listener für den Aufdecken-Button
-    revealButton.addEventListener('click', function() {
-      // Vollständiges Zitat und Autor anzeigen
-      currentQuote.textContent = todayQuotes[currentIndex].quote;
-      currentAuthor.classList.remove('hidden');
-      
-      // Feedback anzeigen
-      quoteFeedback.classList.remove('hidden');
+    // Feedback ein-/ausblenden
+    quoteFeedback.classList.toggle('hidden', !isCompleted);
+    if (isCompleted) {
       feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
-      
-      // Button deaktivieren
-      revealButton.disabled = true;
-      revealButton.textContent = 'Gelöst!';
+    }
+    
+    // Zähler aktualisieren
+    quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
+    
+    // Navigation aktualisieren
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === 4;
+    
+    // Aktiven Punkt markieren
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+      dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
+    });
+  }
+  
+  // Event-Listener für den Aufdecken-Button
+  revealButton.addEventListener('click', function() {
+    // Vollständiges Zitat und Autor anzeigen
+    currentQuote.textContent = todayQuotes[currentIndex].quote;
+    currentAuthor.classList.remove('hidden');
+    
+    // Feedback anzeigen
+    quoteFeedback.classList.remove('hidden');
+    feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+    
+    // Button deaktivieren
+    revealButton.disabled = true;
+    revealButton.textContent = 'Gelöst!';
+    
+    // In localStorage markieren
+    localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
+    
+    // Punkte aktualisieren
+    dots[currentIndex].classList.add('completed');
+    
+    // Prüfen, ob alle Zitate gelöst wurden
+    let allCompleted = true;
+    for (let i = 0; i < 5; i++) {
+      if (localStorage.getItem(storageKeyPrefix + i) !== 'true') {
+        allCompleted = false;
+        break;
+      }
+    }
+    
+    if (allCompleted) {
+      dailySuccess.classList.remove('hidden');
+    }
+  });
+  
+  // Event-Listener für Navigation
+  prevButton.addEventListener('click', function() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCurrentQuote();
+    }
+  });
+  
+  nextButton.addEventListener('click', function() {
+    if (currentIndex < 4) {
+      currentIndex++;
+      updateCurrentQuote();
+    }
+  });
+  
+  // Event-Listener für Punkte
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      currentIndex = index;
+      updateCurrentQuote();
+    });
+  });
+  
+  // Initial das erste Zitat laden
+  updateCurrentQuote();
+}
+
+// Lade das Sprichwort und initialisiere Gehirnjogging beim Seitenaufbau
+document.addEventListener('DOMContentLoaded', function() {
+  const wisdom = getWisdomOfTheDay();
+  document.getElementById('daily-quote').textContent = wisdom.quote;
+  document.getElementById('daily-source').textContent = wisdom.source;
+  
+  // Emoji basierend auf dem Ton des Sprichworts auswählen (vereinfachte Version)
+  let emoji = "☀️"; // Standard: Sonne
+  
+  if (wisdom.quote.toLowerCase().includes("ruhe") || 
+      wisdom.quote.toLowerCase().includes("geduld") || 
+      wisdom.quote.toLowerCase().includes("frieden")) {
+    emoji = "🕊️"; // Friedenstaube für beruhigende Sprichwörter
+  } else if (wisdom.quote.toLowerCase().includes("freude") || 
+             wisdom.quote.toLowerCase().includes("glück") || 
+             wisdom.quote.toLowerCase().includes("lächeln")) {
+    emoji = "😊"; // Lächeln für freudvolle Sprichwörter
+  } else if (wisdom.quote.toLowerCase().includes("weg") || 
+             wisdom.quote.toLowerCase().includes("schritt") || 
+             wisdom.quote.toLowerCase().includes("ziel")) {
+    emoji = "🌱"; // Sämling für Wachstums-/Fortschrittssprichwörter
+  }
+  
+  document.querySelector(".wisdom-icon").textContent = emoji;
+  
+  // Gehirnjogging initialisieren
+  initBrainTraining();
+});
+</script>  
+</body>
+</html>
