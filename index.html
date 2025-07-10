@@ -1426,6 +1426,101 @@ function sendTermin() {
     // Alle 30 Sekunden nach Updates suchen
     setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
 
+    // Google Kalender Abruf mit Fallback-Optionen
+    async function loadCalendarData() {
+      const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
+      
+      // Verschiedene CORS-Proxies ausprobieren
+      const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/'
+      ];
+      
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          console.log(`Versuche Proxy ${i + 1}: ${proxies[i]}`);
+          
+          const response = await fetch(proxies[i] + encodeURIComponent(icalUrl));
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          
+          const data = await response.text();
+          console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
+          
+          // Überprüfen, ob die Daten im erwarteten Format sind
+          if (!data.includes('BEGIN:VCALENDAR')) {
+            throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
+          }
+          
+          const comp = new ICAL.Component(ICAL.parse(data));
+          const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
+          console.log("Anzahl gefundener Events:", allEvents.length);
+
+          // Vereinfachte Datumsberechnung
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          
+          const in2Days = new Date(today);
+          in2Days.setDate(today.getDate() + 2);
+          in2Days.setHours(23, 59, 59, 999);
+          
+          console.log("Datumsbereich für Events:", today, "bis", in2Days);
+
+          const events = allEvents
+            .filter(e => {
+              try {
+                const startDate = e.startDate.toJSDate();
+                return startDate >= today && startDate <= in2Days;
+              } catch (err) {
+                console.error("Fehler beim Filtern eines Events:", err, e);
+                return false;
+              }
+            })
+            .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+          
+          console.log("Anzahl anstehender Events:", events.length);
+
+          const out = document.getElementById("ical");
+          if (events.length === 0) {
+            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
+          } else {
+            out.innerHTML = "";
+            events.forEach(e => {
+              try {
+                const d = e.startDate.toJSDate();
+                const isAllDay = e.startDate.isDate;
+                const box = document.createElement("div");
+                box.className = "termin-eintrag";
+                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
+                  weekday: 'long', day: '2-digit', month: '2-digit'
+                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
+                out.appendChild(box);
+              } catch (err) {
+                console.error("Fehler beim Anzeigen eines Events:", err, e);
+              }
+            });
+          }
+          
+          // Erfolgreich geladen, Schleife beenden
+          return;
+          
+        } catch (error) {
+          console.error(`Proxy ${i + 1} fehlgeschlagen:`, error);
+          
+          // Beim letzten Proxy eine Fehlermeldung anzeigen
+          if (i === proxies.length - 1) {
+            document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine. Bitte später erneut versuchen.</em>";
+          }
+        }
+      }
+    }
+    
+    // Kalender laden
+    loadCalendarData();
+
     // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
     fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
       'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
