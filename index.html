@@ -349,38 +349,6 @@
       }
     }
     
-    .board-title {
-      background: #fff475;
-      font-size: 1.2rem;
-      padding: 0.8rem 1.2rem;
-      border-radius: 1rem;
-      display: inline-block;
-      margin: 1rem auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      font-weight: bold;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .board-title::before {
-      content: "🌼";
-      position: absolute;
-      left: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1rem;
-    }
-    
-    .board-title::after {
-      content: "🦋";
-      position: absolute;
-      right: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1rem;
-    }
-
     .post-it-sticker {
       position: fixed;
       top: 20%;
@@ -813,56 +781,74 @@
       line-height: 1.5;
     }
 
-    /* Presseschau Styles */
+    /* VERBESSERTE PRESSESCHAU STYLES */
     .presseschau-section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
     .presseschau-section .section-title {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       color: #1a202c;
-      margin-bottom: 2rem;
-      padding: 1.2rem 2rem;
+      margin-bottom: 2.5rem;
+      padding: 1.5rem 2.5rem;
       background: linear-gradient(135deg, 
-        rgba(52, 152, 219, 0.2) 0%, 
-        rgba(41, 128, 185, 0.15) 100%);
+        rgba(52, 152, 219, 0.25) 0%, 
+        rgba(41, 128, 185, 0.18) 100%);
       backdrop-filter: blur(15px);
-      border-radius: 20px;
+      border-radius: 25px;
       display: inline-block;
       position: relative;
-      border: 1px solid rgba(255,255,255,0.2);
-      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.25);
+      text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
 
     .presseschau-section .section-title::before {
       content: "📰";
-      margin-right: 12px;
-      font-size: 1.3em;
+      margin-right: 15px;
+      font-size: 1.4em;
     }
 
     .news-container {
       display: flex;
       flex-direction: column;
-      gap: 2.5rem;
+      gap: 3rem;
+    }
+
+    .no-articles-message {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.15) 0%, 
+        rgba(255, 255, 255, 0.08) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #64748b;
+      font-size: 1.2rem;
+      font-style: italic;
     }
 
     /* Featured Article (größerer Artikel) */
     .news-article.featured {
       background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.25) 0%, 
-        rgba(255, 255, 255, 0.1) 100%);
-      backdrop-filter: blur(25px);
-      border-radius: 25px;
-      padding: 2.5rem;
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.15) 100%);
+      backdrop-filter: blur(30px);
+      border-radius: 30px;
+      padding: 3rem;
       box-shadow: 
-        0 25px 50px rgba(0,0,0,0.12),
-        0 12px 25px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
+        0 30px 60px rgba(0,0,0,0.15),
+        0 15px 30px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       overflow: hidden;
     }
@@ -873,12 +859,47 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
-      border-radius: 25px 25px 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+      border-radius: 30px 30px 0 0;
+    }
+
+    .news-article.featured::after {
+      content: "✨";
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 1.5rem;
+      opacity: 0.7;
     }
 
     .news-article.featured:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 
+        0 40px 80px rgba(0,0,0,0.2),
+        0 25px 50px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    /* Standard Articles */
+    .news-article {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25) 0%, 
+        rgba(255, 255, 255, 0.12) 100%);
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
+      padding: 2.5rem;
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.12),
+        0 12px 25px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      text-align: left;
+      position: relative;
+    }
+
+    .news-article:hover {
       transform: translateY(-8px);
       box-shadow: 
         0 35px 70px rgba(0,0,0,0.18),
@@ -886,96 +907,102 @@
         inset 0 1px 0 rgba(255,255,255,0.4);
     }
 
-    /* Standard Articles */
-    .news-article {
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(255, 255, 255, 0.08) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.06),
-        inset 0 1px 0 rgba(255,255,255,0.25);
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-      text-align: left;
-    }
-
-    .news-article:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.35);
-    }
-
     .news-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
     .news-source {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #e74c3c;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #28a745;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 0.4rem 1rem;
+      letter-spacing: 1.2px;
+      padding: 0.6rem 1.4rem;
       background: linear-gradient(135deg, 
-        rgba(231, 76, 60, 0.1) 0%, 
-        rgba(192, 57, 43, 0.05) 100%);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      border: 1px solid rgba(231, 76, 60, 0.2);
+        rgba(40, 167, 69, 0.15) 0%, 
+        rgba(32, 201, 151, 0.1) 100%);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(40, 167, 69, 0.25);
       display: inline-block;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+    }
+
+    .news-meta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .news-date {
       font-size: 0.9rem;
-      color: rgba(0,0,0,0.6);
+      color: rgba(0,0,0,0.65);
       font-weight: 600;
-      padding: 0.4rem 1rem;
+      padding: 0.6rem 1.4rem;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .news-reading-time {
+      font-size: 0.85rem;
+      color: rgba(0,0,0,0.5);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(10px);
       border-radius: 15px;
       border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .news-reading-time::before {
+      content: "⏱️";
+      font-size: 0.9em;
     }
 
     .news-title {
-      font-size: 1.8rem;
-      font-weight: 800;
+      font-size: 2rem;
+      font-weight: 900;
       color: #1a202c;
-      line-height: 1.3;
-      margin-bottom: 1.2rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
       font-family: Georgia, 'Times New Roman', serif;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
     .news-article.featured .news-title {
-      font-size: 2.2rem;
-      margin-bottom: 1.5rem;
+      font-size: 2.6rem;
+      margin-bottom: 2rem;
     }
 
     .news-subtitle {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: #4a5568;
       line-height: 1.5;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       font-style: italic;
-      border-left: 3px solid #3498db;
-      padding-left: 1rem;
+      border-left: 4px solid #28a745;
+      padding-left: 1.5rem;
+      background: rgba(40, 167, 69, 0.05);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-radius: 0 15px 15px 0;
     }
 
     .news-content {
-      font-size: 1.1rem;
-      line-height: 1.8;
+      font-size: 1.15rem;
+      line-height: 1.9;
       color: #2d3748;
       font-weight: 400;
       text-align: justify;
@@ -983,28 +1010,35 @@
     }
 
     .news-content p {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
-    .news-content p:first-letter {
-      font-size: 1.4em;
-      font-weight: 700;
-      color: #2c3e50;
+    .news-content p:first-of-type:first-letter {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #28a745;
       float: left;
-      line-height: 1;
-      padding-right: 4px;
-      margin-top: 2px;
+      line-height: 0.8;
+      padding-right: 8px;
+      margin-top: 8px;
+      margin-right: 2px;
+      font-family: Georgia, serif;
     }
 
     .news-byline {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #718096;
       font-weight: 600;
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(255,255,255,0.3);
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(255,255,255,0.4);
       text-align: right;
       font-style: italic;
+    }
+
+    .news-byline::before {
+      content: "✍️ ";
+      margin-right: 5px;
     }
 
     /* Responsive Design für Presseschau */
@@ -1015,24 +1049,30 @@
       }
       
       .news-article {
-        padding: 1.5rem;
-      }
-      
-      .news-article.featured {
         padding: 2rem;
       }
       
+      .news-article.featured {
+        padding: 2.5rem;
+      }
+      
       .news-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
       
       .news-article.featured .news-title {
-        font-size: 1.8rem;
+        font-size: 2rem;
       }
       
       .news-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .news-meta {
+        width: 100%;
+        justify-content: space-between;
       }
     }
 
@@ -1070,69 +1110,14 @@
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
   <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
   
-  <!-- Presseschau Section -->
+  <!-- DYNAMISCHE PRESSESCHAU SECTION MIT GOOD NEWS FILTER -->
   <div class="section presseschau-section">
     <div class="section-title">Presseschau</div>
-    <div class="news-container">
-      
-      <!-- Featured Article -->
-      <article class="news-article featured">
-        <div class="news-header">
-          <span class="news-source">Süddeutsche Zeitung</span>
-          <span class="news-date">07. August 2025</span>
-        </div>
-        <h2 class="news-title">Klimawandel: Bayern investiert 2 Milliarden in Hochwasserschutz</h2>
-        <h3 class="news-subtitle">Nach den verheerenden Überschwemmungen kündigt die Staatsregierung das größte Infrastrukturprogramm der Nachkriegszeit an</h3>
-        <div class="news-content">
-          <p>München - Die bayerische Staatsregierung hat heute ein beispielloses Investitionsprogramm von zwei Milliarden Euro für den Ausbau des Hochwasserschutzprogramms angekündigt. Nach den verheerenden Überschwemmungen im Frühjahr, die in weiten Teilen Süddeutschlands enorme Schäden verursachten, soll Bayern bis 2030 mit einem der modernsten Hochwasserschutzsysteme Europas ausgestattet werden.</p>
-          <p>Ministerpräsident Markus Söder betonte bei der Vorstellung des Programms in München: "Wir können nicht länger zuschauen, wie der Klimawandel unser Land bedroht. Diese Investition ist nicht nur notwendig, sondern eine Verpflichtung gegenüber kommenden Generationen." Das Programm sieht den Bau von 150 neuen Rückhaltebecken, die Renaturierung von über 200 Kilometern Flusslauf und die Installation modernster Frühwarnsysteme vor.</p>
-        </div>
-        <div class="news-byline">Von Marcus Müller und Elisabeth Weber</div>
-      </article>
-
-      <!-- Standard Article 1 -->
-      <article class="news-article">
-        <div class="news-header">
-          <span class="news-source">Frankfurter Allgemeine</span>
-          <span class="news-date">07. August 2025</span>
-        </div>
-        <h2 class="news-title">Deutsche Wirtschaft zeigt Aufwärtstrend</h2>
-        <div class="news-content">
-          <p>Frankfurt - Die deutsche Wirtschaft hat im zweiten Quartal 2025 überraschend stark zugelegt. Das Bruttoinlandsprodukt stieg um 0,8 Prozent gegenüber dem Vorquartal, wie das Statistische Bundesamt mitteilte. Besonders der Maschinenbau und die Automobilindustrie trugen zu diesem positiven Trend bei.</p>
-          <p>Volkswirte sehen darin ein ermutigendes Signal für die zweite Jahreshälfte, warnen jedoch vor vorschnellem Optimismus angesichts globaler Unsicherheiten.</p>
-        </div>
-        <div class="news-byline">Von Dr. Thomas Schmidt</div>
-      </article>
-
-      <!-- Standard Article 2 -->
-      <article class="news-article">
-        <div class="news-header">
-          <span class="news-source">Der Spiegel</span>
-          <span class="news-date">06. August 2025</span>
-        </div>
-        <h2 class="news-title">Durchbruch in der Alzheimer-Forschung</h2>
-        <h3 class="news-subtitle">Münchner Wissenschaftler entwickeln vielversprechende Therapie</h3>
-        <div class="news-content">
-          <p>München - Ein Forschungsteam der Ludwig-Maximilians-Universität München hat einen wichtigen Durchbruch in der Alzheimer-Forschung erzielt. Die neue Therapie, die auf innovativer Immuntherapie basiert, zeigte in klinischen Studien vielversprechende Ergebnisse bei der Verlangsamung des Krankheitsverlaufs.</p>
-          <p>"Wir sind optimistisch, dass diese Behandlung bereits in zwei Jahren für Patienten verfügbar sein könnte", erklärt Studienleiter Professor Dr. Maria Hoffmann.</p>
-        </div>
-        <div class="news-byline">Von Sarah Klein</div>
-      </article>
-
-      <!-- Standard Article 3 -->
-      <article class="news-article">
-        <div class="news-header">
-          <span class="news-source">Handelsblatt</span>
-          <span class="news-date">06. August 2025</span>
-        </div>
-        <h2 class="news-title">Energiewende: Deutschland erreicht 60% Ökostrom-Anteil</h2>
-        <div class="news-content">
-          <p>Düsseldorf - Deutschland hat einen wichtigen Meilenstein bei der Energiewende erreicht: Erstmals stammten in diesem Jahr bereits 60 Prozent des Stromverbrauchs aus erneuerbaren Energien. Besonders Windkraft und Solarenergie verzeichneten einen deutlichen Zuwachs.</p>
-          <p>Bundeswirtschaftsminister Robert Habeck sprach von einem "historischen Moment" und kündigte weitere Investitionen in die grüne Infrastruktur an.</p>
-        </div>
-        <div class="news-byline">Von Jennifer Fischer</div>
-      </article>
-
+    <div class="news-container" id="news-container">
+      <div class="no-articles-message">
+        <p>📰 Lade positive Nachrichten...</p>
+        <p>Automatische Feeds werden abgerufen!</p>
+      </div>
     </div>
   </div>
   
@@ -1147,16 +1132,101 @@
   </div>
 
   <script>
+    // GOOD NEWS FILTER - Positive Keywords für eine 89-jährige Dame
+    const positiveKeywords = [
+      // Tiere 🐾
+      'hund', 'hunde', 'katze', 'katzen', 'tier', 'tiere', 'zoo', 'tierpark', 'welpe', 'welpen', 
+      'kätzchen', 'tierrettung', 'tierschutz', 'wildtier', 'vogel', 'vögel', 'pferd', 'pferde',
+      'elefant', 'panda', 'delfin', 'therapietier', 'haustier', 'rettung', 'geboren', 'nachwuchs',
+      
+      // Religion & Spiritualität ⛪
+      'papst', 'franziskus', 'kirche', 'kirchen', 'segen', 'segnung', 'pilger', 'pilgerreise',
+      'weihnachten', 'ostern', 'pfingsten', 'erntedank', 'gottesdienst', 'gebet', 'frieden',
+      'nächstenliebe', 'hoffnung', 'glaube', 'gemeinde', 'pfarrer', 'pastor', 'kloster',
+      
+      // Königshäuser & Adel 👑
+      'könig', 'königin', 'prinz', 'prinzessin', 'kaiser', 'royal', 'majestät', 'hoheit',
+      'schloss', 'palace', 'windsor', 'buckingham', 'neuschwanstein', 'bavaria', 'bayern',
+      'hochzeit', 'krönung', 'jubiläum', 'thronfolge', 'adel', 'herzog', 'herzogin',
+      
+      // Positive Emotionen & Events ✨
+      'freude', 'glück', 'erfolg', 'triumph', 'sieg', 'gewonnen', 'auszeichnung', 'ehrung',
+      'geburtstag', 'anniversary', 'feier', 'fest', 'festival', 'konzert', 'musik',
+      'hochzeit', 'verlobung', 'baby', 'geburt', 'enkel', 'großeltern', 'familie',
+      
+      // Hilfe & Soziales 💕
+      'hilfe', 'helfen', 'unterstützung', 'spende', 'charity', 'ehrenamt', 'freiwillig',
+      'nachbarschaftshilfe', 'zusammenhalt', 'gemeinschaft', 'solidarität', 'teilen',
+      
+      // Kultur & Kunst 🎨
+      'museum', 'ausstellung', 'kunst', 'künstler', 'maler', 'skulptur', 'galerie',
+      'theater', 'oper', 'klassik', 'symphonie', 'chor', 'orchester', 'dirigent',
+      
+      // Natur & Schönheit 🌸
+      'garten', 'blume', 'blumen', 'rose', 'rosen', 'tulpe', 'frühling', 'sommer',
+      'park', 'botanisch', 'natur', 'landschaft', 'berg', 'berge', 'see', 'wald',
+      
+      // Gesundheit & Fortschritt 🏥
+      'heilung', 'geheilt', 'medizin', 'durchbruch', 'therapie', 'genesung', 'gesund',
+      'forschung', 'entdeckung', 'erfindung', 'innovation', 'fortschritt',
+      
+      // Lokales & Traditionen 🏡
+      'tradition', 'brauchtum', 'handwerk', 'heimat', 'dorf', 'gemeinde', 'regional',
+      'oktoberfest', 'wiesn', 'tracht', 'dirndl', 'lederhose', 'alpen', 'bavaria'
+    ];
+    
+    const negativeKeywords = [
+      // Gewalt & Konflikte
+      'krieg', 'tod', 'sterben', 'unfall', 'crash', 'kollision', 'explosion', 'brand',
+      'gewalt', 'angriff', 'überfall', 'mord', 'terror', 'attentat', 'schießerei',
+      'verletzt', 'verwundet', 'opfer', 'täter', 'verhaftet', 'gefängnis',
+      
+      // Krankheit & Leid
+      'krebs', 'tumor', 'krankheit', 'pandemie', 'virus', 'covid', 'seuche',
+      'depression', 'selbstmord', 'suizid', 'drogen', 'alkohol', 'sucht',
+      
+      // Wirtschaftliche Probleme
+      'krise', 'inflation', 'teuer', 'pleite', 'konkurs', 'arbeitslos', 'armut',
+      'schulden', 'betrug', 'skandal', 'korruption',
+      
+      // Katastrophen
+      'katastrophe', 'unwetter', 'sturm', 'hochwasser', 'überschwemmung', 'erdbeben',
+      'tsunami', 'dürre', 'waldbrand', 'evakuierung', 'notstand'
+    ];
+
+    // Funktion zur Überprüfung ob ein Artikel positiv ist
+    function isPositiveArticle(title, content, subtitle) {
+      const fullText = (title + ' ' + content + ' ' + (subtitle || '')).toLowerCase();
+      
+      // Zähle positive und negative Keywords
+      let positiveScore = 0;
+      let negativeScore = 0;
+      
+      positiveKeywords.forEach(keyword => {
+        if (fullText.includes(keyword)) {
+          positiveScore++;
+        }
+      });
+      
+      negativeKeywords.forEach(keyword => {
+        if (fullText.includes(keyword)) {
+          negativeScore += 2; // Negative Keywords bekommen mehr Gewicht
+        }
+      });
+      
+      // Artikel ist positiv wenn positive Score höher ist UND keine negativen Keywords
+      return positiveScore > 0 && negativeScore === 0;
+    }
+
     // Datum und Uhrzeit Anzeige
     const now = new Date();
-    // Formatiere Datum mit besserem Layout und ohne zu viele Punkte
     const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
     const day = now.getDate();
     const month = now.toLocaleDateString('de-DE', { month: 'long' });
     const year = now.getFullYear();
     document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
     
-    // Aktualisiere die Uhrzeit jede Minute ohne Sekunden, mit "Uhr" am Ende
+    // Aktualisiere die Uhrzeit jede Minute ohne Sekunden
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -1164,8 +1234,8 @@
       document.getElementById("time").innerHTML = `${hours}:${minutes}`;
     }
     
-    updateClock(); // Initial ausführen
-    setInterval(updateClock, 60000); // Alle 60 Sekunden aktualisieren (1 Minute)
+    updateClock();
+    setInterval(updateClock, 60000);
 
     // Wetter-Anzeige mit CORS-Proxy
     const weatherCodes = {
@@ -1185,27 +1255,24 @@
         const w = data.current_weather;
         const emoji = weatherCodes[w.weathercode] || "🌡️";
         
-        // Freundlichere Wetterkommentare basierend auf den aktuellen Bedingungen
         let weatherComment = "";
         let temperatureComment = "";
         let windComment = "";
         
-        // Wetterkommentar basierend auf dem Wetterzustand
-        if (w.weathercode <= 2) { // Sonnig oder überwiegend klar
+        if (w.weathercode <= 2) {
           weatherComment = "– Heute wird ein sehr schöner Tag!";
-        } else if (w.weathercode === 3) { // Bedeckt
+        } else if (w.weathercode === 3) {
           weatherComment = "– Heute ist der Himmel bedeckt.";
-        } else if (w.weathercode >= 45 && w.weathercode <= 48) { // Nebel
+        } else if (w.weathercode >= 45 && w.weathercode <= 48) {
           weatherComment = "– Heute ist es neblig, bitte vorsichtig fahren!";
-        } else if (w.weathercode >= 51 && w.weathercode <= 67) { // Nieselregen bis Regen
+        } else if (w.weathercode >= 51 && w.weathercode <= 67) {
           weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
-        } else if (w.weathercode >= 80 && w.weathercode <= 86) { // Regenschauer
+        } else if (w.weathercode >= 80 && w.weathercode <= 86) {
           weatherComment = "– Heute kommt immer wieder Regen runter, besser drinnen bleiben.";
-        } else if (w.weathercode >= 95) { // Gewitter
+        } else if (w.weathercode >= 95) {
           weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
         }
         
-        // Temperaturkommentar
         if (w.temperature < 5) {
           temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
         } else if (w.temperature < 12) {
@@ -1218,7 +1285,6 @@
           temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
         }
         
-        // Windkommentar
         if (w.windspeed < 5) {
           windComment = "Kaum Wind heute.";
         } else if (w.windspeed < 15) {
@@ -1229,7 +1295,6 @@
           windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
         }
         
-        // Zusammengesetzte Meldung mit korrigierter Anzeige (ohne Dopplung)
         document.getElementById("weather").innerHTML = `
           <div style="font-size: 1.1rem; margin-bottom: 10px">
             <strong>${emoji}</strong> ${weatherComment}
@@ -1261,16 +1326,16 @@
       });
     }
 
-    // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
-    function isNewMessage(messageDate) {
-      const now = new Date();
-      const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
-      return messageDate > fiveHoursAgo;
+    // Funktion zur Schätzung der Lesezeit
+    function estimateReadingTime(text) {
+      const wordsPerMinute = 200;
+      const wordCount = text.trim().split(/\s+/).length;
+      const minutes = Math.ceil(wordCount / wordsPerMinute);
+      return minutes + (minutes === 1 ? ' Min.' : ' Min.');
     }
 
     // Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
     function fetchSheetData() {
-      // Timestamp für Cache-Busting hinzufügen
       const timestamp = new Date().getTime();
       const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
       
@@ -1290,34 +1355,38 @@
           
           const reminders = document.getElementById("reminders");
           const note = document.getElementById("note");
+          const newsContainer = document.getElementById("news-container");
+          
           reminders.innerHTML = "";
           note.innerHTML = "";
+          newsContainer.innerHTML = "";
 
           const today = new Date().toISOString().split("T")[0];
+          const articles = [];
 
           rows.forEach((row, index) => {
-            // Sicherere Destrukturierung mit Prüfung
             if (!row || row.length < 2) {
               console.log('Ungültige Zeile übersprungen:', row);
               return;
             }
             
-            // Erweiterte Struktur: Typ, Inhalt, Absender, Datum, Zeitstempel
             const type = row[0];
             const content = row[1];
-            const sender = row[2] || ""; // Absender
-            const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
-            const timestamp = row[4]; // Zeitstempel aus Google Sheets
+            const sender = row[2] || "";
+            const rawDate = row[3] || row[2];
+            const timestamp = row[4];
+            const extra1 = row[5] || "";
+            const extra2 = row[6] || "";
+            const extra3 = row[7] || "";
             
             if (!type || !content) return;
 
-            // Sicherere Datumskonvertierung
             let isToday = false;
             try {
               isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
             } catch (e) {
               console.error('Fehler beim Parsen des Datums:', rawDate, e);
-              isToday = !rawDate; // Fallback: ohne Datum ist es für "heute"
+              isToday = !rawDate;
             }
 
             if (type === "Erinnerung" && isToday) {
@@ -1328,11 +1397,9 @@
             }
 
             if (type === "Nachricht") {
-              // Neues HTML-Structure für Nachrichten mit Absender
               const messageWrapper = document.createElement("div");
               messageWrapper.className = "message-with-avatar";
               
-              // Profilbild für den Absender
               if (sender) {
                 const avatarDiv = document.createElement("div");
                 avatarDiv.className = "message-avatar";
@@ -1341,7 +1408,6 @@
                 avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
                 avatarImg.alt = sender;
                 
-                // Fehlerbehandlung für Bilder
                 avatarImg.onerror = function() {
                   console.log(`Bild konnte nicht geladen werden: ${this.src}`);
                   this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
@@ -1350,24 +1416,19 @@
                 avatarDiv.appendChild(avatarImg);
                 messageWrapper.appendChild(avatarDiv);
                 
-                // Absendername und Nachrichteninhalt
                 const contentDiv = document.createElement("div");
                 contentDiv.className = "message-content";
                 
-                // Hier den sender-div nur erstellen, wenn es keine "Neu von" Anzeige gibt
-                let senderDiv;
                 let messageDate;
                 
-                // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
                 if (timestamp && timestamp.trim()) {
                   try {
                     messageDate = new Date(timestamp.trim());
-                    if (isNaN(messageDate.getTime())) { // Ungültiges Zeitstempel-Format
-                      // Fallback zum regulären Datum
+                    if (isNaN(messageDate.getTime())) {
                       if (rawDate && rawDate.trim()) {
                         messageDate = new Date(rawDate.trim());
-                        if (isNaN(messageDate.getTime())) { // Auch ungültiges Datum
-                          messageDate = new Date(); // Aktuelles Datum als letzter Fallback
+                        if (isNaN(messageDate.getTime())) {
+                          messageDate = new Date();
                         }
                       } else {
                         messageDate = new Date();
@@ -1375,7 +1436,6 @@
                     }
                   } catch (e) {
                     console.error("Fehler beim Parsen des Zeitstempels:", timestamp, e);
-                    // Versuche es mit dem regulären Datum
                     if (rawDate && rawDate.trim()) {
                       try {
                         messageDate = new Date(rawDate.trim());
@@ -1387,7 +1447,6 @@
                     }
                   }
                 } else if (rawDate && rawDate.trim()) {
-                  // Kein Zeitstempel, versuche es mit dem regulären Datum
                   try {
                     messageDate = new Date(rawDate.trim());
                     if (isNaN(messageDate.getTime())) {
@@ -1400,23 +1459,19 @@
                   messageDate = new Date();
                 }
 
-                // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
                 const isReallyNew = (function() {
                   const now = new Date();
                   const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
                   return messageDate > fiveHoursAgo;
                 })();
                 
-                // Neue Nachricht markieren (weniger als 5 Stunden alt)
                 if (isReallyNew) {
-                  // Erstelle den "Neu von [Sender]" Indikator, der den Absendernamen bereits enthält
                   const newIndicator = document.createElement("div");
                   newIndicator.className = "new-indicator";
                   newIndicator.textContent = `Neu von ${sender}`;
                   contentDiv.appendChild(newIndicator);
                 } else {
-                  // Nur einen normalen Absendernamen anzeigen, wenn die Nachricht nicht neu ist
-                  senderDiv = document.createElement("div");
+                  const senderDiv = document.createElement("div");
                   senderDiv.className = "message-sender";
                   senderDiv.textContent = sender;
                   contentDiv.appendChild(senderDiv);
@@ -1424,14 +1479,11 @@
                 
                 const p = document.createElement("p");
                 p.className = "message";
-
-                // Links in Nachricht verlinken
                 p.innerHTML = linkifyText(content);
                 
                 const ts = document.createElement("div");
                 ts.className = "message-timestamp";
 
-                // Formatiertes Datum und Uhrzeit anzeigen
                 const today = new Date();
                 const yesterday = new Date(today);
                 yesterday.setDate(yesterday.getDate() - 1);
@@ -1449,18 +1501,16 @@
                   });
                 }
 
-                // Zeitstempel setzen
                 ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
                   hour: '2-digit', 
                   minute: '2-digit',
-                  hour12: false // Diese Option erzwingt das 24-Stunden-Format
+                  hour12: false
                 })}`;
                 
                 p.appendChild(ts);
                 contentDiv.appendChild(p);
                 messageWrapper.appendChild(contentDiv);
               } else {
-                // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
                 const p = document.createElement("p");
                 p.className = "message";
                 p.innerHTML = linkifyText(content);
@@ -1479,9 +1529,77 @@
               
               note.appendChild(messageWrapper);
             }
+
+            // PRESSEARTIKEL VERARBEITUNG MIT GOOD NEWS FILTER
+            if (type === "Presseartikel") {
+              const article = {
+                title: sender,
+                content: content,
+                subtitle: extra1 || "",
+                source: extra2 || "Redaktion",
+                date: rawDate || new Date().toISOString().split("T")[0],
+                featured: extra3.toLowerCase() === "ja"
+              };
+              
+              // NUR positive Artikel hinzufügen
+              if (isPositiveArticle(article.title, article.content, article.subtitle)) {
+                articles.push(article);
+                console.log(`✅ Positiver Artikel akzeptiert: ${article.title}`);
+              } else {
+                console.log(`❌ Artikel gefiltert (nicht positiv genug): ${article.title}`);
+              }
+            }
           });
           
-          // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+          // Presseartikel anzeigen (nur die positiven)
+          if (articles.length > 0) {
+            articles.sort((a, b) => {
+              if (a.featured && !b.featured) return -1;
+              if (!a.featured && b.featured) return 1;
+              return 0;
+            });
+
+            articles.forEach(article => {
+              const articleElement = document.createElement("article");
+              articleElement.className = article.featured ? "news-article featured" : "news-article";
+              
+              const readingTime = estimateReadingTime(article.content);
+              const formattedDate = new Date(article.date).toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+              });
+
+              articleElement.innerHTML = `
+                <div class="news-header">
+                  <span class="news-source">${article.source}</span>
+                  <div class="news-meta">
+                    <span class="news-date">${formattedDate}</span>
+                    <span class="news-reading-time">${readingTime}</span>
+                  </div>
+                </div>
+                <h2 class="news-title">${article.title}</h2>
+                ${article.subtitle ? `<h3 class="news-subtitle">${article.subtitle}</h3>` : ''}
+                <div class="news-content">
+                  ${article.content.split('\n').map(paragraph => 
+                    paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
+                  ).join('')}
+                </div>
+                <div class="news-byline">Redaktionsteam</div>
+              `;
+              
+              newsContainer.appendChild(articleElement);
+            });
+          } else {
+            newsContainer.innerHTML = `
+              <div class="no-articles-message">
+                <p>📰 Keine positiven Nachrichten gefunden.</p>
+                <p>Die Feeds werden alle 2 Stunden aktualisiert.</p>
+                <p>Du kannst auch manuell Artikel über Google Sheets hinzufügen!</p>
+              </div>
+            `;
+          }
+          
           if (reminders.children.length === 0) {
             reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
           }
@@ -1495,14 +1613,212 @@
     // Initial ausführen
     fetchSheetData();
 
+    // AUTOMATISCHE RSS-FEED INTEGRATION FÜR POSITIVE NACHRICHTEN
+    const goodNewsFeeds = [
+      // Deutsche positive Nachrichtenquellen
+      'https://www.perspective-daily.de/feed.xml',
+      'https://enorm-magazin.de/feed',
+      'https://www.br.de/nachrichten/kultur/index.rss',
+      'https://www.ndr.de/nachrichten/info/podcast4142.xml',
+      
+      // Internationale Good News Quellen  
+      'https://www.goodnewsnetwork.org/feed/',
+      'https://www.positive.news/feed/',
+      'https://rss.cnn.com/rss/edition.rss',
+      
+      // Spezielle Kategorien
+      'https://www.sueddeutsche.de/leben/rss',
+      'https://www.zeit.de/wissen/index'
+    ];
+
+    async function fetchGoodNewsFromRSS() {
+      console.log('🔄 Lade automatische positive Nachrichten...');
+      const allArticles = [];
+      
+      for (const feedUrl of goodNewsFeeds) {
+        try {
+          console.log(`Lade Feed: ${feedUrl}`);
+          
+          // Verwende CORS-Proxy um RSS-Feeds zu laden
+          const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(feedUrl);
+          const response = await fetch(proxyUrl);
+          
+          if (!response.ok) {
+            console.log(`❌ Feed nicht erreichbar: ${feedUrl}`);
+            continue;
+          }
+          
+          const xmlText = await response.text();
+          
+          // Parse XML (einfacher RSS Parser)
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+          
+          const items = xmlDoc.querySelectorAll('item');
+          console.log(`📄 Gefunden: ${items.length} Artikel in ${feedUrl}`);
+          
+          items.forEach((item, index) => {
+            // Nur die neuesten 3 Artikel pro Feed
+            if (index >= 3) return;
+            
+            const title = item.querySelector('title')?.textContent || '';
+            const description = item.querySelector('description')?.textContent || '';
+            const link = item.querySelector('link')?.textContent || '';
+            const pubDate = item.querySelector('pubDate')?.textContent || '';
+            
+            // Bereinige HTML-Tags aus der Beschreibung
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = description;
+            const cleanDescription = tempDiv.textContent || tempDiv.innerText || '';
+            
+            // Source aus der URL extrahieren
+            let source = 'Nachrichten';
+            try {
+              const urlObj = new URL(feedUrl);
+              if (urlObj.hostname.includes('goodnewsnetwork')) source = 'Good News Network';
+              else if (urlObj.hostname.includes('perspective-daily')) source = 'Perspective Daily';
+              else if (urlObj.hostname.includes('enorm-magazin')) source = 'Enorm Magazin';
+              else if (urlObj.hostname.includes('br.de')) source = 'BR24';
+              else if (urlObj.hostname.includes('ndr.de')) source = 'NDR';
+              else if (urlObj.hostname.includes('sueddeutsche')) source = 'Süddeutsche Zeitung';
+              else if (urlObj.hostname.includes('zeit.de')) source = 'Die Zeit';
+              else if (urlObj.hostname.includes('positive.news')) source = 'Positive News';
+              else if (urlObj.hostname.includes('cnn.com')) source = 'CNN';
+            } catch (e) {
+              // Fallback
+            }
+            
+            const article = {
+              title: title.trim(),
+              content: cleanDescription.trim().substring(0, 500) + '...', // Kürzen für Übersicht
+              subtitle: '',
+              source: source,
+              date: pubDate ? new Date(pubDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+              featured: false, // RSS Artikel sind nicht featured
+              link: link,
+              isRSS: true
+            };
+            
+            // Nur positive Artikel hinzufügen
+            if (isPositiveArticle(article.title, article.content, '')) {
+              allArticles.push(article);
+              console.log(`✅ Positiver RSS-Artikel: ${article.title.substring(0, 50)}...`);
+            } else {
+              console.log(`❌ RSS-Artikel gefiltert: ${article.title.substring(0, 50)}...`);
+            }
+          });
+          
+        } catch (error) {
+          console.error(`❌ Fehler beim Laden von ${feedUrl}:`, error);
+        }
+        
+        // Kleine Pause zwischen Feeds
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
+      console.log(`📊 Insgesamt ${allArticles.length} positive RSS-Artikel gefunden`);
+      return allArticles;
+    }
+
+    async function loadAllNews() {
+      const newsContainer = document.getElementById("news-container");
+      
+      // Loading-Nachricht anzeigen
+      newsContainer.innerHTML = `
+        <div class="no-articles-message">
+          <p>📰 Lade aktuelle positive Nachrichten...</p>
+          <p>Bitte einen Moment Geduld!</p>
+        </div>
+      `;
+      
+      try {
+        // Lade RSS-Feeds
+        const rssArticles = await fetchGoodNewsFromRSS();
+        
+        // Kombiniere mit manuellen Google Sheets Artikeln (falls vorhanden)
+        // Hier könnte man auch die bestehende fetchSheetData Logik integrieren
+        
+        let allArticles = [...rssArticles];
+        
+        if (allArticles.length > 0) {
+          // Sortiere: Neueste zuerst
+          allArticles.sort((a, b) => new Date(b.date) - new Date(a.date));
+          
+          // Begrenze auf maximal 8 Artikel für bessere Performance
+          allArticles = allArticles.slice(0, 8);
+          
+          newsContainer.innerHTML = '';
+          
+          allArticles.forEach(article => {
+            const articleElement = document.createElement("article");
+            articleElement.className = article.featured ? "news-article featured" : "news-article";
+            
+            const readingTime = estimateReadingTime(article.content);
+            const formattedDate = new Date(article.date).toLocaleDateString('de-DE', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric'
+            });
+
+            // Für RSS-Artikel: Link zum Originalartikel hinzufügen
+            const linkHTML = article.isRSS && article.link ? 
+              `<p><a href="${article.link}" target="_blank" style="color: #28a745; font-weight: 600;">📖 Vollständigen Artikel lesen</a></p>` : '';
+
+            articleElement.innerHTML = `
+              <div class="news-header">
+                <span class="news-source">${article.source}</span>
+                <div class="news-meta">
+                  <span class="news-date">${formattedDate}</span>
+                  <span class="news-reading-time">${readingTime}</span>
+                </div>
+              </div>
+              <h2 class="news-title">${article.title}</h2>
+              ${article.subtitle ? `<h3 class="news-subtitle">${article.subtitle}</h3>` : ''}
+              <div class="news-content">
+                ${article.content.split('\n').map(paragraph => 
+                  paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
+                ).join('')}
+                ${linkHTML}
+              </div>
+              <div class="news-byline">${article.isRSS ? 'Automatisch geladen' : 'Redaktionsteam'}</div>
+            `;
+            
+            newsContainer.appendChild(articleElement);
+          });
+          
+        } else {
+          newsContainer.innerHTML = `
+            <div class="no-articles-message">
+              <p>📰 Keine positiven Nachrichten gefunden.</p>
+              <p>Die Feeds werden alle 2 Stunden aktualisiert.</p>
+              <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.7;">
+                Hinweis: Es werden nur Artikel mit positiven Inhalten angezeigt 
+                (Tiere, Papst, Königshäuser, Erfolge, Hilfe, Kultur, etc.)
+              </p>
+            </div>
+          `;
+        }
+        
+      } catch (error) {
+        console.error('❌ Fehler beim Laden der Nachrichten:', error);
+        newsContainer.innerHTML = `
+          <div class="no-articles-message">
+            <p>❌ Fehler beim Laden der Nachrichten.</p>
+            <p>Versuche es in ein paar Minuten erneut.</p>
+          </div>
+        `;
+      }
+    }
+
+    // Initial ausführen
+
     // Alle 30 Sekunden nach Updates suchen
-    setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
+    setInterval(fetchSheetData, 30000);
 
     // Google Kalender Abruf mit Fallback-Optionen
     async function loadCalendarData() {
       const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
       
-      // Verschiedene CORS-Proxies ausprobieren
       const proxies = [
         'https://api.allorigins.win/raw?url=',
         'https://corsproxy.io/?',
@@ -1522,7 +1838,6 @@
           const data = await response.text();
           console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
           
-          // Überprüfen, ob die Daten im erwarteten Format sind
           if (!data.includes('BEGIN:VCALENDAR')) {
             throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
           }
@@ -1531,7 +1846,6 @@
           const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
           console.log("Anzahl gefundener Events:", allEvents.length);
 
-          // Vereinfachte Datumsberechnung
           const today = new Date();
           today.setHours(0, 0, 0, 0);
           
@@ -1576,13 +1890,11 @@
             });
           }
           
-          // Erfolgreich geladen, Schleife beenden
           return;
           
         } catch (error) {
           console.error(`Proxy ${i + 1} fehlgeschlagen:`, error);
           
-          // Beim letzten Proxy eine Fehlermeldung anzeigen
           if (i === proxies.length - 1) {
             document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine. Bitte später erneut versuchen.</em>";
           }
@@ -1590,412 +1902,341 @@
       }
     }
     
-    // Kalender laden
     loadCalendarData();
 
-    // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
-    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
-      'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
-    ))
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
-        }
-        return res.text();
-      })
-      .then(data => {
-        console.log("Kalenderdaten empfangen, erste 100 zeichen:", data.substring(0, 100));
+    // Batteriestand-Überwachung für Fully Kiosk Browser
+    function checkBatteryFullyKiosk() {
+      if (typeof fully !== 'undefined') {
+        const batteryLevel = fully.getBatteryLevel();
+        const isPluggedIn = fully.isPlugged();
         
-        try {
-          // Überprüfen, ob die Daten im erwarteten Format sind
-          if (!data.includes('BEGIN:VCALENDAR')) {
-            throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
-          }
-          
-          const comp = new ICAL.Component(ICAL.parse(data));
-          const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
-          console.log("Anzahl gefundener Events:", allEvents.length);
-
-          // Vereinfachte Datumsberechnung
-          const today = new Date();
-          today.setHours(0, 0, 0, 0); // Auf Mitternacht setzen
-          
-          const in2Days = new Date(today);
-          in2Days.setDate(today.getDate() + 2);
-          in2Days.setHours(23, 59, 59, 999); // Auf Ende des Tages setzen
-          
-          console.log("Datumsbereich für Events:", today, "bis", in2Days);
-
-          const events = allEvents
-            .filter(e => {
-              try {
-                const startDate = e.startDate.toJSDate();
-                return startDate >= today && startDate <= in2Days;
-              } catch (err) {
-                console.error("Fehler beim Filtern eines Events:", err, e);
-                return false;
-              }
-            })
-            .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
-          
-          console.log("Anzahl anstehender Events:", events.length);
-
-          const out = document.getElementById("ical");
-          if (events.length === 0) {
-            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
-          } else {
-            out.innerHTML = "";
-            events.forEach(e => {
-              try {
-                const d = e.startDate.toJSDate();
-                const isAllDay = e.startDate.isDate;
-                const box = document.createElement("div");
-                box.className = "termin-eintrag";
-                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
-                  weekday: 'long', day: '2-digit', month: '2-digit'
-                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
-                out.appendChild(box);
-              } catch (err) {
-                console.error("Fehler beim Anzeigen eines Events:", err, e);
-              }
-            });
-          }
-        } catch (parseError) {
-          console.error("Fehler beim Parsen der Kalenderdaten:", parseError);
-          throw parseError; // Weiterleiten an den catch-Block
-        }
-      })
-      .catch(error => {
-        console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
-        document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
-      });
-  </script>
-
-<!-- Gedanke für heute Section -->
-<div class="section">
-  <div class="section-title">Gedanke für heute</div>
-  <div class="daily-wisdom">
-    <div class="wisdom-icon">☀️</div>
-    <div class="wisdom-content">
-      <div id="daily-quote" class="wisdom-text"></div>
-      <div id="daily-source" class="wisdom-source"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Tägliche Literatur-Herausforderung Section -->
-<div class="section">
-  <div class="section-title">Tägliche Literatur-Herausforderung</div>
-  <div class="brain-game">
-    <div class="game-progress">
-      <span id="quote-counter">Zitat 1 von 5</span>
-      <div class="progress-dots">
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-        <span class="dot" data-index="3"></span>
-        <span class="dot" data-index="4"></span>
-      </div>
-    </div>
-    
-    <div id="quote-carousel">
-      <div class="quote-container">
-        <div id="current-quote" class="quote-text"></div>
-        <div id="current-author" class="quote-author hidden"></div>
-      </div>
-      
-      <div class="quote-controls">
-        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
-        <div id="quote-feedback" class="quote-feedback hidden">
-          <div class="feedback-icon">🧠</div>
-          <div id="feedback-text" class="feedback-text"></div>
-        </div>
-      </div>
-      
-      <div class="navigation-controls">
-        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
-        <button id="next-button" class="nav-button">Nächstes Zitat</button>
-      </div>
-    </div>
-    
-    <div id="daily-success" class="quote-success hidden">
-      <div class="success-icon">🏆</div>
-      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
-    </div>
-  </div>
-</div>
-
-<script>
-// Batteriestand-Überwachung für Fully Kiosk Browser
-function checkBatteryFullyKiosk() {
-  // Prüfe, ob die Fully Kiosk API verfügbar ist
-  if (typeof fully !== 'undefined') {
-    // Fully Kiosk API verwenden
-    const batteryLevel = fully.getBatteryLevel();
-    const isPluggedIn = fully.isPlugged();
-    
-    const warningElement = document.getElementById('battery-warning');
-    const percentageElement = document.getElementById('battery-percentage');
-    
-    percentageElement.textContent = batteryLevel;
-    
-    // Warnung anzeigen bei <= 30% und nicht am Laden
-    if (batteryLevel <= 30 && !isPluggedIn) {
-      warningElement.classList.remove('hidden');
-      
-      // Bei kritischem Batteriestand visuelles und akustisches Signal
-      if (batteryLevel <= 15) {
-        // Blinkeffekt aktivieren
-        warningElement.style.animation = "pulse-warning 0.5s infinite";
-        
-        // Ton abspielen (falls erlaubt)
-        if (typeof fully.playSound !== 'undefined') {
-          fully.playSound("https://www.soundjay.com/buttons/beep-07.wav");
-        }
-      }
-    } else {
-      warningElement.classList.add('hidden');
-    }
-  } else {
-    // Fallback für normale Browser
-    if (navigator.getBattery) {
-      navigator.getBattery().then(function(battery) {
         const warningElement = document.getElementById('battery-warning');
         const percentageElement = document.getElementById('battery-percentage');
-        const level = Math.floor(battery.level * 100);
         
-        percentageElement.textContent = level;
+        percentageElement.textContent = batteryLevel;
         
-        // Warnung anzeigen bei <= 30% und nicht am Laden
-        if (level <= 30 && !battery.charging) {
+        if (batteryLevel <= 30 && !isPluggedIn) {
           warningElement.classList.remove('hidden');
+          
+          if (batteryLevel <= 15) {
+            warningElement.style.animation = "pulse-warning 0.5s infinite";
+            
+            if (typeof fully.playSound !== 'undefined') {
+              fully.playSound("https://www.soundjay.com/buttons/beep-07.wav");
+            }
+          }
         } else {
           warningElement.classList.add('hidden');
         }
-      });
+      } else {
+        if (navigator.getBattery) {
+          navigator.getBattery().then(function(battery) {
+            const warningElement = document.getElementById('battery-warning');
+            const percentageElement = document.getElementById('battery-percentage');
+            const level = Math.floor(battery.level * 100);
+            
+            percentageElement.textContent = level;
+            
+            if (level <= 30 && !battery.charging) {
+              warningElement.classList.remove('hidden');
+            } else {
+              warningElement.classList.add('hidden');
+            }
+          });
+        }
+      }
+      
+      setTimeout(checkBatteryFullyKiosk, 10 * 1000);
     }
-  }
-  
-  // Alle 10 Sekunden prüfen statt alle 5 Minuten
-  setTimeout(checkBatteryFullyKiosk, 10 * 1000);
-}
 
-// Starte Batterie-Überwachung
-document.addEventListener('DOMContentLoaded', function() {
-  // Warte kurz, damit Fully Kiosk API geladen werden kann
-  setTimeout(checkBatteryFullyKiosk, 1000);
-});
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(checkBatteryFullyKiosk, 1000);
+    });
 
-// Sammlung von beruhigenden Sprichwörtern und Weisheiten
-const wisdomCollection = [
-  {
-    quote: "Ruhe ist die erste Bürgerpflicht.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
-    source: "Chinesische Weisheit"
-  },
-  {
-    quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
-    source: "Afrikanisches Sprichwort"
-  },
-  {
-    quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
-    source: "Persisches Sprichwort"
-  },
-  {
-    quote: "Wenn du in Eile bist, gehe langsam.",
-    source: "Japanisches Sprichwort"
-  },
-  {
-    quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
-    source: "Abgewandeltes deutsches Sprichwort"
-  },
-  {
-    quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
-    source: "Volksmund"
-  },
-  {
-    quote: "Es ist noch kein Meister vom Himmel gefallen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
-    source: "Aus der Bibel, Matthäus 6,34"
-  },
-  {
-    quote: "Mit Geduld und Zeit kommt man weit.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Auch dunkle Wolken haben einen silbernen Rand.",
-    source: "Englisches Sprichwort"
-  },
-  {
-    quote: "Morgenstund hat Gold im Mund.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Ein ruhiges Herz ist des Lebens Frucht.",
-    source: "Aus der Bibel, Sprüche 14,30"
-  },
-  {
-    quote: "Nach Regen scheint Sonnenschein.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Klein aber fein.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Jeder Tag ist ein neuer Anfang.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
-    source: "Amerikanische Lebensweisheit"
-  },
-  {
-    quote: "Nimm dir Zeit, glücklich zu sein.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Übung macht den Meister.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
-    source: "Seneca"
-  },
-  {
-    quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Aufgeschoben ist nicht aufgehoben.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
-    source: "Türkisches Sprichwort"
-  },
-  {
-    quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
-    source: "Chinesische Weisheit"
-  },
-  {
-    quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
-    source: "Charlie Chaplin"
-  },
-  {
-    quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
-    source: "Albert Einstein"
-  },
-  {
-    quote: "Geduld bringt Rosen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Es gibt nichts Gutes, außer man tut es.",
-    source: "Erich Kästner"
-  },
-  {
-    quote: "In der Ruhe liegt die Kraft.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wo ein Wille ist, ist auch ein Weg.",
-    source: "Englisches Sprichwort"
-  },
-  {
-    quote: "Wer nicht wagt, der nicht gewinnt.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
-    source: "Chinesisches Sprichwort"
-  },
-  {
-    quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
-    source: "Gotthold Ephraim Lessing"
-  },
-  {
-    quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
-    source: "Jean de La Fontaine"
-  },
-  {
-    quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
-    source: "Sokrates"
-  },
-  {
-    quote: "Freude, nicht Trauer verlängert das Leben.",
-    source: "Jüdisches Sprichwort"
-  }
-];
+    // Sammlung von beruhigenden Sprichwörtern und Weisheiten
+    const wisdomCollection = [
+      {
+        quote: "Ruhe ist die erste Bürgerpflicht.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
+        source: "Chinesische Weisheit"
+      },
+      {
+        quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
+        source: "Afrikanisches Sprichwort"
+      },
+      {
+        quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
+        source: "Persisches Sprichwort"
+      },
+      {
+        quote: "Wenn du in Eile bist, gehe langsam.",
+        source: "Japanisches Sprichwort"
+      },
+      {
+        quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
+        source: "Abgewandeltes deutsches Sprichwort"
+      },
+      {
+        quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
+        source: "Volksmund"
+      },
+      {
+        quote: "Es ist noch kein Meister vom Himmel gefallen.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
+        source: "Aus der Bibel, Matthäus 6,34"
+      },
+      {
+        quote: "Mit Geduld und Zeit kommt man weit.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Auch dunkle Wolken haben einen silbernen Rand.",
+        source: "Englisches Sprichwort"
+      },
+      {
+        quote: "Morgenstund hat Gold im Mund.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Ein ruhiges Herz ist des Lebens Frucht.",
+        source: "Aus der Bibel, Sprüche 14,30"
+      },
+      {
+        quote: "Nach Regen scheint Sonnenschein.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Klein aber fein.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Jeder Tag ist ein neuer Anfang.",
+        source: "Lebensweisheit"
+      },
+      {
+        quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
+        source: "Amerikanische Lebensweisheit"
+      },
+      {
+        quote: "Nimm dir Zeit, glücklich zu sein.",
+        source: "Lebensweisheit"
+      },
+      {
+        quote: "Übung macht den Meister.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
+        source: "Seneca"
+      },
+      {
+        quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Aufgeschoben ist nicht aufgehoben.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
+        source: "Türkisches Sprichwort"
+      },
+      {
+        quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
+        source: "Chinesische Weisheit"
+      },
+      {
+        quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
+        source: "Charlie Chaplin"
+      },
+      {
+        quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
+        source: "Lebensweisheit"
+      },
+      {
+        quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
+        source: "Albert Einstein"
+      },
+      {
+        quote: "Geduld bringt Rosen.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
+        source: "Lebensweisheit"
+      },
+      {
+        quote: "Es gibt nichts Gutes, außer man tut es.",
+        source: "Erich Kästner"
+      },
+      {
+        quote: "In der Ruhe liegt die Kraft.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Wo ein Wille ist, ist auch ein Weg.",
+        source: "Englisches Sprichwort"
+      },
+      {
+        quote: "Wer nicht wagt, der nicht gewinnt.",
+        source: "Deutsches Sprichwort"
+      },
+      {
+        quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
+        source: "Chinesisches Sprichwort"
+      },
+      {
+        quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
+        source: "Gotthold Ephraim Lessing"
+      },
+      {
+        quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
+        source: "Jean de La Fontaine"
+      },
+      {
+        quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
+        source: "Sokrates"
+      },
+      {
+        quote: "Freude, nicht Trauer verlängert das Leben.",
+        source: "Jüdisches Sprichwort"
+      }
+    ];
 
-// Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
-function getWisdomOfTheDay() {
-  const today = new Date();
-  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  
-  // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
-  // aber für den gleichen Tag konstant bleibt
-  let hash = 0;
-  for (let i = 0; i < dateString.length; i++) {
-    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-    hash = hash & hash; // Zu 32bit Integer konvertieren
-  }
-  
-  // Positiven Index generieren
-  const seed = Math.abs(hash);
-  const index = seed % wisdomCollection.length;
-  
-  return wisdomCollection[index];
-}
+    // Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
+    function getWisdomOfTheDay() {
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      
+      let hash = 0;
+      for (let i = 0; i < dateString.length; i++) {
+        hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+        hash = hash & hash;
+      }
+      
+      const seed = Math.abs(hash);
+      const index = seed % wisdomCollection.length;
+      
+      return wisdomCollection[index];
+    }
 
-// Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
-const quotesCollection = [
-  {
-    quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
-    incompleteQuote: "Das also war des Pudels Kern! ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
-    incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
-    incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
-    author: "Johann Wolfgang von Goethe, Faust II"
-  },
-  {
-    quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
-    incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
-    incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln sp
+    // Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
+    const quotesCollection = [
+      {
+        quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
+        incompleteQuote: "Das also war des Pudels Kern! ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
+        incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
+        incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
+        author: "Johann Wolfgang von Goethe, Faust II"
+      },
+      {
+        quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
+        incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
+        incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
+        incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
+        author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
+      },
+      {
+        quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
+        incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
+        incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
+        incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
+        author: "Johann Wolfgang von Goethe, Faust I"
+      },
+      {
+        quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
+        incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
+        author: "Johann Wolfgang von Goethe, Erlkönig"
+      }
+    ];
+
+    // Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
+    function getQuotesOfTheDay() {
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      
+      let hash = 0;
+      for (let i = 0; i < dateString.length; i++) {
+        hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+        hash = hash & hash;
+      }
+      
+      const seed = Math.abs(hash);
+      const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
+      
+      for (let i = allIndices.length - 1; i > 0; i--) {
+        const j = (seed * (i + 1)) % (i + 1) | 0;
+        [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+      }
+      
+      return allIndices.slice(0, 5).map(index => quotesCollection[index]);
+    }
+
+    // Funktion zur Initialisierung des Gehirnjoggings
+    function initBrainTraining() {
+      const currentQuote = document.getElementById('current-quote');
+      const currentAuthor = document.getElementById('current-author');
+      const quoteCounter = document.getElementById('quote-counter');
+      const revealButton = document.getElementById('reveal-button');
+      const quoteFeedback = document.getElementById('quote-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+      const prevButton = document.getElementById('prev-button');
+      const nextButton = document.getElementById('next-button');
+      const dailySuccess = document.getElementById('daily-success');
+      const dots = document.querySelectorAll('.dot');
+      
+      const todayQuotes = getQuotesOfTheDay();
+      let currentIndex = 0;
+      
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+      const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
+      
+      function updateCurrentQuote() {
+        const quote = todayQuotes[currentIndex];
+        const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
+        
+        currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
+        currentAuthor.textContent = quote.author;
+        currentAuthor.classList.toggle('hidden', !isCompleted);
+        
+        revealButton.disabled = isCompleted;
+        reveal
