@@ -491,296 +491,7 @@
     .hidden {
       display: none;
     }
-
-    .daily-wisdom {
-      background: linear-gradient(135deg, 
-        rgba(138, 43, 226, 0.15) 0%, 
-        rgba(30, 144, 255, 0.1) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      border-left: 4px solid #8a2be2;
-      padding: 2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      display: flex;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    
-    .daily-wisdom:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-    }
-    
-    .wisdom-icon {
-      font-size: 2.5rem;
-      margin-right: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    .wisdom-content {
-      flex: 1;
-    }
-    
-    .wisdom-text {
-      font-size: 1.3rem;
-      line-height: 1.6;
-      margin-bottom: 0.8rem;
-      font-style: italic;
-      color: #2c3e50;
-      font-weight: 500;
-    }
-    
-    .wisdom-source {
-      font-size: 1rem;
-      text-align: right;
-      color: rgba(0,0,0,0.7);
-      font-weight: 600;
-    }
-
-    .brain-game {
-      background: linear-gradient(135deg, 
-        rgba(255, 183, 77, 0.15) 0%, 
-        rgba(255, 152, 0, 0.1) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      text-align: left;
-      border-left: 4px solid #ffb347;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    
-    .brain-game:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-    }
-    
-    .game-progress {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    
-    #quote-counter {
-      font-size: 1rem;
-      color: rgba(0,0,0,0.7);
-      font-weight: 600;
-    }
-    
-    .progress-dots {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .dot.active {
-      background: linear-gradient(135deg, #ffb347 0%, #ff9f1c 100%);
-      transform: scale(1.2);
-      box-shadow: 0 4px 8px rgba(255, 179, 71, 0.4);
-    }
-    
-    .dot.completed {
-      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
-    }
-    
-    .quote-container {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(15px);
-      border-radius: 18px;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      min-height: 140px;
-      box-shadow: 
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.8);
-      border: 1px solid rgba(255,255,255,0.5);
-    }
-    
-    .quote-text {
-      font-size: 1.3rem;
-      line-height: 1.6;
-      font-style: italic;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-    
-    .quote-text:before {
-      content: '"';
-      font-size: 1.8em;
-      color: rgba(0,0,0,0.2);
-      position: absolute;
-      left: 0.8rem;
-      top: 0.5rem;
-      font-family: Georgia, serif;
-    }
-    
-    .quote-text:after {
-      content: '"';
-      font-size: 1.8em;
-      color: rgba(0,0,0,0.2);
-      position: absolute;
-      right: 1rem;
-      bottom: 1rem;
-      font-family: Georgia, serif;
-    }
-    
-    .quote-author {
-      font-size: 1.1rem;
-      text-align: right;
-      font-weight: 600;
-      color: #34495e;
-      animation: fadeIn 1s;
-    }
-    
-    .quote-controls {
-      margin-bottom: 2rem;
-    }
-    
-    .reveal-button {
-      padding: 1.2rem 2rem;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-      color: #2c3e50;
-      border: none;
-      border-radius: 15px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(255, 154, 158, 0.3);
-      letter-spacing: 0.3px;
-    }
-    
-    .reveal-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(255, 154, 158, 0.4);
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    
-    .reveal-button:disabled {
-      background: rgba(200,200,200,0.5);
-      cursor: default;
-      transform: none;
-      box-shadow: none;
-    }
-    
-    .quote-feedback {
-      margin-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      animation: fadeIn 0.5s;
-      padding: 1.2rem;
-      background: rgba(255, 245, 230, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-    
-    .feedback-icon {
-      font-size: 1.8rem;
-      margin-right: 1rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
-    
-    .feedback-text {
-      font-size: 1.1rem;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-    
-    .navigation-controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .nav-button {
-      padding: 1rem 1.5rem;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      color: #2c3e50;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1;
-      font-weight: 600;
-    }
-    
-    .nav-button:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    
-    .nav-button:disabled {
-      background: rgba(200,200,200,0.3);
-      color: rgba(0,0,0,0.4);
-      cursor: default;
-      transform: none;
-    }
-    
-    .quote-success {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
-      animation: fadeIn 0.5s;
-      padding: 1.5rem;
-      background: linear-gradient(135deg, 
-        rgba(40, 167, 69, 0.1) 0%, 
-        rgba(32, 201, 151, 0.05) 100%);
-      backdrop-filter: blur(15px);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 10px 20px rgba(40, 167, 69, 0.1);
-    }
-    
-    .success-icon {
-      font-size: 2.5rem;
-      margin-right: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    .success-text {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #2c3e50;
-      line-height: 1.5;
-    }
-
+    
     /* VERBESSERTE PRESSESCHAU STYLES */
     .presseschau-section {
       max-width: 900px;
@@ -835,7 +546,6 @@
       font-style: italic;
     }
 
-    /* Featured Article (größerer Artikel) */
     .news-article.featured {
       background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.3) 0%, 
@@ -869,216 +579,7 @@
       position: absolute;
       top: 20px;
       right: 25px;
-      font-size: 1.5rem;
-      opacity: 0.7;
-    }
-
-    .news-article.featured:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 
-        0 40px 80px rgba(0,0,0,0.2),
-        0 25px 50px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.5);
-    }
-
-    /* Standard Articles */
-    .news-article {
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.25) 0%, 
-        rgba(255, 255, 255, 0.12) 100%);
-      backdrop-filter: blur(25px);
-      border-radius: 25px;
-      padding: 2.5rem;
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.12),
-        0 12px 25px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      text-align: left;
-      position: relative;
-    }
-
-    .news-article:hover {
-      transform: translateY(-8px);
-      box-shadow: 
-        0 35px 70px rgba(0,0,0,0.18),
-        0 20px 40px rgba(0,0,0,0.12),
-        inset 0 1px 0 rgba(255,255,255,0.4);
-    }
-
-    .news-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .news-source {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #28a745;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      padding: 0.6rem 1.4rem;
-      background: linear-gradient(135deg, 
-        rgba(40, 167, 69, 0.15) 0%, 
-        rgba(32, 201, 151, 0.1) 100%);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid rgba(40, 167, 69, 0.25);
-      display: inline-block;
-      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
-    }
-
-    .news-meta {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .news-date {
-      font-size: 0.9rem;
-      color: rgba(0,0,0,0.65);
-      font-weight: 600;
-      padding: 0.6rem 1.4rem;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    .news-reading-time {
-      font-size: 0.85rem;
-      color: rgba(0,0,0,0.5);
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      background: rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,0.2);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .news-reading-time::before {
-      content: "⏱️";
-      font-size: 0.9em;
-    }
-
-    .news-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #1a202c;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.08);
-    }
-
-    .news-article.featured .news-title {
-      font-size: 2.6rem;
-      margin-bottom: 2rem;
-    }
-
-    .news-subtitle {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #4a5568;
-      line-height: 1.5;
-      margin-bottom: 2rem;
-      font-style: italic;
-      border-left: 4px solid #28a745;
-      padding-left: 1.5rem;
-      background: rgba(40, 167, 69, 0.05);
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      border-radius: 0 15px 15px 0;
-    }
-
-    .news-content {
-      font-size: 1.15rem;
-      line-height: 1.9;
-      color: #2d3748;
-      font-weight: 400;
-      text-align: justify;
-      hyphens: auto;
-    }
-
-    .news-content p {
-      margin-bottom: 1.5rem;
-    }
-
-    .news-content p:first-of-type:first-letter {
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: #28a745;
-      float: left;
-      line-height: 0.8;
-      padding-right: 8px;
-      margin-top: 8px;
-      margin-right: 2px;
-      font-family: Georgia, serif;
-    }
-
-    .news-byline {
-      font-size: 1rem;
-      color: #718096;
-      font-weight: 600;
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 2px solid rgba(255,255,255,0.4);
-      text-align: right;
-      font-style: italic;
-    }
-
-    .news-byline::before {
-      content: "✍️ ";
-      margin-right: 5px;
-    }
-
-    /* Responsive Design für Presseschau */
-    @media (max-width: 768px) {
-      .presseschau-section {
-        max-width: 100%;
-        padding: 0 1rem;
-      }
-      
-      .news-article {
-        padding: 2rem;
-      }
-      
-      .news-article.featured {
-        padding: 2.5rem;
-      }
-      
-      .news-title {
-        font-size: 1.6rem;
-      }
-      
-      .news-article.featured .news-title {
-        font-size: 2rem;
-      }
-      
-      .news-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
-      
-      .news-meta {
-        width: 100%;
-        justify-content: space-between;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+_SUB-RESPONSE TRUNCATED_
     }
   </style>
 </head>
@@ -1129,7 +630,7 @@
   </div>
 
 <script>
-  // GOOD NEWS FILTER - Positive Keywords für eine 89-jährige Dame
+  // GOOD NEWS FILTER - Positive Keywords
   const positiveKeywords = [
     'hund', 'hunde', 'katze', 'katzen', 'tier', 'tiere', 'zoo', 'tierpark', 'welpe', 'welpen',
     'kätzchen', 'tierrettung', 'tierschutz', 'wildtier', 'vogel', 'vögel', 'pferd', 'pferde',
@@ -1202,7 +703,6 @@
     51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
   };
 
-  // KORREKTUR: Die Wetterlogik wurde in eine eigene Funktion ausgelagert, um sie periodisch aufrufen zu können.
   function fetchWeatherData() {
     const weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true';
     const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(weatherUrl);
@@ -1267,7 +767,6 @@
     { url: 'https://rss.cnn.com/rss/edition.rss', source: 'CNN' }
   ];
 
-  // KORREKTUR: Diese Funktion wurde überarbeitet, um einen zuverlässigen Proxy und die korrekte Text-Verarbeitung zu nutzen.
   async function fetchRSSNews() {
     const allAutoArticles = [];
     const proxy = 'https://corsproxy.io/?';
@@ -1290,7 +789,7 @@
           continue;
         }
 
-        const items = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 3); // Max 3 Artikel
+        const items = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 3);
         items.forEach(item => {
           const title = item.querySelector('title')?.textContent || '';
           const description = item.querySelector('description')?.textContent || '';
@@ -1307,7 +806,6 @@
               featured: false,
               isAutoGenerated: true
             });
-            console.log(`✅ Automatischer Artikel akzeptiert: ${title.substring(0, 50)}...`);
           }
         });
       } catch (error) {
@@ -1318,7 +816,6 @@
   }
 
   // --- HAUPTFUNKTION: DATENABRUF (NACHRICHTEN, ERINNERUNGEN, PRESSE) ---
-  // KORREKTUR: Diese Funktion nutzt nun einen zuverlässigeren Proxy für die Google-Tabelle.
   function fetchSheetData() {
     const timestamp = new Date().getTime();
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv&t=' + timestamp;
@@ -1343,18 +840,35 @@
           if (!type || !content) return;
 
           // Erinnerungen verarbeiten
-          let isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
-          if (type === "Erinnerung" && isToday) {
-            const li = document.createElement("li");
-            li.textContent = "🔔 " + content;
-            remindersContainer.appendChild(li);
+          try {
+              let isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+              if (type === "Erinnerung" && isToday) {
+                const li = document.createElement("li");
+                li.textContent = "🔔 " + content;
+                remindersContainer.appendChild(li);
+              }
+          } catch (e) {
+            console.error("Fehler bei Erinnerungs-Datum:", rawDate, e);
           }
 
           // Nachrichten der Söhne verarbeiten
           if (type === "Nachricht") {
             const messageWrapper = document.createElement("div");
             messageWrapper.className = "message-with-avatar";
-            let messageDate = new Date(timestamp.trim() || rawDate.trim() || Date.now());
+			
+			// KORREKTUR: Robustere Datumsverarbeitung, um "Invalid time value" Fehler zu vermeiden.
+			let messageDate;
+			const dateString = timestamp.trim() || rawDate.trim();
+			if (dateString) {
+				messageDate = new Date(dateString);
+				if (isNaN(messageDate.getTime())) {
+					console.warn('Ungültiges Datum in Tabelle gefunden:', dateString, '- wird durch aktuelles Datum ersetzt.');
+					messageDate = new Date(); // Fallback auf aktuelles Datum
+				}
+			} else {
+				messageDate = new Date(); // Fallback, wenn keine Zeitangabe vorhanden ist
+			}
+
             messageWrapper.innerHTML = `
               <div class="message-avatar">
                 <img src="${senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`}" alt="${sender}"
@@ -1447,7 +961,7 @@
         const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
         
         const today = new Date(); today.setHours(0, 0, 0, 0);
-        const in2Days = new Date(today); in2Days.setDate(today.getDate() + 2); in2Days.setHours(23, 59, 59, 999);
+        const in2Days = new Date(today); in2Days.setDate(today.getDate() + 3); in2Days.setHours(23, 59, 59, 999);
         
         const events = allEvents
           .filter(e => {
@@ -1507,11 +1021,10 @@
     fetchWeatherData();
     loadCalendarData();
     checkBattery();
-    // initBrainTraining(); // Diese Funktion war im Originalcode, aber nicht vollständig definiert. Ich lasse sie auskommentiert.
 
     // Periodische Aktualisierungen
     setInterval(fetchSheetData, 60000); // Nachrichten etc. alle 60 Sekunden
-    setInterval(fetchWeatherData, 900000); // Wetter alle 15 Minuten (900000 ms)
+    setInterval(fetchWeatherData, 900000); // Wetter alle 15 Minuten
     setInterval(loadCalendarData, 3600000); // Kalender jede Stunde
     setInterval(checkBattery, 60000); // Batterie alle 60 Sekunden
   });
