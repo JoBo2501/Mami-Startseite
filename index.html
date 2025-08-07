@@ -727,9 +727,30 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    .debug-info {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      max-width: 300px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
+<!-- Debug Info -->
+<div id="debug-info" class="debug-info hidden">
+  <div>Debug-Informationen:</div>
+  <div id="debug-content"></div>
+</div>
+
 <!-- Batteriestand-Warnung -->
 <div id="battery-warning" class="battery-warning hidden">
   <div class="battery-icon">🔋</div>
@@ -779,11 +800,52 @@
   </div>
 
   <script>
-    console.log("🚀 Messageboard wird geladen...");
+    // DEBUG-System
+    let debugMessages = [];
+    let debugEnabled = false; // Setzen Sie auf true um Debug zu aktivieren
+
+    function debugLog(message) {
+      const timestamp = new Date().toLocaleTimeString('de-DE');
+      const logMessage = `${timestamp}: ${message}`;
+      debugMessages.push(logMessage);
+      console.log("🔧 " + logMessage);
+      
+      if (debugEnabled) {
+        updateDebugDisplay();
+      }
+    }
+
+    function updateDebugDisplay() {
+      const debugInfo = document.getElementById("debug-info");
+      const debugContent = document.getElementById("debug-content");
+      if (debugInfo && debugContent) {
+        debugInfo.classList.remove('hidden');
+        debugContent.innerHTML = debugMessages.slice(-10).join('<br>');
+      }
+    }
+
+    // Aktivieren Sie Debug mit Doppelklick auf die Uhr
+    document.addEventListener('DOMContentLoaded', function() {
+      const timeDisplay = document.getElementById('time');
+      if (timeDisplay) {
+        timeDisplay.addEventListener('dblclick', function() {
+          debugEnabled = !debugEnabled;
+          const debugInfo = document.getElementById("debug-info");
+          if (debugInfo) {
+            if (debugEnabled) {
+              updateDebugDisplay();
+            } else {
+              debugInfo.classList.add('hidden');
+            }
+          }
+        });
+      }
+    });
+
+    debugLog("🚀 Messageboard wird geladen...");
 
     // ARTIKEL FILTER-SYSTEM
     const positiveKeywords = [
-      // Tiere, Politik, Diplomatie, Kultur, Religion, Royals, etc.
       'hund', 'katze', 'tier', 'zoo', 'papst', 'kirche', 'könig', 'königin', 'royal', 'diplomatie', 
       'abkommen', 'vertrag', 'kooperation', 'eu', 'europa', 'gipfel', 'staatsbesuch', 'kultur', 
       'museum', 'kunst', 'forschung', 'innovation', 'durchbruch', 'erfolg', 'hilfe', 'spende',
@@ -800,15 +862,13 @@
     function isArticleAcceptable(title, content, subtitle) {
       const fullText = (title + ' ' + content + ' ' + (subtitle || '')).toLowerCase();
       
-      // Sofortiger Ausschluss bei sensiblen Begriffen
       const hasSensitiveContent = sensitiveKeywords.some(keyword => fullText.includes(keyword));
       if (hasSensitiveContent) {
         return false;
       }
       
-      // Artikel ist OK wenn er positive Keywords hat ODER neutral ist (keine negativen Begriffe)
       const hasPositive = positiveKeywords.some(keyword => fullText.includes(keyword));
-      return hasPositive || true; // Erstmal alle erlauben die nicht sensitiv sind
+      return hasPositive || true;
     }
 
     // Profilbilder der Söhne
@@ -831,39 +891,61 @@
       return minutes + (minutes === 1 ? ' Min.' : ' Min.');
     }
 
-    // DATUM UND UHRZEIT
+    // DATUM UND UHRZEIT - Verbesserte Version
     function initDateTime() {
-      console.log("⏰ Initialisiere Datum und Uhrzeit...");
+      debugLog("⏰ Initialisiere Datum und Uhrzeit...");
       
-      const now = new Date();
-      const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
-      const day = now.getDate();
-      const month = now.toLocaleDateString('de-DE', { month: 'long' });
-      const year = now.getFullYear();
-      
-      const dateElement = document.getElementById("date");
-      if (dateElement) {
-        dateElement.innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
-        console.log("✅ Datum gesetzt");
+      try {
+        const now = new Date();
+        const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
+        const day = now.getDate();
+        const month = now.toLocaleDateString('de-DE', { month: 'long' });
+        const year = now.getFullYear();
+        
+        const dateElement = document.getElementById("date");
+        if (dateElement) {
+          dateElement.innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
+          debugLog("✅ Datum gesetzt: " + weekday + ", " + day + ". " + month + " " + year);
+        } else {
+          debugLog("❌ Datum-Element nicht gefunden");
+        }
+        
+        updateClock();
+      } catch (error) {
+        debugLog("❌ Fehler bei Datum/Uhrzeit: " + error.message);
+        
+        // Fallback
+        const dateElement = document.getElementById("date");
+        const timeElement = document.getElementById("time");
+        if (dateElement) dateElement.innerHTML = "Datum nicht verfügbar";
+        if (timeElement) timeElement.innerHTML = "Zeit nicht verfügbar";
       }
-      
-      updateClock();
     }
     
     function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      
-      const timeElement = document.getElementById("time");
-      if (timeElement) {
-        timeElement.innerHTML = `${hours}:${minutes}`;
+      try {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        const timeElement = document.getElementById("time");
+        if (timeElement) {
+          timeElement.innerHTML = `${hours}:${minutes}`;
+          // debugLog nur alle 10 Minuten um Spam zu vermeiden
+          if (minutes % 10 === 0) {
+            debugLog("⏰ Uhrzeit aktualisiert: " + hours + ":" + minutes);
+          }
+        } else {
+          debugLog("❌ Zeit-Element nicht gefunden");
+        }
+      } catch (error) {
+        debugLog("❌ Fehler bei Uhrzeitaktualisierung: " + error.message);
       }
     }
 
-    // WETTER LADEN
-    function loadWeather() {
-      console.log("🌤️ Lade Wetter...");
+    // WETTER LADEN - Verbesserte Version mit mehreren Proxies
+    async function loadWeather() {
+      debugLog("🌤️ Lade Wetter...");
       
       const weatherCodes = {
         0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
@@ -871,64 +953,114 @@
         51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
       };
 
-      fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
-        .then(res => res.ok ? res.json() : Promise.reject('Wetter-API Fehler'))
-        .then(data => {
-          const w = data.current_weather;
-          const emoji = weatherCodes[w.weathercode] || "🌡️";
+      const weatherAPI = 'https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true';
+      const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/'
+      ];
+
+      let lastError;
+
+      // Erst ohne Proxy versuchen
+      try {
+        debugLog("🌤️ Versuche direkten API-Aufruf...");
+        const response = await fetch(weatherAPI);
+        if (response.ok) {
+          const data = await response.json();
+          displayWeatherData(data, weatherCodes);
+          return;
+        }
+      } catch (error) {
+        debugLog("⚠️ Direkter API-Aufruf fehlgeschlagen: " + error.message);
+      }
+
+      // Dann mit Proxies versuchen
+      for (const proxy of proxies) {
+        try {
+          debugLog("🌤️ Versuche Proxy: " + proxy);
+          const response = await fetch(proxy + encodeURIComponent(weatherAPI), {
+            timeout: 10000
+          });
           
-          let weatherComment = "";
-          if (w.weathercode <= 2) {
-            weatherComment = "– Heute wird ein sehr schöner Tag!";
-          } else if (w.weathercode === 3) {
-            weatherComment = "– Heute ist der Himmel bedeckt.";
-          } else if (w.weathercode >= 51 && w.weathercode <= 67) {
-            weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
-          } else if (w.weathercode >= 95) {
-            weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
+          if (response.ok) {
+            const data = await response.json();
+            displayWeatherData(data, weatherCodes);
+            return;
           }
-          
-          let temperatureComment = "";
-          if (w.temperature < 5) {
-            temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
-          } else if (w.temperature < 12) {
-            temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
-          } else if (w.temperature < 20) {
-            temperatureComment = "Die Temperatur ist angenehm.";
-          } else if (w.temperature < 26) {
-            temperatureComment = "Es ist schön warm heute.";
-          } else {
-            temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
-          }
-          
-          const weatherElement = document.getElementById("weather");
-          if (weatherElement) {
-            weatherElement.innerHTML = `
-              <div style="font-size: 1.1rem; margin-bottom: 10px">
-                <strong>${emoji}</strong> ${weatherComment}
-              </div>
-              <div style="margin: 5px 0; font-size: 1.1rem">
-                🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
-              </div>
-              <div style="margin: 5px 0; font-size: 1.1rem">
-                💨 <strong>${w.windspeed} km/h</strong>
-              </div>
-            `;
-            console.log("✅ Wetter geladen");
-          }
-        })
-        .catch(error => {
-          console.error("❌ Wetter-Fehler:", error);
-          const weatherElement = document.getElementById("weather");
-          if (weatherElement) {
-            weatherElement.innerHTML = "Wetter wird geladen...";
-          }
-        });
+        } catch (error) {
+          lastError = error;
+          debugLog("⚠️ Proxy " + proxy + " fehlgeschlagen: " + error.message);
+        }
+      }
+      
+      // Fallback wenn alle Versuche fehlschlagen
+      debugLog("❌ Alle Wetter-APIs fehlgeschlagen: " + (lastError ? lastError.message : "Unbekannter Fehler"));
+      const weatherElement = document.getElementById("weather");
+      if (weatherElement) {
+        weatherElement.innerHTML = `
+          <div style="font-size: 1.1rem; margin-bottom: 10px">
+            <strong>🌡️</strong> Wetter-Service momentan nicht verfügbar
+          </div>
+          <div style="margin: 5px 0; font-size: 1.1rem">
+            Bitte später erneut versuchen.
+          </div>
+        `;
+      }
+    }
+
+    function displayWeatherData(data, weatherCodes) {
+      try {
+        const w = data.current_weather;
+        const emoji = weatherCodes[w.weathercode] || "🌡️";
+        
+        let weatherComment = "";
+        if (w.weathercode <= 2) {
+          weatherComment = "– Heute wird ein sehr schöner Tag!";
+        } else if (w.weathercode === 3) {
+          weatherComment = "– Heute ist der Himmel bedeckt.";
+        } else if (w.weathercode >= 51 && w.weathercode <= 67) {
+          weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
+        } else if (w.weathercode >= 95) {
+          weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
+        }
+        
+        let temperatureComment = "";
+        if (w.temperature < 5) {
+          temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
+        } else if (w.temperature < 12) {
+          temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
+        } else if (w.temperature < 20) {
+          temperatureComment = "Die Temperatur ist angenehm.";
+        } else if (w.temperature < 26) {
+          temperatureComment = "Es ist schön warm heute.";
+        } else {
+          temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
+        }
+        
+        const weatherElement = document.getElementById("weather");
+        if (weatherElement) {
+          weatherElement.innerHTML = `
+            <div style="font-size: 1.1rem; margin-bottom: 10px">
+              <strong>${emoji}</strong> ${weatherComment}
+            </div>
+            <div style="margin: 5px 0; font-size: 1.1rem">
+              🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
+            </div>
+            <div style="margin: 5px 0; font-size: 1.1rem">
+              💨 <strong>${w.windspeed} km/h</strong>
+            </div>
+          `;
+          debugLog("✅ Wetter geladen: " + w.temperature + "°C, " + emoji);
+        }
+      } catch (error) {
+        debugLog("❌ Fehler beim Anzeigen der Wetterdaten: " + error.message);
+      }
     }
 
     // AUTOMATISCHE ARTIKEL GENERIEREN
     function getAutoArticles() {
-      console.log("📰 Generiere automatische Artikel...");
+      debugLog("📰 Generiere automatische Artikel...");
       
       return [
         {
@@ -958,9 +1090,9 @@
       ];
     }
 
-    // HAUPTDATEN LADEN
+    // HAUPTDATEN LADEN - Verbesserte Version
     async function loadAllData() {
-      console.log("🔄 Lade alle Daten...");
+      debugLog("🔄 Lade alle Daten...");
       
       const timestamp = new Date().getTime();
       const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
@@ -971,7 +1103,7 @@
       const newsContainer = document.getElementById("news-container");
       
       if (!reminders || !note || !newsContainer) {
-        console.error("❌ Wichtige Elemente nicht gefunden");
+        debugLog("❌ Wichtige Elemente nicht gefunden - DOM möglicherweise nicht bereit");
         return;
       }
       
@@ -983,224 +1115,234 @@
       const articles = [];
       const today = new Date().toISOString().split("T")[0];
       
+      // AUTOMATISCHE ARTIKEL HINZUFÜGEN (als Fallback)
+      const autoArticles = getAutoArticles();
+      articles.push(...autoArticles);
+      debugLog(`📰 ${autoArticles.length} automatische Artikel hinzugefügt`);
+      
       try {
         // Google Sheets laden
-        console.log("📊 Lade Google Sheets...");
+        debugLog("📊 Lade Google Sheets...");
         
-        const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp);
+        const proxies = [
+          'https://api.allorigins.win/raw?url=',
+          'https://cors-anywhere.herokuapp.com/',
+          ''  // Direkter Aufruf ohne Proxy
+        ];
         
-        if (response.ok) {
-          const text = await response.text();
-          
-          if (text && text.trim() !== '') {
-            const rows = text.trim().split('\n').map(row => row.split('\t'));
-            console.log(`📋 ${rows.length} Zeilen in Google Sheets gefunden`);
+        let sheetsLoaded = false;
+        let lastError;
 
-            rows.forEach((row) => {
-              if (!row || row.length < 2) return;
-              
-              const type = row[0];
-              const content = row[1];
-              const sender = row[2] || "";
-              const rawDate = row[3] || row[2];
-              const timestamp = row[4];
-              const extra1 = row[5] || "";
-              const extra2 = row[6] || "";
-              const extra3 = row[7] || "";
-              
-              if (!type || !content) return;
-
-              let isToday = false;
-              try {
-                isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
-              } catch (e) {
-                isToday = !rawDate;
-              }
-
-              // ERINNERUNGEN
-              if (type === "Erinnerung" && isToday) {
-                const li = document.createElement("li");
-                li.textContent = "🔔 " + content;
-                reminders.appendChild(li);
-              }
-
-              // NACHRICHTEN VON SÖHNEN
-              if (type === "Nachricht") {
-                const messageWrapper = document.createElement("div");
-                messageWrapper.className = "message-with-avatar";
-                
-                if (sender) {
-                  const avatarDiv = document.createElement("div");
-                  avatarDiv.className = "message-avatar";
-                  
-                  const avatarImg = document.createElement("img");
-                  avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
-                  avatarImg.alt = sender;
-                  avatarImg.onerror = function() {
-                    this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
-                  };
-                  
-                  avatarDiv.appendChild(avatarImg);
-                  messageWrapper.appendChild(avatarDiv);
-                  
-                  const contentDiv = document.createElement("div");
-                  contentDiv.className = "message-content";
-                  
-                  // Datum parsen
-                  let messageDate = new Date();
-                  if (timestamp && timestamp.trim()) {
-                    try {
-                      messageDate = new Date(timestamp.trim());
-                      if (isNaN(messageDate.getTime())) {
-                        messageDate = new Date();
-                      }
-                    } catch (e) {
-                      messageDate = new Date();
-                    }
-                  }
-
-                  // Neu-Indikator
-                  const now = new Date();
-                  const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
-                  const isReallyNew = messageDate > fiveHoursAgo;
-                  
-                  if (isReallyNew) {
-                    const newIndicator = document.createElement("div");
-                    newIndicator.className = "new-indicator";
-                    newIndicator.textContent = `Neu von ${sender}`;
-                    contentDiv.appendChild(newIndicator);
-                  } else {
-                    const senderDiv = document.createElement("div");
-                    senderDiv.className = "message-sender";
-                    senderDiv.textContent = sender;
-                    contentDiv.appendChild(senderDiv);
-                  }
-                  
-                  const p = document.createElement("p");
-                  p.className = "message";
-                  p.innerHTML = linkifyText(content);
-                  
-                  const ts = document.createElement("div");
-                  ts.className = "message-timestamp";
-                  
-                  let datePrefix = "";
-                  const yesterday = new Date();
-                  yesterday.setDate(yesterday.getDate() - 1);
-                  
-                  if (messageDate.toDateString() === new Date().toDateString()) {
-                    datePrefix = "Heute";
-                  } else if (messageDate.toDateString() === yesterday.toDateString()) {
-                    datePrefix = "Gestern";
-                  } else {
-                    datePrefix = messageDate.toLocaleDateString('de-DE', {
-                      day: '2-digit', month: '2-digit', year: '2-digit'
-                    });
-                  }
-
-                  ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
-                    hour: '2-digit', minute: '2-digit', hour12: false
-                  })}`;
-                  
-                  p.appendChild(ts);
-                  contentDiv.appendChild(p);
-                  messageWrapper.appendChild(contentDiv);
-                  
-                  note.appendChild(messageWrapper);
-                }
-              }
-
-              // MANUELLE PRESSEARTIKEL
-              if (type === "Presseartikel") {
-                const article = {
-                  title: sender,
-                  content: content,
-                  subtitle: extra1 || "",
-                  source: extra2 || "Redaktion",
-                  date: rawDate || new Date().toISOString().split("T")[0],
-                  featured: extra3.toLowerCase() === "ja",
-                  isAutoGenerated: false
-                };
-                
-                if (isArticleAcceptable(article.title, article.content, article.subtitle)) {
-                  articles.push(article);
-                  console.log(`✅ Manueller Artikel: ${article.title.substring(0, 30)}...`);
-                }
+        for (const proxy of proxies) {
+          try {
+            debugLog("📊 Versuche Proxy: " + (proxy || "direkter Aufruf"));
+            
+            const fetchUrl = proxy ? proxy + encodeURIComponent(url) + '&timestamp=' + timestamp : url + '?timestamp=' + timestamp;
+            const response = await fetch(fetchUrl, {
+              timeout: 15000,
+              headers: {
+                'Accept': 'text/plain'
               }
             });
             
-            console.log("✅ Google Sheets verarbeitet");
+            if (response.ok) {
+              const text = await response.text();
+              
+              if (text && text.trim() !== '' && !text.includes('<!DOCTYPE')) {
+                const rows = text.trim().split('\n').map(row => row.split('\t'));
+                debugLog(`📋 ${rows.length} Zeilen in Google Sheets gefunden`);
+
+                processGoogleSheetsData(rows, reminders, note, articles, today);
+                sheetsLoaded = true;
+                break;
+              } else {
+                debugLog("⚠️ Google Sheets leer oder HTML-Response erhalten");
+              }
+            }
+          } catch (error) {
+            lastError = error;
+            debugLog(`⚠️ Google Sheets Proxy ${proxy || 'direct'} fehlgeschlagen: ${error.message}`);
           }
-        } else {
-          console.log("⚠️ Google Sheets nicht verfügbar");
         }
         
-        // AUTOMATISCHE ARTIKEL HINZUFÜGEN
-        const autoArticles = getAutoArticles();
-        articles.push(...autoArticles);
-        console.log(`📰 ${autoArticles.length} automatische Artikel hinzugefügt`);
-        
-        // ARTIKEL ANZEIGEN
-        if (articles.length > 0) {
-          articles.sort((a, b) => {
-            if (a.featured && !b.featured) return -1;
-            if (!a.featured && b.featured) return 1;
-            return new Date(b.date) - new Date(a.date);
-          });
-
-          articles.forEach(article => {
-            const articleElement = document.createElement("article");
-            articleElement.className = article.featured ? "news-article featured" : "news-article";
-            
-            const readingTime = estimateReadingTime(article.content);
-            const formattedDate = new Date(article.date).toLocaleDateString('de-DE', {
-              day: '2-digit', month: 'long', year: 'numeric'
-            });
-
-            const autoTag = article.isAutoGenerated ? ' 🤖' : '';
-
-            articleElement.innerHTML = `
-              <div class="news-header">
-                <span class="news-source">${article.source}${autoTag}</span>
-                <div class="news-meta">
-                  <span class="news-date">${formattedDate}</span>
-                  <span class="news-reading-time">${readingTime}</span>
-                </div>
-              </div>
-              <h2 class="news-title">${article.title}</h2>
-              ${article.subtitle ? `<h3 class="news-subtitle">${article.subtitle}</h3>` : ''}
-              <div class="news-content">
-                ${article.content.split('\n').map(paragraph => 
-                  paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
-                ).join('')}
-              </div>
-              <div class="news-byline">${article.isAutoGenerated ? 'Automatisch kuratiert' : 'Redaktionsteam'}</div>
-            `;
-            
-            newsContainer.appendChild(articleElement);
-          });
-          
-          console.log(`✅ ${articles.length} Artikel angezeigt`);
-        } else {
-          newsContainer.innerHTML = `
-            <div class="no-articles-message">
-              <p>📰 Keine Artikel verfügbar.</p>
-            </div>
-          `;
+        if (!sheetsLoaded) {
+          debugLog("❌ Alle Google Sheets Versuche fehlgeschlagen: " + (lastError ? lastError.message : "Unbekannter Fehler"));
         }
         
-        // ERINNERUNGEN FALLBACK
-        if (reminders.children.length === 0) {
-          reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
-        }
-        
-        console.log("✅ Alle Daten geladen");
+        debugLog("✅ Google Sheets Verarbeitung abgeschlossen");
         
       } catch (error) {
-        console.error("❌ Fehler beim Laden:", error);
+        debugLog("❌ Fehler beim Laden der Sheets: " + error.message);
+      }
+      
+      // ARTIKEL ANZEIGEN
+      displayArticles(articles, newsContainer);
+      
+      // ERINNERUNGEN FALLBACK
+      if (reminders.children.length === 0) {
+        reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+      }
+      
+      // NACHRICHTEN FALLBACK
+      if (note.children.length === 0) {
+        note.innerHTML = "<em>Keine neuen Nachrichten.</em>";
+      }
+      
+      debugLog("✅ Alle Daten geladen");
+    }
+
+    function processGoogleSheetsData(rows, reminders, note, articles, today) {
+      rows.forEach((row, index) => {
+        if (!row || row.length < 2) return;
         
-        // Automatische Artikel als Fallback
-        const autoArticles = getAutoArticles();
-        autoArticles.forEach(article => {
+        const type = row[0];
+        const content = row[1];
+        const sender = row[2] || "";
+        const rawDate = row[3] || row[2];
+        const timestamp = row[4];
+        const extra1 = row[5] || "";
+        const extra2 = row[6] || "";
+        const extra3 = row[7] || "";
+        
+        if (!type || !content) return;
+
+        let isToday = false;
+        try {
+          isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+        } catch (e) {
+          isToday = !rawDate;
+        }
+
+        // ERINNERUNGEN
+        if (type === "Erinnerung" && isToday) {
+          const li = document.createElement("li");
+          li.textContent = "🔔 " + content;
+          reminders.appendChild(li);
+          debugLog(`✅ Erinnerung hinzugefügt: ${content.substring(0, 30)}...`);
+        }
+
+        // NACHRICHTEN VON SÖHNEN
+        if (type === "Nachricht") {
+          createMessageElement(note, sender, content, timestamp);
+        }
+
+        // MANUELLE PRESSEARTIKEL
+        if (type === "Presseartikel") {
+          const article = {
+            title: sender,
+            content: content,
+            subtitle: extra1 || "",
+            source: extra2 || "Redaktion",
+            date: rawDate || new Date().toISOString().split("T")[0],
+            featured: extra3.toLowerCase() === "ja",
+            isAutoGenerated: false
+          };
+          
+          if (isArticleAcceptable(article.title, article.content, article.subtitle)) {
+            articles.push(article);
+            debugLog(`✅ Manueller Artikel hinzugefügt: ${article.title.substring(0, 30)}...`);
+          }
+        }
+      });
+    }
+
+    function createMessageElement(note, sender, content, timestamp) {
+      const messageWrapper = document.createElement("div");
+      messageWrapper.className = "message-with-avatar";
+      
+      if (sender) {
+        const avatarDiv = document.createElement("div");
+        avatarDiv.className = "message-avatar";
+        
+        const avatarImg = document.createElement("img");
+        avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+        avatarImg.alt = sender;
+        avatarImg.onerror = function() {
+          this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+        };
+        
+        avatarDiv.appendChild(avatarImg);
+        messageWrapper.appendChild(avatarDiv);
+        
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "message-content";
+        
+        // Datum parsen
+        let messageDate = new Date();
+        if (timestamp && timestamp.trim()) {
+          try {
+            messageDate = new Date(timestamp.trim());
+            if (isNaN(messageDate.getTime())) {
+              messageDate = new Date();
+            }
+          } catch (e) {
+            messageDate = new Date();
+          }
+        }
+
+        // Neu-Indikator
+        const now = new Date();
+        const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+        const isReallyNew = messageDate > fiveHoursAgo;
+        
+        if (isReallyNew) {
+          const newIndicator = document.createElement("div");
+          newIndicator.className = "new-indicator";
+          newIndicator.textContent = `Neu von ${sender}`;
+          contentDiv.appendChild(newIndicator);
+        } else {
+          const senderDiv = document.createElement("div");
+          senderDiv.className = "message-sender";
+          senderDiv.textContent = sender;
+          contentDiv.appendChild(senderDiv);
+        }
+        
+        const p = document.createElement("p");
+        p.className = "message";
+        p.innerHTML = linkifyText(content);
+        
+        const ts = document.createElement("div");
+        ts.className = "message-timestamp";
+        
+        let datePrefix = "";
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        
+        if (messageDate.toDateString() === new Date().toDateString()) {
+          datePrefix = "Heute";
+        } else if (messageDate.toDateString() === yesterday.toDateString()) {
+          datePrefix = "Gestern";
+        } else {
+          datePrefix = messageDate.toLocaleDateString('de-DE', {
+            day: '2-digit', month: '2-digit', year: '2-digit'
+          });
+        }
+
+        ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
+          hour: '2-digit', minute: '2-digit', hour12: false
+        })}`;
+        
+        p.appendChild(ts);
+        contentDiv.appendChild(p);
+        messageWrapper.appendChild(contentDiv);
+        
+        note.appendChild(messageWrapper);
+        
+        debugLog(`✅ Nachricht von ${sender} hinzugefügt`);
+      }
+    }
+
+    function displayArticles(articles, newsContainer) {
+      if (articles.length > 0) {
+        newsContainer.innerHTML = "";
+        
+        articles.sort((a, b) => {
+          if (a.featured && !b.featured) return -1;
+          if (!a.featured && b.featured) return 1;
+          return new Date(b.date) - new Date(a.date);
+        });
+
+        articles.forEach(article => {
           const articleElement = document.createElement("article");
           articleElement.className = article.featured ? "news-article featured" : "news-article";
           
@@ -1209,41 +1351,59 @@
             day: '2-digit', month: 'long', year: 'numeric'
           });
 
+          const autoTag = article.isAutoGenerated ? ' 🤖' : '';
+
           articleElement.innerHTML = `
             <div class="news-header">
-              <span class="news-source">${article.source} 🤖</span>
+              <span class="news-source">${article.source}${autoTag}</span>
               <div class="news-meta">
                 <span class="news-date">${formattedDate}</span>
                 <span class="news-reading-time">${readingTime}</span>
               </div>
             </div>
             <h2 class="news-title">${article.title}</h2>
+            ${article.subtitle ? `<h3 class="news-subtitle">${article.subtitle}</h3>` : ''}
             <div class="news-content">
               ${article.content.split('\n').map(paragraph => 
                 paragraph.trim() ? `<p>${paragraph.trim()}</p>` : ''
               ).join('')}
             </div>
-            <div class="news-byline">Automatisch kuratiert</div>
+            <div class="news-byline">${article.isAutoGenerated ? 'Automatisch kuratiert' : 'Redaktionsteam'}</div>
           `;
           
           newsContainer.appendChild(articleElement);
         });
         
-        reminders.innerHTML = "<em>Daten werden geladen...</em>";
-        note.innerHTML = "<em>Nachrichten werden geladen...</em>";
+        debugLog(`✅ ${articles.length} Artikel angezeigt`);
+      } else {
+        newsContainer.innerHTML = `
+          <div class="no-articles-message">
+            <p>📰 Keine Artikel verfügbar.</p>
+          </div>
+        `;
       }
     }
 
-    // KALENDER LADEN
+    // KALENDER LADEN - Verbesserte Version
     async function loadCalendar() {
-      console.log("📅 Lade Kalender...");
+      debugLog("📅 Lade Kalender...");
       
       const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
-      const proxies = ['https://api.allorigins.win/raw?url=', 'https://corsproxy.io/?'];
+      const proxies = [
+        'https://api.allorigins.win/raw?url=', 
+        'https://cors-anywhere.herokuapp.com/',
+        ''  // Direkter Aufruf
+      ];
       
+      let lastError;
+
       for (const proxy of proxies) {
         try {
-          const response = await fetch(proxy + encodeURIComponent(icalUrl));
+          debugLog("📅 Versuche Kalender-Proxy: " + (proxy || "direkter Aufruf"));
+          
+          const fetchUrl = proxy ? proxy + encodeURIComponent(icalUrl) : icalUrl;
+          const response = await fetch(fetchUrl, { timeout: 15000 });
+          
           if (!response.ok) continue;
           
           const data = await response.text();
@@ -1286,70 +1446,88 @@
                   })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
                   out.appendChild(box);
                 } catch (err) {
-                  console.error("Fehler bei Event:", err);
+                  debugLog("❌ Fehler bei Event: " + err.message);
                 }
               });
             }
-            console.log("✅ Kalender geladen");
+            debugLog("✅ Kalender geladen: " + events.length + " Termine");
+            return;
           }
-          return;
         } catch (error) {
-          console.log(`Kalender-Proxy ${proxy} fehlgeschlagen`);
+          lastError = error;
+          debugLog(`⚠️ Kalender-Proxy ${proxy || 'direct'} fehlgeschlagen: ${error.message}`);
         }
       }
       
+      debugLog("❌ Alle Kalender-Versuche fehlgeschlagen: " + (lastError ? lastError.message : "Unbekannter Fehler"));
       const out = document.getElementById("ical");
       if (out) {
-        out.innerHTML = "<em>Termine werden geladen...</em>";
+        out.innerHTML = "<em>Termine momentan nicht verfügbar.</em>";
       }
     }
 
     // BATTERIE PRÜFEN
     function checkBattery() {
       if (typeof fully !== 'undefined') {
-        const batteryLevel = fully.getBatteryLevel();
-        const isPluggedIn = fully.isPlugged();
-        const warningElement = document.getElementById('battery-warning');
-        const percentageElement = document.getElementById('battery-percentage');
-        
-        if (percentageElement) percentageElement.textContent = batteryLevel;
-        
-        if (warningElement) {
-          if (batteryLevel <= 30 && !isPluggedIn) {
-            warningElement.classList.remove('hidden');
-          } else {
-            warningElement.classList.add('hidden');
-          }
-        }
-      } else if (navigator.getBattery) {
-        navigator.getBattery().then(function(battery) {
-          const level = Math.floor(battery.level * 100);
-          const percentageElement = document.getElementById('battery-percentage');
+        try {
+          const batteryLevel = fully.getBatteryLevel();
+          const isPluggedIn = fully.isPlugged();
           const warningElement = document.getElementById('battery-warning');
+          const percentageElement = document.getElementById('battery-percentage');
           
-          if (percentageElement) percentageElement.textContent = level;
+          if (percentageElement) percentageElement.textContent = batteryLevel;
           
           if (warningElement) {
-            if (level <= 30 && !battery.charging) {
+            if (batteryLevel <= 30 && !isPluggedIn) {
               warningElement.classList.remove('hidden');
             } else {
               warningElement.classList.add('hidden');
             }
           }
+          
+          debugLog("🔋 Batterie: " + batteryLevel + "% (Vollbildmodus)");
+        } catch (error) {
+          debugLog("⚠️ Fully Kiosk Browser Fehler: " + error.message);
+        }
+      } else if (navigator.getBattery) {
+        navigator.getBattery().then(function(battery) {
+          try {
+            const level = Math.floor(battery.level * 100);
+            const percentageElement = document.getElementById('battery-percentage');
+            const warningElement = document.getElementById('battery-warning');
+            
+            if (percentageElement) percentageElement.textContent = level;
+            
+            if (warningElement) {
+              if (level <= 30 && !battery.charging) {
+                warningElement.classList.remove('hidden');
+              } else {
+                warningElement.classList.add('hidden');
+              }
+            }
+            
+            debugLog("🔋 Batterie: " + level + "% (Browser API)");
+          } catch (error) {
+            debugLog("⚠️ Browser Batterie API Fehler: " + error.message);
+          }
+        }).catch(error => {
+          debugLog("⚠️ Batterie API nicht verfügbar: " + error.message);
         });
+      } else {
+        debugLog("⚠️ Keine Batterie API verfügbar");
       }
     }
 
     // INITIALISIERUNG UND UPDATES
     document.addEventListener('DOMContentLoaded', function() {
-      console.log("🎯 DOM geladen - starte Initialisierung...");
+      debugLog("🎯 DOM geladen - starte Initialisierung...");
       
       // Sofort ausführen
-      initDateTime();
-      loadWeather();
-      loadAllData(); 
-      loadCalendar();
-      checkBattery();
+      setTimeout(() => initDateTime(), 100);
+      setTimeout(() => loadWeather(), 500);
+      setTimeout(() => loadAllData(), 1000); 
+      setTimeout(() => loadCalendar(), 1500);
+      setTimeout(() => checkBattery(), 2000);
       
       // Regelmäßige Updates
       setInterval(updateClock, 60000);           // Uhrzeit jede Minute
@@ -1358,7 +1536,7 @@
       setInterval(loadCalendar, 600000);         // Kalender alle 10 Minuten
       setInterval(checkBattery, 30000);          // Batterie alle 30 Sekunden
       
-      console.log("✅ Alle Updates gestartet!");
+      debugLog("✅ Alle Updates gestartet!");
     });
 
   </script>
