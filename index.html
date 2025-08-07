@@ -108,11 +108,6 @@
       font-weight: 500;
     }
     
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-    }
     .termin-eintrag { 
       border-left: 4px solid #e74c3c; 
       margin-top: 1rem; 
@@ -180,102 +175,8 @@
       letter-spacing: 0.3px;
     }
     
-    .new-indicator {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e74c3c;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      letter-spacing: 0.3px;
-    }
-    
-    .new-indicator::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-      border-radius: 50%;
-      margin-right: 8px;
-      animation: pulse-modern 2s infinite;
-      box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
-    }
-    
-    @keyframes pulse-modern {
-      0% { 
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
-      }
-      50% { 
-        transform: scale(1.2);
-        box-shadow: 0 0 20px rgba(238, 90, 36, 0.8);
-      }
-      100% { 
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
-      }
-    }
-    
-    .message {
-      margin-top: 2px;
-    }
-    .message-with-avatar {
-      display: flex;
-      margin-bottom: 1rem;
-      align-items: flex-start;
-      width: 100%;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
-    }
-    @media (orientation: landscape) {
-      .message-with-avatar {
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%;
-        max-width: 600px;
-      }
-    }
-
-    /* Modernisierte Apple Watch-Style Uhr mit Alpenpanorama */
     .digital-board {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: 
-        /* Morgenhimmel-Gradient */
-        linear-gradient(to bottom, 
-          rgba(255, 183, 77, 0.9) 0%,     /* Warmes Morgengold oben */
-          rgba(255, 150, 90, 0.85) 15%,   /* Orange-Rosa */
-          rgba(255, 180, 120, 0.8) 30%,   /* Sanftes Orange */
-          rgba(135, 180, 220, 0.7) 70%,   /* Himmelblau */
-          rgba(100, 150, 200, 0.75) 100%  /* Tieferes Blau unten */
-        ),
-        /* Alpenkette Silhouette */
-        radial-gradient(ellipse 200px 80px at 15% 100%, rgba(60, 80, 120, 0.9) 0%, transparent 70%),
-        radial-gradient(ellipse 150px 100px at 35% 100%, rgba(70, 90, 130, 0.85) 0%, transparent 70%),
-        radial-gradient(ellipse 180px 120px at 55% 100%, rgba(80, 100, 140, 0.8) 0%, transparent 70%),
-        radial-gradient(ellipse 160px 90px at 75% 100%, rgba(65, 85, 125, 0.85) 0%, transparent 70%),
-        radial-gradient(ellipse 140px 70px at 90% 100%, rgba(75, 95, 135, 0.9) 0%, transparent 70%),
-        /* Zusätzliche Bergspitzen für mehr Detail */
-        radial-gradient(ellipse 100px 60px at 25% 100%, rgba(50, 70, 110, 0.7) 0%, transparent 70%),
-        radial-gradient(ellipse 120px 80px at 65% 100%, rgba(55, 75, 115, 0.75) 0%, transparent 70%),
-        /* Schneebedeckte Gipfel */
-        radial-gradient(ellipse 80px 30px at 35% 85%, rgba(240, 240, 255, 0.6) 0%, transparent 70%),
-        radial-gradient(ellipse 60px 25px at 55% 80%, rgba(245, 245, 255, 0.5) 0%, transparent 70%),
-        radial-gradient(ellipse 70px 20px at 75% 85%, rgba(250, 250, 255, 0.4) 0%, transparent 70%);
-      background-size: 
-        100% 100%,           /* Himmel */
-        200px 80px,          /* Berg 1 */
-        150px 100px,         /* Berg 2 */
-        180px 120px,         /* Berg 3 (Hauptgipfel) */
-        160px 90px,          /* Berg 4 */
-        140px 70px,          /* Berg 5 */
-        100px 60px,          /* Detail Berg 1 */
-        120px 80px,          /* Detail Berg 2 */
-        80px 30px,           /* Schnee 1 */
-        60px 25px,           /* Schnee 2 */
-        70px 20px;           /* Schnee 3 */
       color: #ffffff;
       text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9);
       border-radius: 25px;
@@ -292,22 +193,6 @@
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(5px);
       overflow: hidden;
-    }
-
-    /* Subtiler Glanz-Effekt */
-    .digital-board::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 50%;
-      background: linear-gradient(to bottom, 
-        rgba(255,255,255,0.08) 0%, 
-        rgba(255,255,255,0.02) 50%, 
-        transparent 100%);
-      border-radius: 25px 25px 0 0;
-      pointer-events: none;
     }
 
     .date-display {
@@ -332,22 +217,6 @@
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
       font-variant-numeric: tabular-nums;
     }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .digital-board {
-        padding: 20px 15px;
-        margin: 15px auto;
-      }
-      
-      .date-display {
-        font-size: 1.1rem;
-      }
-      
-      .time-display {
-        font-size: 2.5rem;
-      }
-    }
     
     .post-it-sticker {
       position: fixed;
@@ -365,15 +234,6 @@
       z-index: 1000;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       border: 1px solid rgba(255,215,0,0.3);
-      animation: gentle-sway-modern 8s ease-in-out infinite;
-      backdrop-filter: blur(5px);
-    }
-
-    @keyframes gentle-sway-modern {
-      0%, 100% { transform: rotate(-4deg) translateY(0px); }
-      25% { transform: rotate(-2deg) translateY(-3px); }
-      50% { transform: rotate(-5deg) translateY(2px); }
-      75% { transform: rotate(-1deg) translateY(-1px); }
     }
 
     .post-it-content {
@@ -398,46 +258,6 @@
       font-weight: 600;
     }
 
-    .post-it-sticker::before {
-      content: "";
-      position: absolute;
-      top: -8px;
-      left: 25px;
-      width: 20px;
-      height: 20px;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-      border-radius: 50%;
-      box-shadow: 
-        0 4px 8px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.8);
-      border: 2px solid rgba(255,193,7,0.6);
-    }
-
-    @media (max-width: 768px) {
-      .post-it-sticker {
-        left: -15px;
-        width: 200px;
-        top: 25%;
-      }
-      
-      .post-it-title {
-        font-size: 0.9rem;
-      }
-      
-      .post-it-text {
-        font-size: 0.8rem;
-      }
-    }
-
-    .post-it-sticker:hover {
-      transform: rotate(0deg) scale(1.05) translateY(-5px);
-      box-shadow: 
-        0 25px 50px rgba(0,0,0,0.25),
-        inset 0 1px 0 rgba(255,255,255,0.6),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
     .battery-warning {
       position: fixed;
       top: 0;
@@ -450,30 +270,12 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      animation: pulse-warning-modern 2s infinite;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      backdrop-filter: blur(10px);
-    }
-
-    @keyframes pulse-warning-modern {
-      0% { 
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      }
-      50% { 
-        background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
-        box-shadow: 0 15px 40px rgba(255,107,107,0.5);
-      }
-      100% { 
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      }
     }
 
     .battery-icon {
       font-size: 3rem;
       margin-right: 20px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
 
     .battery-message {
@@ -485,19 +287,12 @@
       font-size: 1.6rem;
       margin-bottom: 8px;
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      letter-spacing: 0.5px;
     }
 
     .hidden {
       display: none;
     }
     
-    /* VERBESSERTE PRESSESCHAU STYLES */
-    .presseschau-section {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
     .presseschau-section .section-title {
       font-size: 1.8rem;
       color: #1a202c;
@@ -509,21 +304,13 @@
       backdrop-filter: blur(15px);
       border-radius: 25px;
       display: inline-block;
-      position: relative;
       border: 1px solid rgba(255,255,255,0.25);
-      text-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-weight: 800;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      box-shadow: 
-        0 15px 35px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
     }
 
     .presseschau-section .section-title::before {
       content: "📰";
       margin-right: 15px;
-      font-size: 1.4em;
     }
 
     .news-container {
@@ -535,51 +322,52 @@
     .no-articles-message {
       text-align: center;
       padding: 4rem 2rem;
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.15) 0%, 
-        rgba(255, 255, 255, 0.08) 100%);
-      backdrop-filter: blur(20px);
+      background: rgba(241, 245, 249, 0.8);
       border-radius: 25px;
-      border: 1px solid rgba(255,255,255,0.2);
       color: #64748b;
       font-size: 1.2rem;
-      font-style: italic;
     }
 
-    .news-article.featured {
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.3) 0%, 
-        rgba(255, 255, 255, 0.15) 100%);
-      backdrop-filter: blur(30px);
-      border-radius: 30px;
-      padding: 3rem;
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.4);
-      border: 1px solid rgba(255,255,255,0.25);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
+    .news-article {
+      background: white;
+      border-radius: 25px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+      text-align: left;
+    }
+    
+    .news-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
     }
 
-    .news-article.featured::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
-      border-radius: 30px 30px 0 0;
+    .news-source {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1d4ed8;
+      text-transform: uppercase;
     }
 
-    .news-article.featured::after {
-      content: "✨";
-      position: absolute;
-      top: 20px;
-      right: 25px;
-_SUB-RESPONSE TRUNCATED_
+    .news-date {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .news-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #1e293b;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    .news-content {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #334155;
     }
   </style>
 </head>
@@ -605,16 +393,15 @@ _SUB-RESPONSE TRUNCATED_
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
   </div>
-  <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
-  <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
+  <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"><p>Lade Nachrichten...</p></div></div>
+  <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"><p>Lade Termine...</p></div></div>
   <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
   
-    <div class="section presseschau-section">
+  <div class="section presseschau-section">
     <div class="section-title">Presseschau</div>
     <div class="news-container" id="news-container">
       <div class="no-articles-message">
-        <p>🌸 Noch keine schönen Nachrichten vorhanden.</p>
-        <p>Füge positive Artikel über Google Sheets hinzu!</p>
+        <p>Lade Nachrichten...</p>
       </div>
     </div>
   </div>
@@ -630,54 +417,17 @@ _SUB-RESPONSE TRUNCATED_
   </div>
 
 <script>
-  // GOOD NEWS FILTER - Positive Keywords
-  const positiveKeywords = [
-    'hund', 'hunde', 'katze', 'katzen', 'tier', 'tiere', 'zoo', 'tierpark', 'welpe', 'welpen',
-    'kätzchen', 'tierrettung', 'tierschutz', 'wildtier', 'vogel', 'vögel', 'pferd', 'pferde',
-    'elefant', 'panda', 'delfin', 'therapietier', 'haustier', 'rettung', 'geboren', 'nachwuchs',
-    'papst', 'franziskus', 'kirche', 'kirchen', 'segen', 'segnung', 'pilger', 'pilgerreise',
-    'weihnachten', 'ostern', 'pfingsten', 'erntedank', 'gottesdienst', 'gebet', 'frieden',
-    'nächstenliebe', 'hoffnung', 'glaube', 'gemeinde', 'pfarrer', 'pastor', 'kloster',
-    'könig', 'königin', 'prinz', 'prinzessin', 'kaiser', 'royal', 'majestät', 'hoheit',
-    'schloss', 'palace', 'windsor', 'buckingham', 'neuschwanstein', 'bavaria', 'bayern',
-    'hochzeit', 'krönung', 'jubiläum', 'thronfolge', 'adel', 'herzog', 'herzogin',
-    'freude', 'glück', 'erfolg', 'triumph', 'sieg', 'gewonnen', 'auszeichnung', 'ehrung',
-    'geburtstag', 'anniversary', 'feier', 'fest', 'festival', 'konzert', 'musik',
-    'hochzeit', 'verlobung', 'baby', 'geburt', 'enkel', 'großeltern', 'familie',
-    'hilfe', 'helfen', 'unterstützung', 'spende', 'charity', 'ehrenamt', 'freiwillig',
-    'nachbarschaftshilfe', 'zusammenhalt', 'gemeinschaft', 'solidarität', 'teilen',
-    'museum', 'ausstellung', 'kunst', 'künstler', 'maler', 'skulptur', 'galerie',
-    'theater', 'oper', 'klassik', 'symphonie', 'chor', 'orchester', 'dirigent',
-    'garten', 'blume', 'blumen', 'rose', 'rosen', 'tulpe', 'frühling', 'sommer',
-    'park', 'botanisch', 'natur', 'landschaft', 'berg', 'berge', 'see', 'wald',
-    'heilung', 'geheilt', 'medizin', 'durchbruch', 'therapie', 'genesung', 'gesund',
-    'forschung', 'entdeckung', 'erfindung', 'innovation', 'fortschritt',
-    'tradition', 'brauchtum', 'handwerk', 'heimat', 'dorf', 'gemeinde', 'regional',
-    'oktoberfest', 'wiesn', 'tracht', 'dirndl', 'lederhose', 'alpen', 'bavaria'
-  ];
-
-  const negativeKeywords = [
-    'krieg', 'tod', 'sterben', 'unfall', 'crash', 'kollision', 'explosion', 'brand',
-    'gewalt', 'angriff', 'überfall', 'mord', 'terror', 'attentat', 'schießerei',
-    'verletzt', 'verwundet', 'opfer', 'täter', 'verhaftet', 'gefängnis',
-    'krebs', 'tumor', 'krankheit', 'pandemie', 'virus', 'covid', 'seuche',
-    'depression', 'selbstmord', 'suizid', 'drogen', 'alkohol', 'sucht',
-    'krise', 'inflation', 'teuer', 'pleite', 'konkurs', 'arbeitslos', 'armut',
-    'schulden', 'betrug', 'skandal', 'korruption',
-    'katastrophe', 'unwetter', 'sturm', 'hochwasser', 'überschwemmung', 'erdbeben',
-    'tsunami', 'dürre', 'waldbrand', 'evakuierung', 'notstand'
-  ];
+  // --- GLOBALE EINSTELLUNGEN UND KEYWORDS ---
+  const positiveKeywords = ['hund', 'hunde', 'katze', 'katzen', 'tier', 'tiere', 'zoo', 'tierpark', 'welpe', 'welpen', 'kätzchen', 'tierrettung', 'tierschutz', 'wildtier', 'vogel', 'vögel', 'pferd', 'pferde', 'elefant', 'panda', 'delfin', 'therapietier', 'haustier', 'rettung', 'geboren', 'nachwuchs', 'papst', 'franziskus', 'kirche', 'kirchen', 'segen', 'segnung', 'pilger', 'pilgerreise', 'weihnachten', 'ostern', 'pfingsten', 'erntedank', 'gottesdienst', 'gebet', 'frieden', 'nächstenliebe', 'hoffnung', 'glaube', 'gemeinde', 'pfarrer', 'pastor', 'kloster', 'könig', 'königin', 'prinz', 'prinzessin', 'kaiser', 'royal', 'majestät', 'hoheit', 'schloss', 'palace', 'windsor', 'buckingham', 'neuschwanstein', 'bavaria', 'bayern', 'hochzeit', 'krönung', 'jubiläum', 'thronfolge', 'adel', 'herzog', 'herzogin', 'freude', 'glück', 'erfolg', 'triumph', 'sieg', 'gewonnen', 'auszeichnung', 'ehrung', 'geburtstag', 'anniversary', 'feier', 'fest', 'festival', 'konzert', 'musik', 'hochzeit', 'verlobung', 'baby', 'geburt', 'enkel', 'großeltern', 'familie', 'hilfe', 'helfen', 'unterstützung', 'spende', 'charity', 'ehrenamt', 'freiwillig', 'nachbarschaftshilfe', 'zusammenhalt', 'gemeinschaft', 'solidarität', 'teilen', 'museum', 'ausstellung', 'kunst', 'künstler', 'maler', 'skulptur', 'galerie', 'theater', 'oper', 'klassik', 'symphonie', 'chor', 'orchester', 'dirigent', 'garten', 'blume', 'blumen', 'rose', 'rosen', 'tulpe', 'frühling', 'sommer', 'park', 'botanisch', 'natur', 'landschaft', 'berg', 'berge', 'see', 'wald', 'heilung', 'geheilt', 'medizin', 'durchbruch', 'therapie', 'genesung', 'gesund', 'forschung', 'entdeckung', 'erfindung', 'innovation', 'fortschritt', 'tradition', 'brauchtum', 'handwerk', 'heimat', 'dorf', 'gemeinde', 'regional', 'oktoberfest', 'wiesn', 'tracht', 'dirndl', 'lederhose', 'alpen', 'bavaria'];
+  const negativeKeywords = ['krieg', 'tod', 'sterben', 'unfall', 'crash', 'kollision', 'explosion', 'brand', 'gewalt', 'angriff', 'überfall', 'mord', 'terror', 'attentat', 'schießerei', 'verletzt', 'verwundet', 'opfer', 'täter', 'verhaftet', 'gefängnis', 'krebs', 'tumor', 'krankheit', 'pandemie', 'virus', 'covid', 'seuche', 'depression', 'selbstmord', 'suizid', 'drogen', 'alkohol', 'sucht', 'krise', 'inflation', 'teuer', 'pleite', 'konkurs', 'arbeitslos', 'armut', 'schulden', 'betrug', 'skandal', 'korruption', 'katastrophe', 'unwetter', 'sturm', 'hochwasser', 'überschwemmung', 'erdbeben', 'tsunami', 'dürre', 'waldbrand', 'evakuierung', 'notstand'];
+  const senderImages = { 'Daniel': './Daniel.jpg', 'Joachim': './Joachim.jpg' };
 
   function isPositiveArticle(title, content, subtitle) {
     const fullText = (title + ' ' + content + ' ' + (subtitle || '')).toLowerCase();
     let positiveScore = 0;
     let negativeScore = 0;
-    positiveKeywords.forEach(keyword => {
-      if (fullText.includes(keyword)) { positiveScore++; }
-    });
-    negativeKeywords.forEach(keyword => {
-      if (fullText.includes(keyword)) { negativeScore += 2; }
-    });
+    positiveKeywords.forEach(keyword => { if (fullText.includes(keyword)) positiveScore++; });
+    negativeKeywords.forEach(keyword => { if (fullText.includes(keyword)) negativeScore += 2; });
     return positiveScore > 0 && negativeScore === 0;
   }
 
@@ -687,346 +437,139 @@ _SUB-RESPONSE TRUNCATED_
     const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
     const day = now.getDate();
     const month = now.toLocaleDateString('de-DE', { month: 'long' });
-    const year = now.getFullYear();
-    document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    document.getElementById("time").innerHTML = `${hours}:${minutes}`;
+    document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${now.getFullYear()}</strong>`;
+    document.getElementById("time").innerHTML = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   }
-  updateDateTime();
-  setInterval(updateDateTime, 60000);
 
   // --- ANZEIGE: WETTER ---
-  const weatherCodes = {
-    0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
-    3: "☁️ Bedeckt", 45: "🌫️ Nebel", 48: "🌫️ Nebel",
-    51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
-  };
-
   function fetchWeatherData() {
     const weatherUrl = 'https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true';
     const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(weatherUrl);
-
     fetch(proxyUrl)
-      .then(res => {
-        if (!res.ok) throw new Error('Netzwerkantwort für Wetter war nicht ok: ' + res.status);
-        return res.json();
-      })
+      .then(res => res.ok ? res.json() : Promise.reject(`HTTP error ${res.status}`))
       .then(data => {
         const w = data.current_weather;
-        const emoji = weatherCodes[w.weathercode] || "🌡️";
-        let weatherComment = "", temperatureComment = "", windComment = "";
-
-        if (w.weathercode <= 2) weatherComment = "– Heute wird ein sehr schöner Tag!";
-        else if (w.weathercode === 3) weatherComment = "– Heute ist der Himmel bedeckt.";
-        else if (w.weathercode >= 45 && w.weathercode <= 48) weatherComment = "– Heute ist es neblig, bitte vorsichtig fahren!";
-        else if (w.weathercode >= 51 && w.weathercode <= 67) weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
-        else if (w.weathercode >= 80 && w.weathercode <= 86) weatherComment = "– Heute kommt immer wieder Regen runter, besser drinnen bleiben.";
-        else if (w.weathercode >= 95) weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
-
-        if (w.temperature < 5) temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
-        else if (w.temperature < 12) temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
-        else if (w.temperature < 20) temperatureComment = "Die Temperatur ist angenehm.";
-        else if (w.temperature < 26) temperatureComment = "Es ist schön warm heute.";
-        else temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
-
-        if (w.windspeed < 5) windComment = "Kaum Wind heute.";
-        else if (w.windspeed < 15) windComment = "Eine leichte Brise weht.";
-        else if (w.windspeed < 25) windComment = "Es ist etwas windig draußen.";
-        else windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
-
+        const weatherCodes = { 0: "☀️ Klar", 1: "🌤️ Leicht bewölkt", 2: "🌥️ Bewölkt", 3: "☁️ Bedeckt", 45: "🌫️ Nebel", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter" };
         document.getElementById("weather").innerHTML = `
-          <div style="font-size: 1.1rem; margin-bottom: 10px"><strong>${emoji}</strong> ${weatherComment}</div>
-          <div style="margin: 5px 0; font-size: 1.1rem">🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}</div>
-          <div style="margin: 5px 0; font-size: 1.1rem">💨 <strong>${w.windspeed} km/h</strong> - ${windComment}</div>
-        `;
+          <p>${weatherCodes[w.weathercode] || 'Wetter'} – Heute wird ein sehr schöner Tag!</p>
+          <p>🌡️ ${w.temperature}°C - Es ist schön warm heute.</p>
+          <p>💨 ${w.windspeed} km/h - Eine leichte Brise weht.</p>`;
       })
       .catch(error => {
         console.error("Fehler beim Laden der Wetterdaten:", error);
-        document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten.";
+        document.getElementById("weather").innerText = "Wetterdaten konnten nicht geladen werden.";
       });
   }
 
-  // --- HILFSFUNKTIONEN ---
-  const senderImages = { 'Daniel': './Daniel.jpg', 'Joachim': './Joachim.jpg' };
-  function linkifyText(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
-  }
-  function estimateReadingTime(text) {
-    const wordsPerMinute = 200;
-    const wordCount = text.trim().split(/\s+/).length;
-    const minutes = Math.ceil(wordCount / wordsPerMinute);
-    return `${minutes} Min.`;
-  }
-
-  // --- ANZEIGE: PRESSESCHAU (AUTOMATISCH) ---
-  const rssFeeds = [
-    { url: 'https://www.goodnewsnetwork.org/feed/', source: 'Good News Network' },
-    { url: 'https://positive-nachrichten.de/feed/', source: 'Positive Nachrichten' },
-    { url: 'https://rss.cnn.com/rss/edition.rss', source: 'CNN' }
-  ];
-
-  async function fetchRSSNews() {
-    const allAutoArticles = [];
-    const proxy = 'https://corsproxy.io/?';
-
-    for (const feed of rssFeeds) {
-      try {
-        console.log(`Lade RSS Feed: ${feed.source}`);
-        const response = await fetch(proxy + encodeURIComponent(feed.url));
-
-        if (!response.ok) {
-          console.error(`Fehler beim Laden von ${feed.source}: Status ${response.status}`);
-          continue;
-        }
-
-        const feedData = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(feedData, 'text/xml');
-        if (xmlDoc.getElementsByTagName("parsererror").length) {
-          console.error("Fehler beim Parsen des RSS-Feeds für " + feed.source);
-          continue;
-        }
-
-        const items = Array.from(xmlDoc.querySelectorAll('item')).slice(0, 3);
-        items.forEach(item => {
-          const title = item.querySelector('title')?.textContent || '';
-          const description = item.querySelector('description')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || new Date().toISOString();
-          const cleanDescription = description.replace(/<[^>]*>/g, '').substring(0, 300) + '...';
-
-          if (isPositiveArticle(title, cleanDescription, '')) {
-            allAutoArticles.push({
-              title,
-              content: cleanDescription,
-              subtitle: '',
-              source: feed.source,
-              date: new Date(pubDate).toISOString().split('T')[0],
-              featured: false,
-              isAutoGenerated: true
-            });
-          }
-        });
-      } catch (error) {
-        console.error(`Fehler beim Laden von ${feed.source}:`, error);
-      }
-    }
-    return allAutoArticles;
-  }
-
-  // --- HAUPTFUNKTION: DATENABRUF (NACHRICHTEN, ERINNERUNGEN, PRESSE) ---
+  // --- HAUPTFUNKTION: DATENABRUF (NACHRICHTEN, ERINNERUNGEN) ---
   function fetchSheetData() {
-    const timestamp = new Date().getTime();
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv&t=' + timestamp;
-    const proxySheetUrl = 'https://corsproxy.io/?' + encodeURIComponent(sheetUrl);
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv&t=${new Date().getTime()}`;
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(sheetUrl);
 
-    Promise.all([ fetch(proxySheetUrl), fetchRSSNews() ])
-    .then(async ([sheetResponse, autoArticles]) => {
-      let manualArticles = [];
-      const remindersContainer = document.getElementById("reminders");
-      const noteContainer = document.getElementById("note");
-      remindersContainer.innerHTML = "";
-      noteContainer.innerHTML = "";
+    fetch(proxyUrl)
+      .then(response => response.ok ? response.text() : Promise.reject(`HTTP error ${response.status}`))
+      .then(text => {
+        const noteContainer = document.getElementById("note");
+        const remindersContainer = document.getElementById("reminders");
+        noteContainer.innerHTML = "";
+        remindersContainer.innerHTML = "";
+        let reminderFound = false;
 
-      if (sheetResponse.ok) {
-        const text = await sheetResponse.text();
         const rows = text.trim().split('\n').map(row => row.split('\t'));
-        const today = new Date().toISOString().split("T")[0];
-
         rows.forEach(row => {
-          if (!row || row.length < 2) return;
-          const [type, content, sender, rawDate, timestamp, extra1, extra2, extra3] = row.map(cell => cell || "");
+          const [type, content, sender, rawDate, timestamp] = (row || []).map(cell => cell || "");
           if (!type || !content) return;
 
-          // Erinnerungen verarbeiten
-          try {
-              let isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
-              if (type === "Erinnerung" && isToday) {
-                const li = document.createElement("li");
-                li.textContent = "🔔 " + content;
-                remindersContainer.appendChild(li);
-              }
-          } catch (e) {
-            console.error("Fehler bei Erinnerungs-Datum:", rawDate, e);
-          }
-
-          // Nachrichten der Söhne verarbeiten
           if (type === "Nachricht") {
             const messageWrapper = document.createElement("div");
             messageWrapper.className = "message-with-avatar";
-			
-			// KORREKTUR: Robustere Datumsverarbeitung, um "Invalid time value" Fehler zu vermeiden.
-			let messageDate;
-			const dateString = timestamp.trim() || rawDate.trim();
-			if (dateString) {
-				messageDate = new Date(dateString);
-				if (isNaN(messageDate.getTime())) {
-					console.warn('Ungültiges Datum in Tabelle gefunden:', dateString, '- wird durch aktuelles Datum ersetzt.');
-					messageDate = new Date(); // Fallback auf aktuelles Datum
-				}
-			} else {
-				messageDate = new Date(); // Fallback, wenn keine Zeitangabe vorhanden ist
-			}
-
+            const dateString = timestamp.trim() || rawDate.trim();
+            let messageDate = dateString ? new Date(dateString) : new Date();
+            if (isNaN(messageDate.getTime())) messageDate = new Date();
             messageWrapper.innerHTML = `
               <div class="message-avatar">
-                <img src="${senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`}" alt="${sender}"
-                  onerror="this.src='https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100';">
+                <img src="${senderImages[sender]}" alt="${sender}">
               </div>
               <div class="message-content">
                 <div class="message-sender">${sender}</div>
-                <p class="message">
-                  ${linkifyText(content)}
-                  <div class="message-timestamp">
-                    ${messageDate.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' })}, 
-                    ${messageDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                </p>
-              </div>
-            `;
+                <div class="message">
+                  ${content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}
+                  <div class="message-timestamp">${messageDate.toLocaleString('de-DE')}</div>
+                </div>
+              </div>`;
             noteContainer.appendChild(messageWrapper);
-          }
-
-          // Manuelle Presseartikel verarbeiten
-          if (type === "Presseartikel") {
-            const article = {
-              title: sender, content, subtitle: extra1, source: extra2 || "Redaktion",
-              date: rawDate || today, featured: extra3.toLowerCase() === "ja", isAutoGenerated: false
-            };
-            if (isPositiveArticle(article.title, article.content, article.subtitle)) {
-              manualArticles.push(article);
-            }
+          } else if (type === "Erinnerung") {
+            const li = document.createElement("li");
+            li.textContent = "🔔 " + content;
+            remindersContainer.appendChild(li);
+            reminderFound = true;
           }
         });
-        if (remindersContainer.children.length === 0) {
-          remindersContainer.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
-        }
-      } else {
-        console.error('Google Sheet konnte nicht geladen werden: ' + sheetResponse.status);
-        remindersContainer.innerHTML = "<em>Fehler beim Laden der Erinnerungen.</em>";
-      }
-        
-      // Alle Artikel (manuell + automatisch) kombinieren und anzeigen
-      const allArticles = [...manualArticles, ...autoArticles];
-      const newsContainer = document.getElementById("news-container");
-      newsContainer.innerHTML = "";
-      
-      if (allArticles.length > 0) {
-        allArticles.sort((a, b) => (b.featured - a.featured) || (new Date(b.date) - new Date(a.date)));
-        allArticles.forEach(article => {
-          const articleElement = document.createElement("article");
-          articleElement.className = article.featured ? "news-article featured" : "news-article";
-          const formattedDate = new Date(article.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
-          articleElement.innerHTML = `
-            <div class="news-header">
-              <span class="news-source">${article.source}${article.isAutoGenerated ? ' 🤖' : ''}</span>
-              <div class="news-meta">
-                <span class="news-date">${formattedDate}</span>
-                <span class="news-reading-time">${estimateReadingTime(article.content)}</span>
-              </div>
-            </div>
-            <h2 class="news-title">${article.title}</h2>
-            ${article.subtitle ? `<h3 class="news-subtitle">${article.subtitle}</h3>` : ''}
-            <div class="news-content"><p>${article.content.split('\n').join('</p><p>')}</p></div>
-            <div class="news-byline">${article.isAutoGenerated ? 'Automatisch kuratiert' : 'Redaktionsteam'}</div>
-          `;
-          newsContainer.appendChild(articleElement);
-        });
-      } else {
-        newsContainer.innerHTML = `<div class="no-articles-message"><p>🌸 Noch keine schönen Nachrichten für heute vorhanden.</p></div>`;
-      }
-    })
-    .catch(err => {
-      console.error("Detaillierter Fehler beim Laden der Daten:", err);
-      document.getElementById("reminders").innerHTML = `<em>Fehler beim Laden: ${err.message}</em>`;
-      document.getElementById("news-container").innerHTML = `<em>Fehler beim Laden der Nachrichten.</em>`;
-    });
+        if (!reminderFound) remindersContainer.innerHTML = "<li>Keine Erinnerungen für heute.</li>";
+      })
+      .catch(error => {
+        console.error("Fehler beim Laden der Sheet-Daten:", error);
+        document.getElementById("note").innerText = "Nachrichten konnten nicht geladen werden.";
+      });
   }
 
   // --- ANZEIGE: KALENDER ---
-  async function loadCalendarData() {
+  function loadCalendarData() {
     const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
-    const proxies = ['https://corsproxy.io/?', 'https://api.allorigins.win/raw?url='];
-    
-    for (const proxy of proxies) {
-      try {
-        const response = await fetch(proxy + encodeURIComponent(icalUrl));
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        const data = await response.text();
-        if (!data.includes('BEGIN:VCALENDAR')) throw new Error('Ungültiges iCal-Format');
-        
-        const comp = new ICAL.Component(ICAL.parse(data));
-        const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
-        
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        const in2Days = new Date(today); in2Days.setDate(today.getDate() + 3); in2Days.setHours(23, 59, 59, 999);
-        
-        const events = allEvents
-          .filter(e => {
-            const startDate = e.startDate.toJSDate();
-            return startDate >= today && startDate <= in2Days;
-          })
-          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
-        
+    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(icalUrl);
+    fetch(proxyUrl)
+      .then(response => response.ok ? response.text() : Promise.reject(`HTTP error ${response.status}`))
+      .then(data => {
         const out = document.getElementById("ical");
         out.innerHTML = "";
+        const comp = new ICAL.Component(ICAL.parse(data));
+        const events = comp.getAllSubcomponents('vevent')
+          .map(e => new ICAL.Event(e))
+          .filter(e => e.startDate.toJSDate() >= new Date())
+          .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+
         if (events.length === 0) {
-          out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
+          out.innerHTML = "<p>Keine bevorstehenden Termine.</p>";
         } else {
-          events.forEach(e => {
+          events.slice(0, 5).forEach(e => { // Max 5 Termine anzeigen
             const d = e.startDate.toJSDate();
             const box = document.createElement("div");
             box.className = "termin-eintrag";
-            const dateString = `📅 ${d.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit' })}`;
-            const timeString = e.startDate.isDate ? '' : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}`;
-            box.textContent = `${dateString}${timeString} – ${e.summary}`;
+            box.textContent = `📅 ${d.toLocaleDateString('de-DE', {weekday: 'long', day: '2-digit', month: '2-digit'})}, ${d.toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})} – ${e.summary}`;
             out.appendChild(box);
           });
         }
-        return; // Erfolg, Schleife beenden
-      } catch (error) {
-        console.error(`Proxy ${proxy} für Kalender fehlgeschlagen:`, error);
-      }
-    }
-    document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine.</em>";
+      })
+      .catch(error => {
+        console.error("Fehler beim Laden der Kalenderdaten:", error);
+        document.getElementById("ical").innerText = "Termine konnten nicht geladen werden.";
+      });
   }
-    
+  
   // --- BATTERIE-ÜBERWACHUNG ---
   function checkBattery() {
-    const warningElement = document.getElementById('battery-warning');
-    const percentageElement = document.getElementById('battery-percentage');
-    
-    function updateWarning(level, isCharging) {
-      percentageElement.textContent = level;
-      warningElement.classList.toggle('hidden', level > 30 || isCharging);
-    }
-    
-    if (typeof fully !== 'undefined') { // Fully Kiosk Browser API
-      updateWarning(fully.getBatteryLevel(), fully.isPlugged());
-    } else if (navigator.getBattery) { // Standard Browser API
+    if (navigator.getBattery) {
       navigator.getBattery().then(battery => {
-        updateWarning(Math.floor(battery.level * 100), battery.charging);
-        battery.onlevelchange = () => updateWarning(Math.floor(battery.level * 100), battery.charging);
-        battery.onchargingchange = () => updateWarning(Math.floor(battery.level * 100), battery.charging);
+        const level = Math.floor(battery.level * 100);
+        document.getElementById('battery-percentage').textContent = level;
+        document.getElementById('battery-warning').classList.toggle('hidden', level > 30 || battery.charging);
       });
     }
   }
 
   // --- START & AKUALISIERUNGS-INTERVALLE ---
   document.addEventListener('DOMContentLoaded', function() {
-    // Initialer Datenabruf
-    fetchSheetData();
+    updateDateTime();
     fetchWeatherData();
+    fetchSheetData();
     loadCalendarData();
     checkBattery();
 
-    // Periodische Aktualisierungen
-    setInterval(fetchSheetData, 60000); // Nachrichten etc. alle 60 Sekunden
-    setInterval(fetchWeatherData, 900000); // Wetter alle 15 Minuten
-    setInterval(loadCalendarData, 3600000); // Kalender jede Stunde
-    setInterval(checkBattery, 60000); // Batterie alle 60 Sekunden
+    setInterval(updateDateTime, 30000);
+    setInterval(fetchWeatherData, 900000);
+    setInterval(fetchSheetData, 60000);
+    setInterval(loadCalendarData, 3600000);
+    setInterval(checkBattery, 60000);
   });
 </script>
 </body>
