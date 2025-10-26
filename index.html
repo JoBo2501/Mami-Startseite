@@ -6,24 +6,19 @@
   <title>Mutters Messageboard</title>
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
-      padding: 2rem; 
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Noto+Serif+SC:wght@600&display=swap');
-    /* Import Chinese display fonts needed for the Shanghai sticky note */
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      padding: 280px 2rem 2.5rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
+      padding: 2rem; 
+      padding-top: 280px;
       background: #f8fafc;
       color: #333; 
       text-align: center; 
       margin: 0; 
-      color: #333;
-      text-align: center;
-      margin: 0;
       min-height: 100vh;
     }
+    
     h1 { 
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
       font-size: 2rem; 
@@ -39,15 +34,206 @@
       backdrop-filter: blur(10px);
       color: #92400e;
     }
+    
     .section { 
       margin: 3rem 0; 
-      animation: fadeInUp 0.6s ease-out;
+      padding: 2.5rem; 
+      background: white; 
+      border-radius: 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.08),
+        0 4px 10px rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .section:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.12),
+        0 8px 16px rgba(0,0,0,0.06);
+    }
+
     .section-title { 
-      font-weight: 600; 
+      font-size: 1.6rem; 
+      margin-bottom: 1.5rem; 
+      color: #1e293b;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      padding-bottom: 1rem;
+      border-bottom: 3px solid #f1f5f9;
+    }
+
+    .digital-board {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 3rem;
+      border-radius: 25px;
+      box-shadow: 
+        0 25px 50px rgba(102, 126, 234, 0.3),
+        0 10px 20px rgba(102, 126, 234, 0.2),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      max-width: 900px;
+      margin: 3rem auto;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .date-display {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 1rem;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      letter-spacing: -1px;
+    }
+
+    .time-display {
+      font-size: 5rem;
+      font-weight: 900;
+      color: white;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      letter-spacing: -2px;
+    }
+
+    #note { 
       font-size: 1.3rem; 
-      text-transform: none;
-@@ -510,139 +513,257 @@
+      line-height: 1.8;
+      color: #334155;
+      white-space: pre-wrap;
+      font-weight: 500;
+    }
+
+    .event { 
+      padding: 1.5rem; 
+      margin: 1rem 0; 
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: 15px;
+      border-left: 5px solid #667eea;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .event:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .event-title { 
+      font-weight: 700; 
+      font-size: 1.3rem;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.3px;
+    }
+
+    .event-time { 
+      color: #64748b; 
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .weather { 
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .termin-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      box-shadow: 
+        0 25px 50px rgba(102, 126, 234, 0.3),
+        0 10px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .termin-section:hover {
+      transform: translateY(-6px);
+      box-shadow: 
+        0 30px 60px rgba(102, 126, 234, 0.4),
+        0 15px 30px rgba(102, 126, 234, 0.25);
+    }
+
+    .termin-section .section-title {
+      color: white;
+      border-bottom-color: rgba(255,255,255,0.2);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .termin-form {
+      margin-top: 2rem;
+    }
+
+    .arrow-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      font-size: 2rem;
+      animation: bounce-arrows 2s infinite;
+    }
+
+    @keyframes bounce-arrows {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    .termin-form textarea {
+      width: 100%;
+      max-width: 600px;
+      padding: 1.2rem;
+      font-size: 1.1rem;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 15px;
+      margin-bottom: 1.5rem;
+      font-family: inherit;
+      resize: vertical;
+      background: rgba(255,255,255,0.95);
+      color: #1e293b;
+      box-shadow: 
+        0 10px 25px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.5);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .termin-form textarea:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.6);
+      background: white;
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.2),
+        0 0 0 4px rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .termin-form textarea::placeholder {
+      color: #64748b;
+      opacity: 0.8;
+    }
+
+    .termin-form button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1.2rem 3rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid rgba(255,255,255,0.3);
+      text-transform: uppercase;
       max-width: 300px;
       margin: 0 auto;
       display: block;
@@ -73,22 +259,17 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
-    .post-it-sticker {
     .post-it-cluster {
       position: fixed;
-      top: 20%;
-      left: -25px;
-      width: 220px;
-      top: clamp(120px, 20vh, 260px);
-      left: 0;
-      right: 0;
+      top: clamp(60px, 18vh, 220px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1100px);
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: clamp(28px, 10vw, 220px);
-      padding: 0 clamp(24px, 6vw, 160px);
-      margin: 0 auto;
-      max-width: min(100%, 1500px);
+      gap: clamp(20px, 6vw, 120px);
+      padding: 0 clamp(16px, 4vw, 56px);
       box-sizing: border-box;
       pointer-events: none;
       z-index: 1000;
@@ -106,7 +287,6 @@
       height: auto;
       background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
       border-radius: 12px;
-      box-shadow: 
       box-shadow:
         0 15px 30px rgba(0,0,0,0.2),
         inset 0 1px 0 rgba(255,255,255,0.6),
@@ -157,28 +337,27 @@
       height: 20px;
       background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
       border-radius: 50%;
-      box-shadow: 
       box-shadow:
         0 4px 8px rgba(0,0,0,0.15),
         inset 0 1px 0 rgba(255,255,255,0.8);
       border: 2px solid rgba(255,193,7,0.6);
     }
 
-    @media (max-width: 768px) {
-      .post-it-sticker {
-        left: -15px;
-        width: 200px;
-        top: 25%;
-      body {
-        padding: 2rem 1.5rem 2.5rem;
+    @media (max-width: 900px) {
+      .post-it-cluster {
+        width: min(100%, 900px);
+        gap: clamp(16px, 8vw, 72px);
       }
-      
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 2rem;
+      }
 
       .post-it-cluster {
         position: static;
         transform: none;
-        left: auto;
-        right: auto;
         width: 100%;
         padding: 0;
         margin: 1.5rem auto 0;
@@ -187,7 +366,7 @@
         gap: 1.5rem;
         pointer-events: auto;
       }
-
+      
       .post-it-cluster .post-it-sticker {
         pointer-events: auto;
       }
@@ -196,7 +375,6 @@
         font-size: 0.9rem;
       }
       
-
       .post-it-text {
         font-size: 0.8rem;
       }
@@ -204,7 +382,6 @@
 
     .post-it-sticker:hover {
       transform: rotate(0deg) scale(1.05) translateY(-5px);
-      box-shadow: 
       box-shadow:
         0 25px 50px rgba(0,0,0,0.25),
         inset 0 1px 0 rgba(255,255,255,0.6),
@@ -318,7 +495,115 @@
       50% { 
         background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
         box-shadow: 0 15px 40px rgba(255,107,107,0.5);
-@@ -959,55 +1080,66 @@
+      }
+      100% { 
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      }
+    }
+
+    .battery-icon {
+      font-size: 4rem;
+      margin-right: 25px;
+      animation: shake-battery 0.5s infinite;
+    }
+
+    @keyframes shake-battery {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+
+    .battery-message {
+      text-align: left;
+    }
+
+    .battery-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      letter-spacing: 0.5px;
+    }
+
+    .battery-level {
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 768px) {
+      .battery-warning {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .battery-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+        font-size: 3rem;
+      }
+
+      .battery-message {
+        text-align: center;
+      }
+
+      .battery-title {
+        font-size: 1.2rem;
+      }
+
+      .battery-level {
+        font-size: 1rem;
+      }
+    }
+
+    .success-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .success-card {
+      background: white;
+      padding: 3rem;
+      border-radius: 25px;
+      text-align: center;
+      max-width: 500px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+      animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .success-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .success-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
     
     .success-text {
       font-size: 1.3rem;
@@ -343,12 +628,7 @@
   </div>
 </div>
 
-<!-- Permanenter Post-it Sticker -->
-<div class="post-it-sticker">
-  <div class="post-it-content">
-    <div class="post-it-title">WICHTIGER HINWEIS</div>
-    <div class="post-it-text">
-      Sanja bitte bis auf weiteres nicht mehr bar bezahlen, das erfolgt jetzt online!
+<!-- Permanente Post-it Sticker -->
 <div class="post-it-cluster">
   <div class="post-it-sticker">
     <div class="post-it-content">
@@ -369,14 +649,29 @@
   </div>
 </div>
 
-  <div class="digital-board">
-    <div id="date" class="date-display"></div>
-    <div id="time" class="time-display"></div>
-  </div>
-  <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
-  <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
-  <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
-  <div class="section termin-section">
+<h1>Mutters Messageboard</h1>
+
+<div class="digital-board">
+  <div id="date" class="date-display"></div>
+  <div id="time" class="time-display"></div>
+</div>
+
+<div class="section">
+  <div class="section-title">Nachrichten von den Söhnen</div>
+  <div id="note">Keine neuen Nachrichten</div>
+</div>
+
+<div class="section">
+  <div class="section-title">Bevorstehende Termine</div>
+  <div id="ical">Keine Termine geladen</div>
+</div>
+
+<div class="section">
+  <div class="section-title">Wetter heute in Pullach</div>
+  <div class="weather" id="weather">Lade Wetterdaten...</div>
+</div>
+
+<div class="section termin-section">
   <div class="section-title">Neue Termine hier eintragen</div>
   <div class="termin-form">
     <p>Alle Termine werden direkt in den Kalender übernommen!</p>
@@ -390,3 +685,127 @@
       placeholder="Hier deinen Termin eintragen, z.B.: Hautarzt nächsten Donnerstag 14 Uhr" 
       rows="3"></textarea>
     <button onclick="sendTermin()">Termin eintragen</button>
+  </div>
+</div>
+
+<script>
+  // Batteriestand überprüfen
+  async function checkBattery() {
+    if ('getBattery' in navigator) {
+      try {
+        const battery = await navigator.getBattery();
+        updateBatteryStatus(battery);
+        
+        battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
+        battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
+      } catch (error) {
+        console.log('Battery API nicht verfügbar');
+      }
+    }
+  }
+
+  function updateBatteryStatus(battery) {
+    const level = Math.floor(battery.level * 100);
+    const warning = document.getElementById('battery-warning');
+    const percentage = document.getElementById('battery-percentage');
+    
+    percentage.textContent = level;
+    
+    if (level <= 20 && !battery.charging) {
+      warning.classList.remove('hidden');
+    } else {
+      warning.classList.add('hidden');
+    }
+  }
+
+  // Uhrzeit und Datum aktualisieren
+  function updateTime() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = now.toLocaleDateString('de-DE', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    document.getElementById('time').textContent = timeStr;
+    document.getElementById('date').textContent = dateStr;
+  }
+
+  // Termin eintragen
+  function sendTermin() {
+    const text = document.getElementById('termin-text').value;
+    if (text.trim()) {
+      // Success Overlay anzeigen
+      showSuccess();
+      document.getElementById('termin-text').value = '';
+      
+      // Hier würde die Backend-Integration erfolgen
+      console.log('Termin eingetragen:', text);
+    } else {
+      alert('Bitte einen Termin eingeben!');
+    }
+  }
+
+  function showSuccess() {
+    const overlay = document.createElement('div');
+    overlay.className = 'success-overlay';
+    overlay.innerHTML = `
+      <div class="success-card">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Erfolgreich!</div>
+        <div class="success-text">Dein Termin wurde eingetragen und wird in Kürze im Kalender angezeigt.</div>
+      </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    setTimeout(() => {
+      overlay.remove();
+    }, 3000);
+  }
+
+  // Wetter laden (Beispiel - benötigt echte API)
+  async function loadWeather() {
+    const weatherDiv = document.getElementById('weather');
+    try {
+      // Hier würde die echte Wetter-API Integration erfolgen
+      weatherDiv.innerHTML = `
+        <strong>Heute:</strong> Teilweise bewölkt, 15°C<br>
+        <strong>Höchsttemperatur:</strong> 18°C<br>
+        <strong>Tiefsttemperatur:</strong> 11°C<br>
+        <strong>Niederschlag:</strong> 20%
+      `;
+    } catch (error) {
+      weatherDiv.textContent = 'Wetterdaten konnten nicht geladen werden.';
+    }
+  }
+
+  // iCal Termine laden (Beispiel)
+  function loadCalendar() {
+    const icalDiv = document.getElementById('ical');
+    // Hier würde die echte iCal Integration erfolgen
+    icalDiv.innerHTML = `
+      <div class="event">
+        <div class="event-title">Zahnarzt Termin</div>
+        <div class="event-time">Morgen, 14:00 Uhr</div>
+      </div>
+      <div class="event">
+        <div class="event-title">Friseur</div>
+        <div class="event-time">Freitag, 10:30 Uhr</div>
+      </div>
+    `;
+  }
+
+  // Initialisierung
+  document.addEventListener('DOMContentLoaded', function() {
+    updateTime();
+    setInterval(updateTime, 1000);
+    checkBattery();
+    loadWeather();
+    loadCalendar();
+  });
+</script>
+</body>
+</html>
