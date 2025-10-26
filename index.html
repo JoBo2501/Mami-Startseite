@@ -6,8 +6,6 @@
   <title>Mutters Messageboard</title>
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Noto+Serif+SC:wght@600&display=swap');
-    
     body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
       padding: 2rem; 
@@ -240,6 +238,7 @@
         max-width: 600px;
       }
     }
+
     /* Modernisierte Apple Watch-Style Uhr mit Alpenpanorama */
     .digital-board {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -294,6 +293,7 @@
       backdrop-filter: blur(5px);
       overflow: hidden;
     }
+
     /* Subtiler Glanz-Effekt */
     .digital-board::before {
       content: "";
@@ -309,6 +309,7 @@
       border-radius: 25px 25px 0 0;
       pointer-events: none;
     }
+
     .date-display {
       color: #e8e8e8;
       font-size: 1.4rem;
@@ -331,6 +332,7 @@
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
       font-variant-numeric: tabular-nums;
     }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .digital-board {
@@ -378,6 +380,7 @@
       transform: translateY(-50%);
       font-size: 1rem;
     }
+
     .termin-form {
       max-width: 600px;
       margin: 0 auto 2rem auto;
@@ -395,6 +398,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .termin-form::before {
       content: '';
       position: absolute;
@@ -407,6 +411,7 @@
         rgba(255,255,255,0.6) 50%, 
         transparent 100%);
     }
+
     .termin-section .section-title {
       font-size: 1.4rem;
       color: #fff;
@@ -422,24 +427,28 @@
       border: 1px solid rgba(255,255,255,0.1);
       text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
+
     .termin-section .section-title::before {
       content: "📅";
       margin-right: 10px;
       position: relative;
       font-size: 1.2em;
     }
+
     .termin-section .section-title::after {
       content: "✏️";
       margin-left: 10px;
       position: relative;
       font-size: 1.2em;
     }
+
     .arrow-container {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1.5rem;
       padding: 0 20px;
     }
+
     .arrow-down {
       font-size: 1.8rem;
       background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -449,6 +458,7 @@
       animation: bounce-modern 2s infinite;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
+
     @keyframes bounce-modern {
       0%, 20%, 50%, 80%, 100% {
         transform: translateY(0);
@@ -460,6 +470,7 @@
         transform: translateY(-6px);
       }
     }
+
     .termin-form textarea {
       width: 100%;
       padding: 1.5rem;
@@ -475,6 +486,7 @@
       transition: all 0.3s ease;
       box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
     }
+
     .termin-form textarea:focus {
       outline: none;
       border-color: rgba(79, 172, 254, 0.6);
@@ -483,6 +495,7 @@
         0 0 0 3px rgba(79, 172, 254, 0.2);
       transform: translateY(-2px);
     }
+
     .termin-form button {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -500,14 +513,17 @@
       box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
       letter-spacing: 0.5px;
     }
+
     .termin-form button:hover {
       transform: translateY(-3px);
       box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
       background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     }
+
     .termin-form button:active {
       transform: translateY(-1px);
     }
+
     .termin-form p {
       font-size: 1rem;
       color: rgba(255,255,255,0.9);
@@ -515,10 +531,11 @@
       font-weight: 500;
       text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
+
     .post-it-sticker {
       position: fixed;
-      top: 200px;
-      left: 5%;
+      top: 20%;
+      left: -25px;
       width: 220px;
       height: auto;
       background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
@@ -534,16 +551,19 @@
       animation: gentle-sway-modern 8s ease-in-out infinite;
       backdrop-filter: blur(5px);
     }
+
     @keyframes gentle-sway-modern {
       0%, 100% { transform: rotate(-4deg) translateY(0px); }
       25% { transform: rotate(-2deg) translateY(-3px); }
       50% { transform: rotate(-5deg) translateY(2px); }
       75% { transform: rotate(-1deg) translateY(-1px); }
     }
+
     .post-it-content {
       padding: 1.5rem;
       text-align: center;
     }
+
     .post-it-title {
       font-size: 1rem;
       font-weight: 700;
@@ -553,12 +573,14 @@
       letter-spacing: 0.8px;
       text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
+
     .post-it-text {
       font-size: 0.9rem;
       color: #2d3436;
       line-height: 1.4;
       font-weight: 600;
     }
+
     .post-it-sticker::before {
       content: "";
       position: absolute;
@@ -574,103 +596,11 @@
       border: 2px solid rgba(255,193,7,0.6);
     }
 
-    /* Shanghai Post-it rechts */
-    .post-it-shanghai {
-      position: fixed;
-      top: 200px;
-      right: 5%;
-      width: 240px;
-      height: auto;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(255, 230, 180, 0.9), transparent 55%),
-        radial-gradient(circle at 85% 85%, rgba(255, 214, 153, 0.8), transparent 50%),
-        repeating-linear-gradient(135deg,
-          rgba(255, 244, 214, 0.85) 0px,
-          rgba(255, 244, 214, 0.85) 14px,
-          rgba(255, 228, 181, 0.8) 14px,
-          rgba(255, 228, 181, 0.8) 28px),
-        linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-      border-radius: 16px;
-      border: 2px solid rgba(194, 24, 7, 0.35);
-      box-shadow: 
-        0 15px 30px rgba(0,0,0,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.6),
-        inset 0 -1px 0 rgba(0,0,0,0.1);
-      transform: rotate(4deg);
-      z-index: 1000;
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      animation: gentle-sway-shanghai 9s ease-in-out infinite;
-      backdrop-filter: blur(6px);
-      overflow: hidden;
-    }
-
-    @keyframes gentle-sway-shanghai {
-      0%, 100% { transform: rotate(4deg) translateY(0px); }
-      25% { transform: rotate(2deg) translateY(-4px); }
-      50% { transform: rotate(5deg) translateY(3px); }
-      75% { transform: rotate(1deg) translateY(-2px); }
-    }
-
-    .post-it-shanghai .post-it-content {
-      padding: 1.6rem 1.3rem 1.9rem 1.5rem;
-      position: relative;
-    }
-
-    .post-it-shanghai .post-it-title {
-      font-size: 1.05rem;
-      color: #b71c1c;
-      letter-spacing: 1px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-
-    .post-it-shanghai .post-it-text {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: #2d3436;
-      font-weight: 600;
-    }
-
-    .post-it-shanghai::before {
-      content: "";
-      position: absolute;
-      top: -10px;
-      right: 35px;
-      width: 28px;
-      height: 28px;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-      border-radius: 50%;
-      box-shadow:
-        0 6px 12px rgba(0,0,0,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.85);
-      border: 2px solid rgba(255,193,7,0.7);
-    }
-
-    .post-it-shanghai::after {
-      content: "福";
-      position: absolute;
-      bottom: 12px;
-      right: 18px;
-      font-size: 1.8rem;
-      color: rgba(183, 28, 28, 0.45);
-      font-family: 'Noto Serif SC', 'Songti SC', serif;
-      transform: rotate(-8deg);
-      opacity: 0.85;
-    }
-
     @media (max-width: 768px) {
       .post-it-sticker {
-        left: 2%;
+        left: -15px;
         width: 200px;
-        top: 650px;
-      }
-      
-      .post-it-shanghai {
-        right: 2%;
-        width: 210px;
-        top: 850px;
+        top: 25%;
       }
       
       .post-it-title {
@@ -680,17 +610,9 @@
       .post-it-text {
         font-size: 0.8rem;
       }
-
-      .post-it-shanghai .post-it-title {
-        font-size: 0.95rem;
-      }
-
-      .post-it-shanghai .post-it-text {
-        font-size: 0.85rem;
-      }
     }
 
-    .post-it-sticker:hover, .post-it-shanghai:hover {
+    .post-it-sticker:hover {
       transform: rotate(0deg) scale(1.05) translateY(-5px);
       box-shadow: 
         0 25px 50px rgba(0,0,0,0.25),
@@ -698,6 +620,7 @@
         inset 0 -1px 0 rgba(0,0,0,0.1);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+
     .battery-warning {
       position: fixed;
       top: 0;
@@ -714,6 +637,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       backdrop-filter: blur(10px);
     }
+
     @keyframes pulse-warning-modern {
       0% { 
         background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
@@ -728,14 +652,17 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       }
     }
+
     .battery-icon {
       font-size: 3rem;
       margin-right: 20px;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
+
     .battery-message {
       font-size: 1.3rem;
     }
+
     .battery-title {
       font-weight: 700;
       font-size: 1.6rem;
@@ -743,9 +670,11 @@
       text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       letter-spacing: 0.5px;
     }
+
     .hidden {
       display: none;
     }
+
     .daily-wisdom {
       background: linear-gradient(135deg, 
         rgba(138, 43, 226, 0.15) 0%, 
@@ -799,6 +728,7 @@
       color: rgba(0,0,0,0.7);
       font-weight: 600;
     }
+
     .brain-game {
       background: linear-gradient(135deg, 
         rgba(255, 183, 77, 0.15) 0%, 
@@ -1050,22 +980,12 @@
   </div>
 </div>
 
-<!-- Permanenter Post-it Sticker (Sanja) -->
+<!-- Permanenter Post-it Sticker -->
 <div class="post-it-sticker">
   <div class="post-it-content">
     <div class="post-it-title">WICHTIGER HINWEIS</div>
     <div class="post-it-text">
       Sanja bitte bis auf weiteres nicht mehr bar bezahlen, das erfolgt jetzt online!
-    </div>
-  </div>
-</div>
-
-<!-- Zweiter Post-it Sticker (Shanghai-Reise) -->
-<div class="post-it-shanghai">
-  <div class="post-it-content">
-    <div class="post-it-title">旅程提醒 · Reise-Notiz</div>
-    <div class="post-it-text">
-      Daniel ist vom 31.10. bis zum 13.11. in <strong>Shanghai, China</strong>.
     </div>
   </div>
 </div>
@@ -1102,6 +1022,583 @@
   allowfullscreen loading="lazy">
 </iframe>
   </div>
+
+  <script>
+    // Datum und Uhrzeit Anzeige
+    const now = new Date();
+    // Formatiere Datum mit besserem Layout und ohne zu viele Punkte
+    const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
+    const day = now.getDate();
+    const month = now.toLocaleDateString('de-DE', { month: 'long' });
+    const year = now.getFullYear();
+    document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
+    
+    // Aktualisiere die Uhrzeit jede Minute ohne Sekunden, mit "Uhr" am Ende
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById("time").innerHTML = `${hours}:${minutes}`;
+    }
+    
+    updateClock(); // Initial ausführen
+    setInterval(updateClock, 60000); // Alle 60 Sekunden aktualisieren (1 Minute)
+
+    // Wetter-Anzeige mit CORS-Proxy
+    const weatherCodes = {
+      0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
+      3: "☁️ Bedeckt", 45: "🌫️ Nebel", 48: "🌫️ Nebel",
+      51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
+    };
+
+    fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+        }
+        return res.json();
+      })
+      .then(data => {
+        const w = data.current_weather;
+        const emoji = weatherCodes[w.weathercode] || "🌡️";
+        
+        // Freundlichere Wetterkommentare basierend auf den aktuellen Bedingungen
+        let weatherComment = "";
+        let temperatureComment = "";
+        let windComment = "";
+        
+        // Wetterkommentar basierend auf dem Wetterzustand
+        if (w.weathercode <= 2) { // Sonnig oder überwiegend klar
+          weatherComment = "– Heute wird ein sehr schöner Tag!";
+        } else if (w.weathercode === 3) { // Bedeckt
+          weatherComment = "– Heute ist der Himmel bedeckt.";
+        } else if (w.weathercode >= 45 && w.weathercode <= 48) { // Nebel
+          weatherComment = "– Heute ist es neblig, bitte vorsichtig fahren!";
+        } else if (w.weathercode >= 51 && w.weathercode <= 67) { // Nieselregen bis Regen
+          weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
+        } else if (w.weathercode >= 80 && w.weathercode <= 86) { // Regenschauer
+          weatherComment = "– Heute kommt immer wieder Regen runter, besser drinnen bleiben.";
+        } else if (w.weathercode >= 95) { // Gewitter
+          weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
+        }
+        
+        // Temperaturkommentar
+        if (w.temperature < 5) {
+          temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
+        } else if (w.temperature < 12) {
+          temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
+        } else if (w.temperature < 20) {
+          temperatureComment = "Die Temperatur ist angenehm.";
+        } else if (w.temperature < 26) {
+          temperatureComment = "Es ist schön warm heute.";
+        } else {
+          temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
+        }
+        
+        // Windkommentar
+        if (w.windspeed < 5) {
+          windComment = "Kaum Wind heute.";
+        } else if (w.windspeed < 15) {
+          windComment = "Eine leichte Brise weht.";
+        } else if (w.windspeed < 25) {
+          windComment = "Es ist etwas windig draußen.";
+        } else {
+          windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
+        }
+        
+        // Zusammengesetzte Meldung mit korrigierter Anzeige (ohne Dopplung)
+        document.getElementById("weather").innerHTML = `
+          <div style="font-size: 1.1rem; margin-bottom: 10px">
+            <strong>${emoji}</strong> ${weatherComment}
+          </div>
+          <div style="margin: 5px 0; font-size: 1.1rem">
+            🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
+          </div>
+          <div style="margin: 5px 0; font-size: 1.1rem">
+            💨 <strong>${w.windspeed} km/h</strong> - ${windComment}
+          </div>
+        `;
+      })
+      .catch(error => {
+        console.error("Fehler beim Laden der Wetterdaten:", error);
+        document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten: " + error.message;
+      });
+
+    // Profilbilder der Söhne mit korrekten Pfaden und Fallback
+    const senderImages = {
+      'Daniel': './Daniel.jpg',
+      'Joachim': './Joachim.jpg'
+    };
+
+    // Funktion zum Erkennen und Verlinken von URLs im Text
+    function linkifyText(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, function(url) {
+        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+      });
+    }
+
+    // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
+    function isNewMessage(messageDate) {
+      const now = new Date();
+      const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+      return messageDate > fiveHoursAgo;
+    }
+
+    // Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
+    function fetchSheetData() {
+      // Timestamp für Cache-Busting hinzufügen
+      const timestamp = new Date().getTime();
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
+      
+      fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+          }
+          return res.text();
+        })
+        .then(text => {
+          if (!text || text.trim() === '') {
+            throw new Error('Leere Antwort vom Server');
+          }
+          
+          const rows = text.trim().split('\n').map(row => row.split('\t'));
+          
+          const reminders = document.getElementById("reminders");
+          const note = document.getElementById("note");
+          reminders.innerHTML = "";
+          note.innerHTML = "";
+
+          const today = new Date().toISOString().split("T")[0];
+
+          rows.forEach((row, index) => {
+            // Sicherere Destrukturierung mit Prüfung
+            if (!row || row.length < 2) {
+              console.log('Ungültige Zeile übersprungen:', row);
+              return;
+            }
+            
+            // Erweiterte Struktur: Typ, Inhalt, Absender, Datum, Zeitstempel
+            const type = row[0];
+            const content = row[1];
+            const sender = row[2] || ""; // Absender
+            const rawDate = row[3] || row[2]; // Datum (jetzt in Spalte D oder C, falls kein Absender)
+            const timestamp = row[4]; // Zeitstempel aus Google Sheets
+            
+            if (!type || !content) return;
+
+            // Sicherere Datumskonvertierung
+            let isToday = false;
+            try {
+              isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+            } catch (e) {
+              console.error('Fehler beim Parsen des Datums:', rawDate, e);
+              isToday = !rawDate; // Fallback: ohne Datum ist es für "heute"
+            }
+
+            if (type === "Erinnerung" && isToday) {
+              const li = document.createElement("li");
+              li.textContent = "🔔 " + content;
+              li.style.paddingLeft = "0.5rem";
+              reminders.appendChild(li);
+            }
+
+            if (type === "Nachricht") {
+              // Neues HTML-Structure für Nachrichten mit Absender
+              const messageWrapper = document.createElement("div");
+              messageWrapper.className = "message-with-avatar";
+              
+              // Profilbild für den Absender
+              if (sender) {
+                const avatarDiv = document.createElement("div");
+                avatarDiv.className = "message-avatar";
+                
+                const avatarImg = document.createElement("img");
+                avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+                avatarImg.alt = sender;
+                
+                // Fehlerbehandlung für Bilder
+                avatarImg.onerror = function() {
+                  console.log(`Bild konnte nicht geladen werden: ${this.src}`);
+                  this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+                };
+                
+                avatarDiv.appendChild(avatarImg);
+                messageWrapper.appendChild(avatarDiv);
+                
+                // Absendername und Nachrichteninhalt
+                const contentDiv = document.createElement("div");
+                contentDiv.className = "message-content";
+                
+                // Hier den sender-div nur erstellen, wenn es keine "Neu von" Anzeige gibt
+                let senderDiv;
+                let messageDate;
+                
+                // Versuche zuerst den Zeitstempel zu verwenden, dann das Datum, dann aktuelles Datum
+                if (timestamp && timestamp.trim()) {
+                  try {
+                    messageDate = new Date(timestamp.trim());
+                    if (isNaN(messageDate.getTime())) { // Ungültiges Zeitstempel-Format
+                      // Fallback zum regulären Datum
+                      if (rawDate && rawDate.trim()) {
+                        messageDate = new Date(rawDate.trim());
+                        if (isNaN(messageDate.getTime())) { // Auch ungültiges Datum
+                          messageDate = new Date(); // Aktuelles Datum als letzter Fallback
+                        }
+                      } else {
+                        messageDate = new Date();
+                      }
+                    }
+                  } catch (e) {
+                    console.error("Fehler beim Parsen des Zeitstempels:", timestamp, e);
+                    // Versuche es mit dem regulären Datum
+                    if (rawDate && rawDate.trim()) {
+                      try {
+                        messageDate = new Date(rawDate.trim());
+                      } catch {
+                        messageDate = new Date();
+                      }
+                    } else {
+                      messageDate = new Date();
+                    }
+                  }
+                } else if (rawDate && rawDate.trim()) {
+                  // Kein Zeitstempel, versuche es mit dem regulären Datum
+                  try {
+                    messageDate = new Date(rawDate.trim());
+                    if (isNaN(messageDate.getTime())) {
+                      messageDate = new Date();
+                    }
+                  } catch (e) {
+                    messageDate = new Date();
+                  }
+                } else {
+                  messageDate = new Date();
+                }
+
+                // Funktion, um zu prüfen, ob eine Nachricht "neu" ist (weniger als 5 Stunden alt)
+                const isReallyNew = (function() {
+                  const now = new Date();
+                  const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+                  return messageDate > fiveHoursAgo;
+                })();
+                
+                // Neue Nachricht markieren (weniger als 5 Stunden alt)
+                if (isReallyNew) {
+                  // Erstelle den "Neu von [Sender]" Indikator, der den Absendernamen bereits enthält
+                  const newIndicator = document.createElement("div");
+                  newIndicator.className = "new-indicator";
+                  newIndicator.textContent = `Neu von ${sender}`;
+                  contentDiv.appendChild(newIndicator);
+                } else {
+                  // Nur einen normalen Absendernamen anzeigen, wenn die Nachricht nicht neu ist
+                  senderDiv = document.createElement("div");
+                  senderDiv.className = "message-sender";
+                  senderDiv.textContent = sender;
+                  contentDiv.appendChild(senderDiv);
+                }
+                
+                const p = document.createElement("p");
+                p.className = "message";
+
+                // Links in Nachricht verlinken
+                p.innerHTML = linkifyText(content);
+                
+                const ts = document.createElement("div");
+                ts.className = "message-timestamp";
+
+                // Formatiertes Datum und Uhrzeit anzeigen
+                const today = new Date();
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+
+                let datePrefix = "";
+                if (messageDate.toDateString() === today.toDateString()) {
+                  datePrefix = "Heute";
+                } else if (messageDate.toDateString() === yesterday.toDateString()) {
+                  datePrefix = "Gestern";
+                } else {
+                  datePrefix = messageDate.toLocaleDateString('de-DE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                  });
+                }
+
+                // Zeitstempel setzen
+                ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  hour12: false // Diese Option erzwingt das 24-Stunden-Format
+                })}`;
+                
+                p.appendChild(ts);
+                contentDiv.appendChild(p);
+                messageWrapper.appendChild(contentDiv);
+              } else {
+                // Alte Struktur für Nachrichten ohne Absender (Abwärtskompatibilität)
+                const p = document.createElement("p");
+                p.className = "message";
+                p.innerHTML = linkifyText(content);
+                
+                const ts = document.createElement("div");
+                ts.className = "message-timestamp";
+                ts.textContent = new Date().toLocaleTimeString('de-DE', {
+                  hour: '2-digit', 
+                  minute: '2-digit',
+                  hour12: false
+                });
+                
+                p.appendChild(ts);
+                messageWrapper.appendChild(p);
+              }
+              
+              note.appendChild(messageWrapper);
+            }
+          });
+          
+          // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+          if (reminders.children.length === 0) {
+            reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+          }
+        })
+        .catch(err => {
+          console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+          document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
+        });
+    }
+
+    // Initial ausführen
+    fetchSheetData();
+
+function sendTermin() {
+  const terminText = document.getElementById('termin-text').value;
+  if (!terminText.trim()) {
+    alert('Bitte gib einen Termin ein.');
+    return;
+  }
+
+  // Dies ist die URL deines veröffentlichten Skripts
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwDbrJnfhwY3w6xoHN9xTgveChcVEE6EjTgMjNUAVpDImnjbZkBP-AO3muLYRcXiER78w/exec';
+  const formData = new FormData();
+  formData.append('typ', 'Termin');
+  formData.append('inhalt', terminText);
+  // Wir senden den Zeitstempel vom Client mit, auch wenn der Server ihn überschreibt.
+  // Das Skript erwartet ihn aktuell noch.
+  formData.append('timestamp', new Date().toISOString());
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    // Erster Check: War die grundsätzliche Verbindung/Anfrage okay?
+    if (!response.ok) {
+      // Wenn nicht, werfen wir einen Fehler mit mehr Details
+      throw new Error(`Netzwerkantwort war nicht ok: ${response.status} ${response.statusText}`);
+    }
+    // Wenn die Verbindung okay war, versuchen wir die Antwort als JSON zu lesen
+    // Das Google Skript sollte immer JSON zurücksenden
+    return response.json(); // Gibt ein Promise zurück, das mit dem JSON-Objekt aufgelöst wird
+  })
+  .then(data => {
+    // Jetzt prüfen wir, was im JSON vom Skript steht
+    if (data.success) {
+      // Fall 1: Das Skript meldet Erfolg!
+      alert('Danke! Dein Termin wurde eingetragen.');
+      document.getElementById('termin-text').value = ''; // Feld leeren
+      fetchSheetData(); // Daten neu laden, um den Termin anzuzeigen (falls zutreffend)
+    } else {
+      // Fall 2: Das Skript meldet einen Fehler!
+      // Wir werfen einen neuen Fehler, der dann im .catch unten behandelt wird
+      // Wir nutzen die Fehlermeldung aus dem Skript, falls vorhanden
+      throw new Error(`Fehler vom Skript: ${data.error || 'Unbekannter Fehler im Skript.'}`);
+    }
+  })
+  .catch(error => {
+    // Fall 3: Irgendetwas ist schiefgelaufen (Netzwerkfehler ODER Fehler vom Skript)
+    console.error('Fehler beim Senden des Termins:', error);
+    // Zeige eine detailliertere Fehlermeldung an
+    alert(`Es gab ein Problem beim Senden des Termins. Bitte versuche es später noch einmal.\n\nDetails: ${error.message}`);
+  });
+}
+    // Alle 30 Sekunden nach Updates suchen
+    setInterval(fetchSheetData, 30000); // 30000 ms = 30 Sekunden
+
+    // Google Kalender Abruf mit Fallback-Optionen
+    async function loadCalendarData() {
+      const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
+      
+      // Verschiedene CORS-Proxies ausprobieren
+      const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/'
+      ];
+      
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          console.log(`Versuche Proxy ${i + 1}: ${proxies[i]}`);
+          
+          const response = await fetch(proxies[i] + encodeURIComponent(icalUrl));
+          
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+          
+          const data = await response.text();
+          console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
+          
+          // Überprüfen, ob die Daten im erwarteten Format sind
+          if (!data.includes('BEGIN:VCALENDAR')) {
+            throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
+          }
+          
+          const comp = new ICAL.Component(ICAL.parse(data));
+          const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
+          console.log("Anzahl gefundener Events:", allEvents.length);
+
+          // Vereinfachte Datumsberechnung
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          
+          const in2Days = new Date(today);
+          in2Days.setDate(today.getDate() + 2);
+          in2Days.setHours(23, 59, 59, 999);
+          
+          console.log("Datumsbereich für Events:", today, "bis", in2Days);
+
+          const events = allEvents
+            .filter(e => {
+              try {
+                const startDate = e.startDate.toJSDate();
+                return startDate >= today && startDate <= in2Days;
+              } catch (err) {
+                console.error("Fehler beim Filtern eines Events:", err, e);
+                return false;
+              }
+            })
+            .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+          
+          console.log("Anzahl anstehender Events:", events.length);
+
+          const out = document.getElementById("ical");
+          if (events.length === 0) {
+            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
+          } else {
+            out.innerHTML = "";
+            events.forEach(e => {
+              try {
+                const d = e.startDate.toJSDate();
+                const isAllDay = e.startDate.isDate;
+                const box = document.createElement("div");
+                box.className = "termin-eintrag";
+                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
+                  weekday: 'long', day: '2-digit', month: '2-digit'
+                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
+                out.appendChild(box);
+              } catch (err) {
+                console.error("Fehler beim Anzeigen eines Events:", err, e);
+              }
+            });
+          }
+          
+          // Erfolgreich geladen, Schleife beenden
+          return;
+          
+        } catch (error) {
+          console.error(`Proxy ${i + 1} fehlgeschlagen:`, error);
+          
+          // Beim letzten Proxy eine Fehlermeldung anzeigen
+          if (i === proxies.length - 1) {
+            document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine. Bitte später erneut versuchen.</em>";
+          }
+        }
+      }
+    }
+    
+    // Kalender laden
+    loadCalendarData();
+
+    // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
+    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
+      'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
+    ))
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+        }
+        return res.text();
+      })
+      .then(data => {
+        console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
+        
+        try {
+          // Überprüfen, ob die Daten im erwarteten Format sind
+          if (!data.includes('BEGIN:VCALENDAR')) {
+            throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
+          }
+          
+          const comp = new ICAL.Component(ICAL.parse(data));
+          const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
+          console.log("Anzahl gefundener Events:", allEvents.length);
+
+          // Vereinfachte Datumsberechnung
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // Auf Mitternacht setzen
+          
+          const in2Days = new Date(today);
+          in2Days.setDate(today.getDate() + 2);
+          in2Days.setHours(23, 59, 59, 999); // Auf Ende des Tages setzen
+          
+          console.log("Datumsbereich für Events:", today, "bis", in2Days);
+
+          const events = allEvents
+            .filter(e => {
+              try {
+                const startDate = e.startDate.toJSDate();
+                return startDate >= today && startDate <= in2Days;
+              } catch (err) {
+                console.error("Fehler beim Filtern eines Events:", err, e);
+                return false;
+              }
+            })
+            .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+          
+          console.log("Anzahl anstehender Events:", events.length);
+
+          const out = document.getElementById("ical");
+          if (events.length === 0) {
+            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
+          } else {
+            out.innerHTML = "";
+            events.forEach(e => {
+              try {
+                const d = e.startDate.toJSDate();
+                const isAllDay = e.startDate.isDate;
+                const box = document.createElement("div");
+                box.className = "termin-eintrag";
+                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
+                  weekday: 'long', day: '2-digit', month: '2-digit'
+                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
+                out.appendChild(box);
+              } catch (err) {
+                console.error("Fehler beim Anzeigen eines Events:", err, e);
+              }
+            });
+          }
+        } catch (parseError) {
+          console.error("Fehler beim Parsen der Kalenderdaten:", parseError);
+          throw parseError; // Weiterleiten an den catch-Block
+        }
+      })
+      .catch(error => {
+        console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
+        document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
+      });
+  </script>
+
 <!-- Gedanke für heute Section -->
 <div class="section">
   <div class="section-title">Gedanke für heute</div>
@@ -1113,6 +1610,7 @@
     </div>
   </div>
 </div>
+
 <!-- Tägliche Literatur-Herausforderung Section -->
 <div class="section">
   <div class="section-title">Tägliche Literatur-Herausforderung</div>
@@ -1155,21 +1653,594 @@
   </div>
 </div>
 
-  <script>
-    // Datum und Uhrzeit Anzeige
-    const now = new Date();
-    const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
-    const day = now.getDate();
-    const month = now.toLocaleDateString('de-DE', { month: 'long' });
-    const year = now.getFullYear();
-    document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
+<script>
+// Batteriestand-Überwachung für Fully Kiosk Browser
+function checkBatteryFullyKiosk() {
+  // Prüfe, ob die Fully Kiosk API verfügbar ist
+  if (typeof fully !== 'undefined') {
+    // Fully Kiosk API verwenden
+    const batteryLevel = fully.getBatteryLevel();
+    const isPluggedIn = fully.isPlugged();
     
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById("time").innerHTML = `${hours}:${minutes}`;
+    const warningElement = document.getElementById('battery-warning');
+    const percentageElement = document.getElementById('battery-percentage');
+    
+    percentageElement.textContent = batteryLevel;
+    
+    // Warnung anzeigen bei <= 30% und nicht am Laden
+    if (batteryLevel <= 30 && !isPluggedIn) {
+      warningElement.classList.remove('hidden');
+      
+      // Bei kritischem Batteriestand visuelles und akustisches Signal
+      if (batteryLevel <= 15) {
+        // Blinkeffekt aktivieren
+        warningElement.style.animation = "pulse-warning 0.5s infinite";
+        
+        // Ton abspielen (falls erlaubt)
+        if (typeof fully.playSound !== 'undefined') {
+          fully.playSound("https://www.soundjay.com/buttons/beep-07.wav");
+        }
+      }
+    } else {
+      warningElement.classList.add('hidden');
+    }
+  } else {
+    // Fallback für normale Browser
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function(battery) {
+        const warningElement = document.getElementById('battery-warning');
+        const percentageElement = document.getElementById('battery-percentage');
+        const level = Math.floor(battery.level * 100);
+        
+        percentageElement.textContent = level;
+        
+        // Warnung anzeigen bei <= 30% und nicht am Laden
+        if (level <= 30 && !battery.charging) {
+          warningElement.classList.remove('hidden');
+        } else {
+          warningElement.classList.add('hidden');
+        }
+      });
+    }
+  }
+  
+  // Alle 10 Sekunden prüfen statt alle 5 Minuten
+  setTimeout(checkBatteryFullyKiosk, 10 * 1000);
+}
+
+// Starte Batterie-Überwachung
+document.addEventListener('DOMContentLoaded', function() {
+  // Warte kurz, damit Fully Kiosk API geladen werden kann
+  setTimeout(checkBatteryFullyKiosk, 1000);
+});
+
+// Sammlung von beruhigenden Sprichwörtern und Weisheiten
+const wisdomCollection = [
+  {
+    quote: "Ruhe ist die erste Bürgerpflicht.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
+    source: "Chinesische Weisheit"
+  },
+  {
+    quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
+    source: "Afrikanisches Sprichwort"
+  },
+  {
+    quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
+    source: "Persisches Sprichwort"
+  },
+  {
+    quote: "Wenn du in Eile bist, gehe langsam.",
+    source: "Japanisches Sprichwort"
+  },
+  {
+    quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
+    source: "Abgewandeltes deutsches Sprichwort"
+  },
+  {
+    quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
+    source: "Volksmund"
+  },
+  {
+    quote: "Es ist noch kein Meister vom Himmel gefallen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
+    source: "Aus der Bibel, Matthäus 6,34"
+  },
+  {
+    quote: "Mit Geduld und Zeit kommt man weit.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Auch dunkle Wolken haben einen silbernen Rand.",
+    source: "Englisches Sprichwort"
+  },
+  {
+    quote: "Morgenstund hat Gold im Mund.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Ein ruhiges Herz ist des Lebens Frucht.",
+    source: "Aus der Bibel, Sprüche 14,30"
+  },
+  {
+    quote: "Nach Regen scheint Sonnenschein.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Klein aber fein.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Jeder Tag ist ein neuer Anfang.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
+    source: "Amerikanische Lebensweisheit"
+  },
+  {
+    quote: "Nimm dir Zeit, glücklich zu sein.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Übung macht den Meister.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
+    source: "Seneca"
+  },
+  {
+    quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Aufgeschoben ist nicht aufgehoben.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
+    source: "Türkisches Sprichwort"
+  },
+  {
+    quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
+    source: "Chinesische Weisheit"
+  },
+  {
+    quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
+    source: "Charlie Chaplin"
+  },
+  {
+    quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
+    source: "Albert Einstein"
+  },
+  {
+    quote: "Geduld bringt Rosen.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
+    source: "Lebensweisheit"
+  },
+  {
+    quote: "Es gibt nichts Gutes, außer man tut es.",
+    source: "Erich Kästner"
+  },
+  {
+    quote: "In der Ruhe liegt die Kraft.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Wo ein Wille ist, ist auch ein Weg.",
+    source: "Englisches Sprichwort"
+  },
+  {
+    quote: "Wer nicht wagt, der nicht gewinnt.",
+    source: "Deutsches Sprichwort"
+  },
+  {
+    quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
+    source: "Chinesisches Sprichwort"
+  },
+  {
+    quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
+    source: "Gotthold Ephraim Lessing"
+  },
+  {
+    quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
+    source: "Jean de La Fontaine"
+  },
+  {
+    quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
+    source: "Sokrates"
+  },
+  {
+    quote: "Freude, nicht Trauer verlängert das Leben.",
+    source: "Jüdisches Sprichwort"
+  }
+];
+
+// Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
+function getWisdomOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
+  // aber für den gleichen Tag konstant bleibt
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash; // Zu 32bit Integer konvertieren
+  }
+  
+  // Positiven Index generieren
+  const seed = Math.abs(hash);
+  const index = seed % wisdomCollection.length;
+  
+  return wisdomCollection[index];
+}
+
+// Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
+const quotesCollection = [
+  {
+    quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
+    incompleteQuote: "Das also war des Pudels Kern! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
+    incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
+    incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
+    author: "Johann Wolfgang von Goethe, Faust II"
+  },
+  {
+    quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
+    incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
+    incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
+    incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
+    author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
+  },
+  {
+    quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
+    incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
+    incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
+    incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
+    incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
+    author: "Johann Wolfgang von Goethe, Erlkönig"
+  },
+  {
+    quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. Was heute noch nicht ist, wird morgen sein.",
+    incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. Sie schleppen von Geschlecht sich zum Geschlechte und rücken sacht von Ort zu Ort.",
+    incompleteQuote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! Der Wahn ist kurz, die Reu ist lang.",
+    incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! ...",
+    author: "Friedrich Schiller, Das Lied von der Glocke"
+  },
+  {
+    quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. Ein Unglück fürchtet der Edle nicht, den Schmerz nicht, nur die Schmach.",
+    incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. ...",
+    author: "Friedrich Schiller, Die Braut von Messina"
+  },
+  {
+    quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. Was Hände bauten, können Hände stürzen.",
+    incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. ...",
+    author: "Friedrich Schiller, Wilhelm Tell"
+  },
+  {
+    quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. Den Göttern schenkt man nur die Liebe, die nimmer bereut.",
+    incompleteQuote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. ...",
+    author: "Friedrich Schiller, Der Ring des Polykrates"
+  },
+  {
+    quote: "Die Axt im Haus erspart den Zimmermann. Mit leichtem Mut und leichter Hand schwingt er das Beil im Hausgebrauch.",
+    incompleteQuote: "Die Axt im Haus erspart den Zimmermann. ...",
+    author: "Friedrich Schiller, Wilhelm Tell"
+  },
+  {
+    quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. Dem Schicksal ist sein Opfer unverloren.",
+    incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. ...",
+    author: "Friedrich Schiller, Die Piccolomini"
+  },
+  {
+    quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! Den schlechten Mann muss man verachten, der nie bedacht, was er vollbringt.",
+    incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! ...",
+    author: "Friedrich Schiller, Das Lied von der Glocke"
+  },
+  {
+    quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. Heute muss die Glocke werden! Frisch, Gesellen, seid zur Hand!",
+    incompleteQuote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. ...",
+    author: "Friedrich Schiller, Das Lied von der Glocke"
+  },
+  {
+    quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. Denn was ein Geistlicher verspricht, das ist den Hörern wohlbehäglich.",
+    incompleteQuote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "O Augenblick, verweile doch, du bist so schön! Es kann die Spur von meinen Erdentagen nicht in Äonen untergehen.",
+    incompleteQuote: "O Augenblick, verweile doch, du bist so schön! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Freude, schöner Götterfunken, Tochter aus Elysium, wir betreten feuertrunken, Himmlische, dein Heiligtum.",
+    incompleteQuote: "Freude, schöner Götterfunken, Tochter aus Elysium, ...",
+    author: "Friedrich Schiller, An die Freude"
+  },
+  {
+    quote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! Brüder, über'm Sternenzelt muss ein lieber Vater wohnen.",
+    incompleteQuote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! ...",
+    author: "Friedrich Schiller, An die Freude"
+  },
+  {
+    quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ein sanfter Wind vom blauen Himmel weht, die Myrte still und hoch der Lorbeer steht?",
+    incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ...",
+    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+  },
+  {
+    quote: "Du musst herrschen und gewinnen, oder dienen und verlieren, leiden oder triumphieren, Amboss oder Hammer sein.",
+    incompleteQuote: "Du musst herrschen und gewinnen, oder dienen und verlieren, ...",
+    author: "Johann Wolfgang von Goethe, Der Groß-Cophta"
+  },
+  {
+    quote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, wenn wir einen trefflichen Mann, ein herrliches Buch kennen lernen.",
+    incompleteQuote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, ...",
+    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+  },
+  {
+    quote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, der kennt euch nicht, ihr himmlischen Mächte.",
+    incompleteQuote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, ...",
+    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
+  }
+];
+
+// Verschiedene Button-Texte
+const buttonTexts = [
+  "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
+  "Weißt Du, wie es weitergeht? Hier klicken!",
+  "Vervollständige das Zitat!",
+  "Ich komm nicht drauf. Du?",
+  "Wie der Klassiker weiter?",
+  "Sag mir die vollständige Passage",
+  "Ich denke, ich kenne die Fortsetzung. Prüfen...",
+  "Diese Passage vervollständigen",
+  "Diesen Klassiker aufdecken"
+];
+
+// Verschiedene Feedback-Texte
+const feedbackTexts = [
+  "Beeindruckend!",
+  "Großartig!",
+  "Wusstest Du es?",
+  "Sehr gut!",
+  "Klasse.",
+  "Ich hätte es nicht gewusst!",
+  "Sehr schön.",
+  "Gut!",
+  "War nicht einfach!"
+];
+
+// Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
+function getQuotesOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  // Einfacher Pseudozufall basierend auf dem Datum
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash;
+  }
+  
+  // Datum als Seed für den Zufallsgenerator verwenden
+  const seed = Math.abs(hash);
+  
+  // Array mit allen Indizes erstellen
+  const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
+  
+  // Fisher-Yates Shuffle-Algorithmus mit deterministischem Seed
+  for (let i = allIndices.length - 1; i > 0; i--) {
+    const j = (seed * (i + 1)) % (i + 1) | 0;
+    [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+  }
+  
+  // Die ersten 5 Zitate auswählen
+  return allIndices.slice(0, 5).map(index => quotesCollection[index]);
+}
+
+// Funktion zur Initialisierung des Gehirnjoggings
+function initBrainTraining() {
+  const currentQuote = document.getElementById('current-quote');
+  const currentAuthor = document.getElementById('current-author');
+  const quoteCounter = document.getElementById('quote-counter');
+  const revealButton = document.getElementById('reveal-button');
+  const quoteFeedback = document.getElementById('quote-feedback');
+  const feedbackText = document.getElementById('feedback-text');
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+  const dailySuccess = document.getElementById('daily-success');
+  const dots = document.querySelectorAll('.dot');
+  
+  // Heutige Zitate laden
+  const todayQuotes = getQuotesOfTheDay();
+  let currentIndex = 0;
+  
+  // Speicherschlüssel für diesen Tag
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
+  
+  // Funktion zum Aktualisieren des aktuellen Zitats
+  function updateCurrentQuote() {
+    const quote = todayQuotes[currentIndex];
+    const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
+    
+    // Text und Autor aktualisieren
+    currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
+    currentAuthor.textContent = quote.author;
+    currentAuthor.classList.toggle('hidden', !isCompleted);
+    
+    // Button-Status aktualisieren
+    revealButton.disabled = isCompleted;
+    revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
+    
+    // Feedback ein-/ausblenden
+    quoteFeedback.classList.toggle('hidden', !isCompleted);
+    if (isCompleted) {
+      feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
     }
     
-    updateClock();
-    setInterval(updateClock, 60000);
+    // Zähler aktualisieren
+    quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
+    
+    // Navigation aktualisieren
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === 4;
+    
+    // Aktiven Punkt markieren
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+      dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
+    });
+  }
+  
+  // Event-Listener für den Aufdecken-Button
+  revealButton.addEventListener('click', function() {
+    // Vollständiges Zitat und Autor anzeigen
+    currentQuote.textContent = todayQuotes[currentIndex].quote;
+    currentAuthor.classList.remove('hidden');
+    
+    // Feedback anzeigen
+    quoteFeedback.classList.remove('hidden');
+    feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+    
+    // Button deaktivieren
+    revealButton.disabled = true;
+    revealButton.textContent = 'Gelöst!';
+    
+    // In localStorage markieren
+    localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
+    
+    // Punkte aktualisieren
+    dots[currentIndex].classList.add('completed');
+    
+    // Prüfen, ob alle Zitate gelöst wurden
+    let allCompleted = true;
+    for (let i = 0; i < 5; i++) {
+      if (localStorage.getItem(storageKeyPrefix + i) !== 'true') {
+        allCompleted = false;
+        break;
+      }
+    }
+    
+    if (allCompleted) {
+      dailySuccess.classList.remove('hidden');
+    }
+  });
+  
+  // Event-Listener für Navigation
+  prevButton.addEventListener('click', function() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCurrentQuote();
+    }
+  });
+  
+  nextButton.addEventListener('click', function() {
+    if (currentIndex < 4) {
+      currentIndex++;
+      updateCurrentQuote();
+    }
+  });
+  
+  // Event-Listener für Punkte
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      currentIndex = index;
+      updateCurrentQuote();
+    });
+  });
+  
+  // Initial das erste Zitat laden
+  updateCurrentQuote();
+}
+
+// Lade das Sprichwort und initialisiere Gehirnjogging beim Seitenaufbau
+document.addEventListener('DOMContentLoaded', function() {
+  const wisdom = getWisdomOfTheDay();
+  document.getElementById('daily-quote').textContent = wisdom.quote;
+  document.getElementById('daily-source').textContent = wisdom.source;
+  
+  // Emoji basierend auf dem Ton des Sprichworts auswählen (vereinfachte Version)
+  let emoji = "☀️"; // Standard: Sonne
+  
+  if (wisdom.quote.toLowerCase().includes("ruhe") || 
+      wisdom.quote.toLowerCase().includes("geduld") || 
+      wisdom.quote.toLowerCase().includes("frieden")) {
+    emoji = "🕊️"; // Friedenstaube für beruhigende Sprichwörter
+  } else if (wisdom.quote.toLowerCase().includes("freude") || 
+             wisdom.quote.toLowerCase().includes("glück") || 
+             wisdom.quote.toLowerCase().includes("lächeln")) {
+    emoji = "😊"; // Lächeln für freudvolle Sprichwörter
+  } else if (wisdom.quote.toLowerCase().includes("weg") || 
+             wisdom.quote.toLowerCase().includes("schritt") || 
+             wisdom.quote.toLowerCase().includes("ziel")) {
+    emoji = "🌱"; // Sämling für Wachstums-/Fortschrittssprichwörter
+  }
+  
+  document.querySelector(".wisdom-icon").textContent = emoji;
+  
+  // Gehirnjogging initialisieren
+  initBrainTraining();
+});
+</script>  
+</body>
+</html>
