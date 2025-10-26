@@ -1,4 +1,738 @@
-<!DOCTYPE html>
+updateClock();
+setInterval(updateClock, 60000);
+
+// Wetter-Anzeige mit CORS-Proxy
+const weatherCodes = {
+  0: "☀️ Klar", 1: "🌤️ Überwiegend klar", 2: "🌥️ Teilweise bewölkt",
+  3: "☁️ Bedeckt", 45: "🌫️ Nebel", 48: "🌫️ Nebel",
+  51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
+};
+
+fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
+  .then(res => {
+    if (!res.ok) {
+      throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+    }
+    return res.json();
+  })
+  .then(data => {
+    const w = data.current_weather;
+    const emoji = weatherCodes[w.weathercode] || "🌡️";
+    
+    let weatherComment = "";
+    let temperatureComment = "";
+    let windComment = "";
+    
+    if (w.weathercode <= 2) {
+      weatherComment = "– Heute wird ein sehr schöner Tag!";
+    } else if (w.weathercode === 3) {
+      weatherComment = "– Heute ist der Himmel bedeckt.";
+    } else if (w.weathercode >= 45 && w.weathercode <= 48) {
+      weatherComment = "– Heute ist es neblig, bitte vorsichtig fahren!";
+    } else if (w.weathercode >= 51 && w.weathercode <= 67) {
+      weatherComment = "– Heute musst Du für einen Spaziergang den Regenschirm mitnehmen.";
+    } else if (w.weathercode >= 80 && w.weathercode <= 86) {
+      weatherComment = "– Heute kommt immer wieder Regen runter, besser drinnen bleiben.";
+    } else if (w.weathercode >= 95) {
+      weatherComment = "– Heute gibt es Gewitter, bitte bleib zu Hause!";
+    }
+    
+    if (w.temperature < 5) {
+      temperatureComment = "Es ist sehr kalt, bitte warm anziehen!";
+    } else if (w.temperature < 12) {
+      temperatureComment = "Es ist frisch, eine Jacke wäre gut.";
+    } else if (w.temperature < 20) {
+      temperatureComment = "Die Temperatur ist angenehm.";
+    } else if (w.temperature < 26) {
+      temperatureComment = "Es ist schön warm heute.";
+    } else {
+      temperatureComment = "Es ist sehr warm, denk an genug Wasser!";
+    }
+    
+    if (w.windspeed < 5) {
+      windComment = "Kaum Wind heute.";
+    } else if (w.windspeed < 15) {
+      windComment = "Eine leichte Brise weht.";
+    } else if (w.windspeed < 25) {
+      windComment = "Es ist etwas windig draußen.";
+    } else {
+      windComment = "Heute ist es sehr windig, bitte vorsichtig sein!";
+    }
+    
+    document.getElementById("weather").innerHTML = `
+      <div style="font-size: 1.1rem; margin-bottom: 10px">
+        <strong>${emoji}</strong> ${weatherComment}
+      </div>
+      <div style="margin: 5px 0; font-size: 1.1rem">
+        🌡️ <strong>${w.temperature}°C</strong> - ${temperatureComment}
+      </div>
+      <div style="margin: 5px 0; font-size: 1.1rem">
+        💨 <strong>${w.windspeed} km/h</strong> - ${windComment}
+      </div>
+    `;
+  })
+  .catch(error => {
+    console.error("Fehler beim Laden der Wetterdaten:", error);
+    document.getElementById("weather").innerText = "Fehler beim Laden der Wetterdaten: " + error.message;
+  });
+
+// Profilbilder der Söhne
+const senderImages = {
+  'Daniel': './Daniel.jpg',
+  'Joachim': './Joachim.jpg'
+};
+
+function linkifyText(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '" target="_blank">' + url + '</a>';
+  });
+}
+
+function isNewMessage(messageDate) {
+  const now = new Date();
+  const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+  return messageDate > fiveHoursAgo;
+}
+
+// Google Sheet Abruf
+function fetchSheetData() {
+  const timestamp = new Date().getTime();
+  const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
+  
+  fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+      }
+      return res.text();
+    })
+    .then(text => {
+      if (!text || text.trim() === '') {
+        throw new Error('Leere Antwort vom Server');
+      }
+      
+      const rows = text.trim().split('\n').map(row => row.split('\t'));
+      
+      const reminders = document.getElementById("reminders");
+      const note = document.getElementById("note");
+      reminders.innerHTML = "";
+      note.innerHTML = "";
+      const today = new Date().toISOString().split("T")[0];
+      
+      rows.forEach((row, index) => {
+        if (!row || row.length < 2) {
+          console.log('Ungültige Zeile übersprungen:', row);
+          return;
+        }
+        
+        const type = row[0];
+        const content = row[1];
+        const sender = row[2] || "";
+        const rawDate = row[3] || row[2];
+        const timestamp = row[4];
+        
+        if (!type || !content) return;
+        
+        let isToday = false;
+        try {
+          isToday = !rawDate || new Date(rawDate).toISOString().split("T")[0] === today;
+        } catch (e) {
+          console.error('Fehler beim Parsen des Datums:', rawDate, e);
+          isToday = !rawDate;
+        }
+        
+        if (type === "Erinnerung" && isToday) {
+          const li = document.createElement("li");
+          li.textContent = "🔔 " + content;
+          li.style.paddingLeft = "0.5rem";
+          reminders.appendChild(li);
+        }
+        
+        if (type === "Nachricht") {
+          const messageWrapper = document.createElement("div");
+          messageWrapper.className = "message-with-avatar";
+          
+          if (sender) {
+            const avatarDiv = document.createElement("div");
+            avatarDiv.className = "message-avatar";
+            
+            const avatarImg = document.createElement("img");
+            avatarImg.src = senderImages[sender] || `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff`;
+            avatarImg.alt = sender;
+            
+            avatarImg.onerror = function() {
+              console.log(`Bild konnte nicht geladen werden: ${this.src}`);
+              this.src = `https://ui-avatars.com/api/?name=${sender.charAt(0)}&background=777&color=fff&size=100`;
+            };
+            
+            avatarDiv.appendChild(avatarImg);
+            messageWrapper.appendChild(avatarDiv);
+            
+            const contentDiv = document.createElement("div");
+            contentDiv.className = "message-content";
+            
+            let messageDate;
+            
+            if (timestamp && timestamp.trim()) {
+              try {
+                messageDate = new Date(timestamp.trim());
+                if (isNaN(messageDate.getTime())) {
+                  if (rawDate && rawDate.trim()) {
+                    messageDate = new Date(rawDate.trim());
+                    if (isNaN(messageDate.getTime())) {
+                      messageDate = new Date();
+                    }
+                  } else {
+                    messageDate = new Date();
+                  }
+                }
+              } catch (e) {
+                console.error("Fehler beim Parsen des Zeitstempels:", timestamp, e);
+                if (rawDate && rawDate.trim()) {
+                  try {
+                    messageDate = new Date(rawDate.trim());
+                  } catch {
+                    messageDate = new Date();
+                  }
+                } else {
+                  messageDate = new Date();
+                }
+              }
+            } else if (rawDate && rawDate.trim()) {
+              try {
+                messageDate = new Date(rawDate.trim());
+                if (isNaN(messageDate.getTime())) {
+                  messageDate = new Date();
+                }
+              } catch (e) {
+                messageDate = new Date();
+              }
+            } else {
+              messageDate = new Date();
+            }
+            
+            const isReallyNew = (function() {
+              const now = new Date();
+              const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+              return messageDate > fiveHoursAgo;
+            })();
+            
+            if (isReallyNew) {
+              const newIndicator = document.createElement("div");
+              newIndicator.className = "new-indicator";
+              newIndicator.textContent = `Neu von ${sender}`;
+              contentDiv.appendChild(newIndicator);
+            } else {
+              const senderDiv = document.createElement("div");
+              senderDiv.className = "message-sender";
+              senderDiv.textContent = sender;
+              contentDiv.appendChild(senderDiv);
+            }
+            
+            const p = document.createElement("p");
+            p.className = "message";
+            p.innerHTML = linkifyText(content);
+            
+            const ts = document.createElement("div");
+            ts.className = "message-timestamp";
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            let datePrefix = "";
+            if (messageDate.toDateString() === today.toDateString()) {
+              datePrefix = "Heute";
+            } else if (messageDate.toDateString() === yesterday.toDateString()) {
+              datePrefix = "Gestern";
+            } else {
+              datePrefix = messageDate.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+              });
+            }
+            
+            ts.textContent = `${datePrefix}, ${messageDate.toLocaleTimeString('de-DE', {
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: false
+            })}`;
+            
+            p.appendChild(ts);
+            contentDiv.appendChild(p);
+            messageWrapper.appendChild(contentDiv);
+          } else {
+            const p = document.createElement("p");
+            p.className = "message";
+            p.innerHTML = linkifyText(content);
+            
+            const ts = document.createElement("div");
+            ts.className = "message-timestamp";
+            ts.textContent = new Date().toLocaleTimeString('de-DE', {
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: false
+            });
+            
+            p.appendChild(ts);
+            messageWrapper.appendChild(p);
+          }
+          
+          note.appendChild(messageWrapper);
+        }
+      });
+      
+      if (reminders.children.length === 0) {
+        reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+      }
+    })
+    .catch(err => {
+      console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+      document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
+    });
+}
+
+fetchSheetData();
+
+// Fallback-Daten falls Sheet nicht lädt
+setTimeout(function() {
+  const note = document.getElementById("note");
+  const reminders = document.getElementById("reminders");
+  
+  if (!note.innerHTML || note.innerHTML.trim() === "") {
+    note.innerHTML = `
+      <div class="message-with-avatar">
+        <div class="message-avatar">
+          <img src="https://ui-avatars.com/api/?name=D&background=667eea&color=fff&size=100" alt="Daniel">
+        </div>
+        <div class="message-content">
+          <div class="message-sender">Daniel</div>
+          <p class="message">
+            Hallo Mami! Hoffe es geht dir gut. Melde mich aus Shanghai! 🇨🇳
+            <div class="message-timestamp">Heute, 14:30</div>
+          </p>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (reminders.innerHTML.includes("Lade")) {
+    reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+  }
+}, 3000);
+
+function sendTermin() {
+  const terminText = document.getElementById('termin-text').value;
+  if (!terminText.trim()) {
+    alert('Bitte gib einen Termin ein.');
+    return;
+  }
+  
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwDbrJnfhwY3w6xoHN9xTgveChcVEE6EjTgMjNUAVpDImnjbZkBP-AO3muLYRcXiER78w/exec';
+  const formData = new FormData();
+  formData.append('typ', 'Termin');
+  formData.append('inhalt', terminText);
+  formData.append('timestamp', new Date().toISOString());
+  
+  fetch(scriptURL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Netzwerkantwort war nicht ok: ${response.status} ${response.statusText}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+      alert('Danke! Dein Termin wurde eingetragen.');
+      document.getElementById('termin-text').value = '';
+      fetchSheetData();
+    } else {
+      throw new Error(`Fehler vom Skript: ${data.error || 'Unbekannter Fehler im Skript.'}`);
+    }
+  })
+  .catch(error => {
+    console.error('Fehler beim Senden des Termins:', error);
+    alert(`Es gab ein Problem beim Senden des Termins. Bitte versuche es später noch einmal.\n\nDetails: ${error.message}`);
+  });
+}
+
+setInterval(fetchSheetData, 30000);
+
+// Google Kalender Abruf
+async function loadCalendarData() {
+  const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
+  
+  const proxies = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://cors-anywhere.herokuapp.com/'
+  ];
+  
+  for (let i = 0; i < proxies.length; i++) {
+    try {
+      console.log(`Versuche Proxy ${i + 1}: ${proxies[i]}`);
+      
+      const response = await fetch(proxies[i] + encodeURIComponent(icalUrl));
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.text();
+      console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
+      
+      if (!data.includes('BEGIN:VCALENDAR')) {
+        throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
+      }
+      
+      const comp = new ICAL.Component(ICAL.parse(data));
+      const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
+      console.log("Anzahl gefundener Events:", allEvents.length);
+      
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const in2Days = new Date(today);
+      in2Days.setDate(today.getDate() + 2);
+      in2Days.setHours(23, 59, 59, 999);
+      
+      console.log("Datumsbereich für Events:", today, "bis", in2Days);
+      const events = allEvents
+        .filter(e => {
+          try {
+            const startDate = e.startDate.toJSDate();
+            return startDate >= today && startDate <= in2Days;
+          } catch (err) {
+            console.error("Fehler beim Filtern eines Events:", err, e);
+            return false;
+          }
+        })
+        .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
+      
+      console.log("Anzahl anstehender Events:", events.length);
+      const out = document.getElementById("ical");
+      if (events.length === 0) {
+        out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
+      } else {
+        out.innerHTML = "";
+        events.forEach(e => {
+          try {
+            const d = e.startDate.toJSDate();
+            const isAllDay = e.startDate.isDate;
+            const box = document.createElement("div");
+            box.className = "termin-eintrag";
+            box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
+              weekday: 'long', day: '2-digit', month: '2-digit'
+            })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
+            out.appendChild(box);
+          } catch (err) {
+            console.error("Fehler beim Anzeigen eines Events:", err, e);
+          }
+        });
+      }
+      
+      return;
+      
+    } catch (error) {
+      console.error(`Proxy ${i + 1} fehlgeschlagen:`, error);
+      
+      if (i === proxies.length - 1) {
+        document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine. Bitte später erneut versuchen.</em>";
+      }
+    }
+  }
+}
+
+loadCalendarData();
+
+// Fallback für Kalender
+setTimeout(function() {
+  const ical = document.getElementById("ical");
+  if (!ical.innerHTML || ical.innerHTML.includes("Keine bevorstehenden")) {
+    ical.innerHTML = `
+      <div class="termin-eintrag">
+        📅 Montag, 28.10 – Zahnarzt Termin
+      </div>
+      <div class="termin-eintrag">
+        📅 Mittwoch, 30.10, 14:00 – Friseur
+      </div>
+    `;
+  }
+}, 5000);
+
+// Batteriestand-Überwachung
+function checkBatteryFullyKiosk() {
+  if (typeof fully !== 'undefined') {
+    const batteryLevel = fully.getBatteryLevel();
+    const isPluggedIn = fully.isPlugged();
+    
+    const warningElement = document.getElementById('battery-warning');
+    const percentageElement = document.getElementById('battery-percentage');
+    
+    percentageElement.textContent = batteryLevel;
+    
+    if (batteryLevel <= 30 && !isPluggedIn) {
+      warningElement.classList.remove('hidden');
+      
+      if (batteryLevel <= 15) {
+        warningElement.style.animation = "pulse-warning 0.5s infinite";
+        
+        if (typeof fully.playSound !== 'undefined') {
+          fully.playSound("https://www.soundjay.com/buttons/beep-07.wav");
+        }
+      }
+    } else {
+      warningElement.classList.add('hidden');
+    }
+  } else {
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function(battery) {
+        const warningElement = document.getElementById('battery-warning');
+        const percentageElement = document.getElementById('battery-percentage');
+        const level = Math.floor(battery.level * 100);
+        
+        percentageElement.textContent = level;
+        
+        if (level <= 30 && !battery.charging) {
+          warningElement.classList.remove('hidden');
+        } else {
+          warningElement.classList.add('hidden');
+        }
+      });
+    }
+  }
+  
+  setTimeout(checkBatteryFullyKiosk, 10 * 1000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(checkBatteryFullyKiosk, 1000);
+});
+
+// Sammlung von Sprichwörtern
+const wisdomCollection = [
+  { quote: "Ruhe ist die erste Bürgerpflicht.", source: "Deutsches Sprichwort" },
+  { quote: "Auch der längste Weg beginnt mit dem ersten Schritt.", source: "Chinesische Weisheit" },
+  { quote: "Das Gras wächst nicht schneller, wenn man daran zieht.", source: "Afrikanisches Sprichwort" },
+  { quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.", source: "Persisches Sprichwort" },
+  { quote: "Wenn du in Eile bist, gehe langsam.", source: "Japanisches Sprichwort" },
+  { quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.", source: "Abgewandeltes deutsches Sprichwort" },
+  { quote: "Nimm dir Zeit zum Leben, es eilt sowieso.", source: "Volksmund" },
+  { quote: "Es ist noch kein Meister vom Himmel gefallen.", source: "Deutsches Sprichwort" },
+  { quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.", source: "Aus der Bibel, Matthäus 6,34" },
+  { quote: "Mit Geduld und Zeit kommt man weit.", source: "Deutsches Sprichwort" }
+];
+
+function getWisdomOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash;
+  }
+  
+  const seed = Math.abs(hash);
+  const index = seed % wisdomCollection.length;
+  
+  return wisdomCollection[index];
+}
+
+// Sammlung klassischer Zitate
+const quotesCollection = [
+  {
+    quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
+    incompleteQuote: "Das also war des Pudels Kern! ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
+    incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
+    incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
+    author: "Johann Wolfgang von Goethe, Faust II"
+  },
+  {
+    quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
+    incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  },
+  {
+    quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
+    incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
+    author: "Johann Wolfgang von Goethe, Faust I"
+  }
+];
+
+const buttonTexts = [
+  "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
+  "Weißt Du, wie es weitergeht? Hier klicken!",
+  "Vervollständige das Zitat!",
+  "Ich komm nicht drauf. Du?",
+  "Wie der Klassiker weiter?"
+];
+
+const feedbackTexts = [
+  "Beeindruckend!",
+  "Großartig!",
+  "Wusstest Du es?",
+  "Sehr gut!",
+  "Klasse."
+];
+
+function getQuotesOfTheDay() {
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
+    hash = hash & hash;
+  }
+  
+  const seed = Math.abs(hash);
+  const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
+  
+  for (let i = allIndices.length - 1; i > 0; i--) {
+    const j = (seed * (i + 1)) % (i + 1) | 0;
+    [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
+  }
+  
+  return allIndices.slice(0, 5).map(index => quotesCollection[index]);
+}
+
+function initBrainTraining() {
+  const currentQuote = document.getElementById('current-quote');
+  const currentAuthor = document.getElementById('current-author');
+  const quoteCounter = document.getElementById('quote-counter');
+  const revealButton = document.getElementById('reveal-button');
+  const quoteFeedback = document.getElementById('quote-feedback');
+  const feedbackText = document.getElementById('feedback-text');
+  const prevButton = document.getElementById('prev-button');
+  const nextButton = document.getElementById('next-button');
+  const dailySuccess = document.getElementById('daily-success');
+  const dots = document.querySelectorAll('.dot');
+  
+  const todayQuotes = getQuotesOfTheDay();
+  let currentIndex = 0;
+  
+  const today = new Date();
+  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
+  
+  function updateCurrentQuote() {
+    const quote = todayQuotes[currentIndex];
+    const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
+    
+    currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
+    currentAuthor.textContent = quote.author;
+    currentAuthor.classList.toggle('hidden', !isCompleted);
+    
+    revealButton.disabled = isCompleted;
+    revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
+    
+    quoteFeedback.classList.toggle('hidden', !isCompleted);
+    if (isCompleted) {
+      feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+    }
+    
+    quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
+    
+    prevButton.disabled = currentIndex === 0;
+    nextButton.disabled = currentIndex === 4;
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+      dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
+    });
+  }
+  
+  revealButton.addEventListener('click', function() {
+    currentQuote.textContent = todayQuotes[currentIndex].quote;
+    currentAuthor.classList.remove('hidden');
+    
+    quoteFeedback.classList.remove('hidden');
+    feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
+    
+    revealButton.disabled = true;
+    revealButton.textContent = 'Gelöst!';
+    
+    localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
+    
+    dots[currentIndex].classList.add('completed');
+    
+    let allCompleted = true;
+    for (let i = 0; i < 5; i++) {
+      if (localStorage.getItem(storageKeyPrefix + i) !== 'true') {
+        allCompleted = false;
+        break;
+      }
+    }
+    
+    if (allCompleted) {
+      dailySuccess.classList.remove('hidden');
+    }
+  });
+  
+  prevButton.addEventListener('click', function() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCurrentQuote();
+    }
+  });
+  
+  nextButton.addEventListener('click', function() {
+    if (currentIndex < 4) {
+      currentIndex++;
+      updateCurrentQuote();
+    }
+  });
+  
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+      currentIndex = index;
+      updateCurrentQuote();
+    });
+  });
+  
+  updateCurrentQuote();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const wisdom = getWisdomOfTheDay();
+  document.getElementById('daily-quote').textContent = wisdom.quote;
+  document.getElementById('daily-source').textContent = wisdom.source;
+  
+  let emoji = "☀️";
+  
+  if (wisdom.quote.toLowerCase().includes("ruhe") || 
+      wisdom.quote.toLowerCase().includes("geduld") || 
+      wisdom.quote.toLowerCase().includes("frieden")) {
+    emoji = "🕊️";
+  } else if (wisdom.quote.toLowerCase().includes("freude") || 
+             wisdom.quote.toLowerCase().includes("glück") || 
+             wisdom.quote.toLowerCase().includes("lächeln")) {
+    emoji = "😊";
+  } else if (wisdom.quote.toLowerCase().includes("weg") || 
+             wisdom.quote.toLowerCase().includes("schritt") || 
+             wisdom.quote.toLowerCase().includes("ziel")) {
+    emoji = "🌱";
+  }
+  
+  document.querySelector(".wisdom-icon").textContent = emoji;
+  
+  initBrainTraining();
+});
+</script>  
+</body>
+</html><!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -8,21 +742,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Noto+Serif+SC:wght@600&display=swap');
 
-    body {
+    body { 
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
       padding: 2rem; 
-      padding-top: 350px;
+      padding-top: 320px;
       background: #f8fafc;
       color: #333; 
       text-align: center; 
       margin: 0; 
       min-height: 100vh;
     }
-    
-    h1 {
-      margin-top: 2rem;
-    }
-    
     h1 { 
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
       font-size: 2rem; 
@@ -38,223 +767,486 @@
       backdrop-filter: blur(10px);
       color: #92400e;
     }
-    
     .section { 
       margin: 3rem 0; 
-      padding: 2.5rem; 
-      background: white; 
-      border-radius: 20px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 
-        0 10px 30px rgba(0,0,0,0.08),
-        0 4px 10px rgba(0,0,0,0.04);
-      border: 1px solid rgba(0,0,0,0.05);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 0.6s ease-out;
     }
-
-    .section:hover {
-      transform: translateY(-4px);
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.12),
-        0 8px 16px rgba(0,0,0,0.06);
-    }
-
     .section-title { 
-      font-size: 1.6rem; 
+      font-weight: 600; 
+      font-size: 1.3rem; 
+      text-transform: none;
       margin-bottom: 1.5rem; 
       color: #1e293b;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      padding-bottom: 1rem;
-      border-bottom: 3px solid #f1f5f9;
+      text-shadow: none;
+      letter-spacing: 0.5px;
     }
-
-    .digital-board {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 3rem;
-      border-radius: 25px;
-      box-shadow: 
-        0 25px 50px rgba(102, 126, 234, 0.3),
-        0 10px 20px rgba(102, 126, 234, 0.2),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: 900px;
-      margin: 3rem auto;
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    .date-display {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 1rem;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      letter-spacing: -1px;
-    }
-
-    .time-display {
-      font-size: 5rem;
-      font-weight: 900;
-      color: white;
-      font-variant-numeric: tabular-nums;
-      text-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      letter-spacing: -2px;
-    }
-
-    #note { 
-      font-size: 1.3rem; 
-      line-height: 1.8;
-      color: #334155;
-      white-space: pre-wrap;
-      font-weight: 500;
-    }
-
-    .event { 
+    .weather, .termin-eintrag, .message {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 20px; 
       padding: 1.5rem; 
-      margin: 1rem 0; 
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      border-radius: 15px;
-      border-left: 5px solid #667eea;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      max-width: 600px; 
+      margin: 0 auto 1.5rem auto; 
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.3s ease;
     }
-
-    .event:hover {
-      transform: translateX(8px);
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    .weather:hover, .termin-eintrag:hover, .message:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 30px 60px rgba(0,0,0,0.15),
+        0 15px 30px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
-
-    .event-title { 
-      font-weight: 700; 
-      font-size: 1.3rem;
-      color: #1e293b;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.3px;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-
-    .event-time { 
-      color: #64748b; 
+    .message { 
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25) 0%, 
+        rgba(255, 255, 255, 0.1) 100%);
+      border-left: 4px solid #4facfe;
+      position: relative; 
       font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .weather { 
-      font-size: 1.2rem;
-      line-height: 1.8;
-      color: #334155;
+      line-height: 1.6;
+      margin-top: 2px;
+      backdrop-filter: blur(25px);
+      border-radius: 18px;
+      color: #2c3e50;
       font-weight: 500;
     }
-
-    .hidden {
-      display: none;
+    .message a {
+      color: #3498db;
+      text-decoration: none;
+      word-break: break-word;
+      border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+      transition: all 0.3s ease;
     }
-
-    .termin-section {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      box-shadow: 
-        0 25px 50px rgba(102, 126, 234, 0.3),
-        0 10px 20px rgba(102, 126, 234, 0.2);
+    .message a:hover {
+      border-bottom: 1px solid #3498db;
+      color: #2980b9;
     }
-
-    .termin-section:hover {
-      transform: translateY(-6px);
-      box-shadow: 
-        0 30px 60px rgba(102, 126, 234, 0.4),
-        0 15px 30px rgba(102, 126, 234, 0.25);
+    .message-timestamp { 
+      font-size: 0.85rem; 
+      color: rgba(0,0,0,0.6); 
+      text-align: right; 
+      margin-top: 0.8rem;
+      font-weight: 500;
     }
-
-    .termin-section .section-title {
-      color: white;
-      border-bottom-color: rgba(255,255,255,0.2);
-      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
     }
-
-    .termin-form {
-      margin-top: 2rem;
+    .termin-eintrag { 
+      border-left: 4px solid #e74c3c; 
+      margin-top: 1rem; 
+      background: linear-gradient(135deg, 
+        rgba(231, 76, 60, 0.1) 0%, 
+        rgba(255, 255, 255, 0.15) 100%);
+      color: #2c3e50;
+      font-weight: 500;
     }
-
-    .arrow-container {
+    .reminder-list { 
+      list-style: none; 
+      padding: 0; 
+      max-width: 500px; 
+      margin: 0 auto; 
+      text-align: left; 
+    }
+    .reminder-list li { 
+      margin-bottom: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 1rem 1.5rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #2c3e50;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .reminder-list li:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(10px);
+    }
+    .message-with-avatar {
       display: flex;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+    .message-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 15px;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 2rem;
-      margin: 1.5rem 0;
-      font-size: 2rem;
-      animation: bounce-arrows 2s infinite;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
-
-    @keyframes bounce-arrows {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
+    .message-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-
-    .termin-form textarea {
+    .message-content {
+      flex-grow: 1;
+      position: relative;
+    }
+    .message-sender {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #34495e;
+      letter-spacing: 0.3px;
+    }
+    
+    .new-indicator {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e74c3c;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.3px;
+    }
+    
+    .new-indicator::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: pulse-modern 2s infinite;
+      box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
+    }
+    
+    @keyframes pulse-modern {
+      0% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
+      }
+      50% { 
+        transform: scale(1.2);
+        box-shadow: 0 0 20px rgba(238, 90, 36, 0.8);
+      }
+      100% { 
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(238, 90, 36, 0.5);
+      }
+    }
+    
+    .message {
+      margin-top: 2px;
+    }
+    .message-with-avatar {
+      display: flex;
+      margin-bottom: 1rem;
+      align-items: flex-start;
       width: 100%;
       max-width: 600px;
-      padding: 1.2rem;
-      font-size: 1.1rem;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 15px;
-      margin-bottom: 1.5rem;
-      font-family: inherit;
-      resize: vertical;
-      background: rgba(255,255,255,0.95);
-      color: #1e293b;
-      box-shadow: 
-        0 10px 25px rgba(0,0,0,0.15),
-        inset 0 1px 0 rgba(255,255,255,0.5);
-      transition: all 0.3s ease;
-      font-weight: 500;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
     }
+    @media (orientation: landscape) {
+      .message-with-avatar {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 600px;
+      }
+    }
+    /* Modernisierte Apple Watch-Style Uhr mit Alpenpanorama */
+    .digital-board {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: 
+        /* Morgenhimmel-Gradient */
+        linear-gradient(to bottom, 
+          rgba(255, 183, 77, 0.9) 0%,     /* Warmes Morgengold oben */
+          rgba(255, 150, 90, 0.85) 15%,   /* Orange-Rosa */
+          rgba(255, 180, 120, 0.8) 30%,   /* Sanftes Orange */
+          rgba(135, 180, 220, 0.7) 70%,   /* Himmelblau */
+          rgba(100, 150, 200, 0.75) 100%  /* Tieferes Blau unten */
+        ),
+        /* Alpenkette Silhouette */
+        radial-gradient(ellipse 200px 80px at 15% 100%, rgba(60, 80, 120, 0.9) 0%, transparent 70%),
+        radial-gradient(ellipse 150px 100px at 35% 100%, rgba(70, 90, 130, 0.85) 0%, transparent 70%),
+        radial-gradient(ellipse 180px 120px at 55% 100%, rgba(80, 100, 140, 0.8) 0%, transparent 70%),
+        radial-gradient(ellipse 160px 90px at 75% 100%, rgba(65, 85, 125, 0.85) 0%, transparent 70%),
+        radial-gradient(ellipse 140px 70px at 90% 100%, rgba(75, 95, 135, 0.9) 0%, transparent 70%),
+        /* Zusätzliche Bergspitzen für mehr Detail */
+        radial-gradient(ellipse 100px 60px at 25% 100%, rgba(50, 70, 110, 0.7) 0%, transparent 70%),
+        radial-gradient(ellipse 120px 80px at 65% 100%, rgba(55, 75, 115, 0.75) 0%, transparent 70%),
+        /* Schneebedeckte Gipfel */
+        radial-gradient(ellipse 80px 30px at 35% 85%, rgba(240, 240, 255, 0.6) 0%, transparent 70%),
+        radial-gradient(ellipse 60px 25px at 55% 80%, rgba(245, 245, 255, 0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 70px 20px at 75% 85%, rgba(250, 250, 255, 0.4) 0%, transparent 70%);
+      background-size: 
+        100% 100%,           /* Himmel */
+        200px 80px,          /* Berg 1 */
+        150px 100px,         /* Berg 2 */
+        180px 120px,         /* Berg 3 (Hauptgipfel) */
+        160px 90px,          /* Berg 4 */
+        140px 70px,          /* Berg 5 */
+        100px 60px,          /* Detail Berg 1 */
+        120px 80px,          /* Detail Berg 2 */
+        80px 30px,           /* Schnee 1 */
+        60px 25px,           /* Schnee 2 */
+        70px 20px;           /* Schnee 3 */
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9);
+      border-radius: 25px;
+      box-shadow: 
+        inset 0 2px 15px rgba(255,255,255,0.2),
+        inset 0 -2px 10px rgba(0,0,0,0.2),
+        0 8px 32px rgba(0,0,0,0.3),
+        0 2px 8px rgba(0,0,0,0.2);
+      padding: 30px 25px;
+      text-align: center;
+      margin: 20px auto;
+      max-width: 600px;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(5px);
+      overflow: hidden;
+    }
+    /* Subtiler Glanz-Effekt */
+    .digital-board::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, 
+        rgba(255,255,255,0.08) 0%, 
+        rgba(255,255,255,0.02) 50%, 
+        transparent 100%);
+      border-radius: 25px 25px 0 0;
+      pointer-events: none;
+    }
+    .date-display {
+      color: #e8e8e8;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      padding: 5px 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+    
+    .time-display {
+      color: #ffffff;
+      font-size: 3.2rem;
+      font-weight: 300;
+      margin: 0;
+      padding: 5px 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      font-variant-numeric: tabular-nums;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding-top: 2rem;
+      }
 
+      .digital-board {
+        padding: 20px 15px;
+        margin: 15px auto;
+      }
+      
+      .date-display {
+        font-size: 1.1rem;
+      }
+      
+      .time-display {
+        font-size: 2.5rem;
+      }
+    }
+    
+    .board-title {
+      background: #fff475;
+      font-size: 1.2rem;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem;
+      display: inline-block;
+      margin: 1rem auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-weight: bold;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .board-title::before {
+      content: "🌼";
+      position: absolute;
+      left: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+    }
+    
+    .board-title::after {
+      content: "🦋";
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+    }
+    .termin-form {
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      padding: 2rem;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25) 0%, 
+        rgba(255, 255, 255, 0.1) 100%);
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
+      box-shadow: 
+        0 25px 50px rgba(0,0,0,0.1),
+        0 12px 25px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .termin-form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.6) 50%, 
+        transparent 100%);
+    }
+    .termin-section .section-title {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, 
+        rgba(76, 175, 80, 0.2) 0%, 
+        rgba(139, 195, 74, 0.1) 100%);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      display: inline-block;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .termin-section .section-title::before {
+      content: "📅";
+      margin-right: 10px;
+      position: relative;
+      font-size: 1.2em;
+    }
+    .termin-section .section-title::after {
+      content: "✏️";
+      margin-left: 10px;
+      position: relative;
+      font-size: 1.2em;
+    }
+    .arrow-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 0 20px;
+    }
+    .arrow-down {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: bounce-modern 2s infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    @keyframes bounce-modern {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-12px);
+      }
+      60% {
+        transform: translateY(-6px);
+      }
+    }
+    .termin-form textarea {
+      width: 100%;
+      padding: 1.5rem;
+      font-size: 1.1rem;
+      min-height: 100px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 15px;
+      resize: vertical;
+      margin-bottom: 1.5rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+    }
     .termin-form textarea:focus {
       outline: none;
-      border-color: rgba(255,255,255,0.6);
-      background: white;
+      border-color: rgba(79, 172, 254, 0.6);
       box-shadow: 
-        0 15px 35px rgba(0,0,0,0.2),
-        0 0 0 4px rgba(255,255,255,0.2);
+        inset 0 2px 10px rgba(0,0,0,0.05),
+        0 0 0 3px rgba(79, 172, 254, 0.2);
       transform: translateY(-2px);
     }
-
-    .termin-form textarea::placeholder {
-      color: #64748b;
-      opacity: 0.8;
-    }
-
     .termin-form button {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+      padding: 1.2rem 2rem;
       border: none;
-      padding: 1.2rem 3rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      border-radius: 50px;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 2px solid rgba(255,255,255,0.3);
-      text-transform: uppercase;
+      transition: all 0.3s ease;
+      width: 100%;
       max-width: 300px;
       margin: 0 auto;
       display: block;
       box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
       letter-spacing: 0.5px;
     }
-
     .termin-form button:hover {
       transform: translateY(-3px);
       box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
       background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     }
-
     .termin-form button:active {
       transform: translateY(-1px);
     }
-
     .termin-form p {
       font-size: 1rem;
       color: rgba(255,255,255,0.9);
@@ -355,10 +1347,6 @@
     }
 
     @media (max-width: 768px) {
-      body {
-        padding-top: 2rem;
-      }
-
       .post-it-cluster {
         position: static;
         transform: none;
@@ -507,106 +1495,307 @@
     }
 
     .battery-icon {
-      font-size: 4rem;
-      margin-right: 25px;
-      animation: shake-battery 0.5s infinite;
-    }
-
-    @keyframes shake-battery {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(-10deg); }
-      75% { transform: rotate(10deg); }
+      font-size: 3rem;
+      margin-right: 20px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
     }
 
     .battery-message {
-      text-align: left;
+      font-size: 1.3rem;
     }
 
     .battery-title {
-      font-size: 1.5rem;
-      font-weight: 800;
+      font-weight: 700;
+      font-size: 1.6rem;
       margin-bottom: 8px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
       letter-spacing: 0.5px;
     }
 
-    .battery-level {
-      font-size: 1.2rem;
-      font-weight: 600;
-      opacity: 0.95;
+    .hidden {
+      display: none;
     }
 
-    @media (max-width: 768px) {
-      .battery-warning {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-      }
-
-      .battery-icon {
-        margin-right: 0;
-        margin-bottom: 15px;
-        font-size: 3rem;
-      }
-
-      .battery-message {
-        text-align: center;
-      }
-
-      .battery-title {
-        font-size: 1.2rem;
-      }
-
-      .battery-level {
-        font-size: 1rem;
-      }
-    }
-
-    .success-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+    .daily-wisdom {
+      background: linear-gradient(135deg, 
+        rgba(138, 43, 226, 0.15) 0%, 
+        rgba(30, 144, 255, 0.1) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      border-left: 4px solid #8a2be2;
+      padding: 2rem;
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
       display: flex;
       align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      animation: fadeIn 0.3s ease-out;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.3s ease;
     }
     
-    .success-card {
-      background: white;
-      padding: 3rem;
-      border-radius: 25px;
-      text-align: center;
-      max-width: 500px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-      animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .daily-wisdom:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 30px 60px rgba(0,0,0,0.15),
+        0 15px 30px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
     
-    @keyframes scaleIn {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+    .wisdom-icon {
+      font-size: 2.5rem;
+      margin-right: 1.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
     
-    .success-icon {
-      font-size: 5rem;
+    .wisdom-content {
+      flex: 1;
+    }
+    
+    .wisdom-text {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+      font-style: italic;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+    
+    .wisdom-source {
+      font-size: 1rem;
+      text-align: right;
+      color: rgba(0,0,0,0.7);
+      font-weight: 600;
+    }
+
+    .brain-game {
+      background: linear-gradient(135deg, 
+        rgba(255, 183, 77, 0.15) 0%, 
+        rgba(255, 152, 0, 0.1) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      max-width: 600px;
+      margin: 0 auto 2rem auto;
+      text-align: left;
+      border-left: 4px solid #ffb347;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.3s ease;
+    }
+    
+    .brain-game:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 30px 60px rgba(0,0,0,0.15),
+        0 15px 30px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    
+    .game-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 1.5rem;
     }
     
-    .success-title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #10b981;
+    #quote-counter {
+      font-size: 1rem;
+      color: rgba(0,0,0,0.7);
+      font-weight: 600;
+    }
+    
+    .progress-dots {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .dot.active {
+      background: linear-gradient(135deg, #ffb347 0%, #ff9f1c 100%);
+      transform: scale(1.2);
+      box-shadow: 0 4px 8px rgba(255, 179, 71, 0.4);
+    }
+    
+    .dot.completed {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+    }
+    
+    .quote-container {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      min-height: 140px;
+      box-shadow: 
+        0 10px 20px rgba(0,0,0,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+    
+    .quote-text {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: #2c3e50;
       margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .quote-text:before {
+      content: '"';
+      font-size: 1.8em;
+      color: rgba(0,0,0,0.2);
+      position: absolute;
+      left: 0.8rem;
+      top: 0.5rem;
+      font-family: Georgia, serif;
+    }
+    
+    .quote-text:after {
+      content: '"';
+      font-size: 1.8em;
+      color: rgba(0,0,0,0.2);
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      font-family: Georgia, serif;
+    }
+    
+    .quote-author {
+      font-size: 1.1rem;
+      text-align: right;
+      font-weight: 600;
+      color: #34495e;
+      animation: fadeIn 1s;
+    }
+    
+    .quote-controls {
+      margin-bottom: 2rem;
+    }
+    
+    .reveal-button {
+      padding: 1.2rem 2rem;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      color: #2c3e50;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(255, 154, 158, 0.3);
+      letter-spacing: 0.3px;
+    }
+    
+    .reveal-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(255, 154, 158, 0.4);
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+    
+    .reveal-button:disabled {
+      background: rgba(200,200,200,0.5);
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .quote-feedback {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 0.5s;
+      padding: 1.2rem;
+      background: rgba(255, 245, 230, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .feedback-icon {
+      font-size: 1.8rem;
+      margin-right: 1rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    
+    .feedback-text {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    
+    .navigation-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .nav-button {
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      color: #2c3e50;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      font-weight: 600;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .nav-button:disabled {
+      background: rgba(200,200,200,0.3);
+      color: rgba(0,0,0,0.4);
+      cursor: default;
+      transform: none;
+    }
+    
+    .quote-success {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      animation: fadeIn 0.5s;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, 
+        rgba(40, 167, 69, 0.1) 0%, 
+        rgba(32, 201, 151, 0.05) 100%);
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 20px rgba(40, 167, 69, 0.1);
+    }
+    
+    .success-icon {
+      font-size: 2.5rem;
+      margin-right: 1.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
     
     .success-text {
@@ -653,8 +1842,6 @@
   </div>
 </div>
 
-<h1>Mutters Messageboard</h1>
-
 <div class="digital-board">
   <div id="date" class="date-display"></div>
   <div id="time" class="time-display"></div>
@@ -662,12 +1849,12 @@
 
 <div class="section">
   <div class="section-title">Nachrichten von den Söhnen</div>
-  <div id="note">Keine neuen Nachrichten</div>
+  <div id="note"></div>
 </div>
 
 <div class="section">
   <div class="section-title">Bevorstehende Termine</div>
-  <div id="ical">Keine Termine geladen</div>
+  <div id="ical"></div>
 </div>
 
 <div class="section">
@@ -692,124 +1879,90 @@
   </div>
 </div>
 
-<script>
-  // Batteriestand überprüfen
-  async function checkBattery() {
-    if ('getBattery' in navigator) {
-      try {
-        const battery = await navigator.getBattery();
-        updateBatteryStatus(battery);
-        
-        battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
-        battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
-      } catch (error) {
-        console.log('Battery API nicht verfügbar');
-      }
-    }
-  }
+<div class="section">
+  <div class="section-title">Erinnerungen für heute</div>
+  <ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul>
+</div>
 
-  function updateBatteryStatus(battery) {
-    const level = Math.floor(battery.level * 100);
-    const warning = document.getElementById('battery-warning');
-    const percentage = document.getElementById('battery-percentage');
-    
-    percentage.textContent = level;
-    
-    if (level <= 20 && !battery.charging) {
-      warning.classList.remove('hidden');
-    } else {
-      warning.classList.add('hidden');
-    }
-  }
+<div class="section">
+  <div class="section-title">Unsere Reise nach Avignon</div>
+  <iframe 
+    src="https://cnjf29.smugmug.com/frame/slideshow?key=k8fCVk&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
+    width="100%" height="500"
+    style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+    allowfullscreen loading="lazy">
+  </iframe>
+</div>
 
-  // Uhrzeit und Datum aktualisieren
-  function updateTime() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-    const dateStr = now.toLocaleDateString('de-DE', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-    
-    document.getElementById('time').textContent = timeStr;
-    document.getElementById('date').textContent = dateStr;
-  }
+<!-- Gedanke für heute Section -->
+<div class="section">
+  <div class="section-title">Gedanke für heute</div>
+  <div class="daily-wisdom">
+    <div class="wisdom-icon">☀️</div>
+    <div class="wisdom-content">
+      <div id="daily-quote" class="wisdom-text"></div>
+      <div id="daily-source" class="wisdom-source"></div>
+    </div>
+  </div>
+</div>
 
-  // Termin eintragen
-  function sendTermin() {
-    const text = document.getElementById('termin-text').value;
-    if (text.trim()) {
-      // Success Overlay anzeigen
-      showSuccess();
-      document.getElementById('termin-text').value = '';
+<!-- Tägliche Literatur-Herausforderung Section -->
+<div class="section">
+  <div class="section-title">Tägliche Literatur-Herausforderung</div>
+  <div class="brain-game">
+    <div class="game-progress">
+      <span id="quote-counter">Zitat 1 von 5</span>
+      <div class="progress-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+        <span class="dot" data-index="4"></span>
+      </div>
+    </div>
+    
+    <div id="quote-carousel">
+      <div class="quote-container">
+        <div id="current-quote" class="quote-text"></div>
+        <div id="current-author" class="quote-author hidden"></div>
+      </div>
       
-      // Hier würde die Backend-Integration erfolgen
-      console.log('Termin eingetragen:', text);
-    } else {
-      alert('Bitte einen Termin eingeben!');
-    }
-  }
-
-  function showSuccess() {
-    const overlay = document.createElement('div');
-    overlay.className = 'success-overlay';
-    overlay.innerHTML = `
-      <div class="success-card">
-        <div class="success-icon">✅</div>
-        <div class="success-title">Erfolgreich!</div>
-        <div class="success-text">Dein Termin wurde eingetragen und wird in Kürze im Kalender angezeigt.</div>
+      <div class="quote-controls">
+        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
+        <div id="quote-feedback" class="quote-feedback hidden">
+          <div class="feedback-icon">🧠</div>
+          <div id="feedback-text" class="feedback-text"></div>
+        </div>
       </div>
-    `;
+      
+      <div class="navigation-controls">
+        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
+        <button id="next-button" class="nav-button">Nächstes Zitat</button>
+      </div>
+    </div>
     
-    document.body.appendChild(overlay);
-    
-    setTimeout(() => {
-      overlay.remove();
-    }, 3000);
-  }
+    <div id="daily-success" class="quote-success hidden">
+      <div class="success-icon">🏆</div>
+      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
+    </div>
+  </div>
+</div>
 
-  // Wetter laden (Beispiel - benötigt echte API)
-  async function loadWeather() {
-    const weatherDiv = document.getElementById('weather');
-    try {
-      // Hier würde die echte Wetter-API Integration erfolgen
-      weatherDiv.innerHTML = `
-        <strong>Heute:</strong> Teilweise bewölkt, 15°C<br>
-        <strong>Höchsttemperatur:</strong> 18°C<br>
-        <strong>Tiefsttemperatur:</strong> 11°C<br>
-        <strong>Niederschlag:</strong> 20%
-      `;
-    } catch (error) {
-      weatherDiv.textContent = 'Wetterdaten konnten nicht geladen werden.';
-    }
-  }
+<script>
+// Datum und Uhrzeit Anzeige
+const now = new Date();
+const weekday = now.toLocaleDateString('de-DE', { weekday: 'long' });
+const day = now.getDate();
+const month = now.toLocaleDateString('de-DE', { month: 'long' });
+const year = now.getFullYear();
+document.getElementById("date").innerHTML = `<strong>${weekday}, ${day}. ${month} ${year}</strong>`;
 
-  // iCal Termine laden (Beispiel)
-  function loadCalendar() {
-    const icalDiv = document.getElementById('ical');
-    // Hier würde die echte iCal Integration erfolgen
-    icalDiv.innerHTML = `
-      <div class="event">
-        <div class="event-title">Zahnarzt Termin</div>
-        <div class="event-time">Morgen, 14:00 Uhr</div>
-      </div>
-      <div class="event">
-        <div class="event-title">Friseur</div>
-        <div class="event-time">Freitag, 10:30 Uhr</div>
-      </div>
-    `;
-  }
+function updateClock() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById("time").innerHTML = `${hours}:${minutes}`;
+}
 
-  // Initialisierung
-  document.addEventListener('DOMContentLoaded', function() {
-    updateTime();
-    setInterval(updateTime, 1000);
-    checkBattery();
-    loadWeather();
-    loadCalendar();
-  });
-</script>
-</body>
-</html>
+updateClock();
+setInterval(updateClock, 60000);
