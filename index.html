@@ -390,33 +390,35 @@
 
     .greek-tortoise {
       position: absolute;
-      left: 85px;
-      bottom: 12px;
-      font-size: 2.2rem;
+      left: 75px;
+      bottom: 8px;
+      font-size: 4rem;
       filter: sepia(100%) saturate(150%) hue-rotate(10deg) brightness(0.8) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
       z-index: 10;
-      animation: sniff-pumpkin 4s ease-in-out infinite;
+      animation: sniff-pumpkin 3.5s ease-in-out infinite;
+      transform-origin: center center;
     }
 
     @keyframes sniff-pumpkin {
       0%, 100% {
-        transform: translateX(0) rotate(0deg);
+        transform: translateX(0) rotate(-8deg) scaleX(-1);
       }
       25% {
-        transform: translateX(-4px) rotate(-3deg);
+        transform: translateX(-5px) rotate(-12deg) scaleX(-1);
       }
       50% {
-        transform: translateX(2px) rotate(1deg);
+        transform: translateX(3px) rotate(-6deg) scaleX(-1);
       }
       75% {
-        transform: translateX(-2px) rotate(-1deg);
+        transform: translateX(-3px) rotate(-10deg) scaleX(-1);
       }
     }
 
     @media (max-width: 768px) {
       .greek-tortoise {
-        font-size: 1.6rem;
-        left: 65px;
+        font-size: 2.8rem;
+        left: 55px;
+        bottom: 6px;
       }
     }
     
