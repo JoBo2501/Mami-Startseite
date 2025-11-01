@@ -968,9 +968,59 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    /* Herbstblätter-Effekt */
+    #falling-leaves-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .falling-leaf {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.7;
+      animation: fall linear infinite, sway ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10%;
+      }
+      100% {
+        top: 110%;
+      }
+    }
+
+    @keyframes sway {
+      0%, 100% {
+        transform: translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateX(20px) rotate(5deg);
+      }
+      75% {
+        transform: translateX(-20px) rotate(-5deg);
+      }
+    }
+
+    /* Erhöhe z-index für alle Inhalte */
+    body > *:not(#falling-leaves-container) {
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
+<!-- Container für fallende Herbstblätter -->
+<div id="falling-leaves-container"></div>
+
 <!-- Batteriestand-Warnung -->
 <div id="battery-warning" class="battery-warning hidden">
   <div class="battery-icon">🔋</div>
@@ -2240,7 +2290,62 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Gehirnjogging initialisieren
   initBrainTraining();
+
+  // Herbstblätter-Animation initialisieren
+  initFallingLeaves();
 });
+
+// Funktion für fallende Herbstblätter
+function initFallingLeaves() {
+  const container = document.getElementById('falling-leaves-container');
+
+  // Herbstblatt-Emojis
+  const leafTypes = ['🍂', '🍁', '🍃'];
+
+  // Funktion zum Erstellen eines einzelnen Blattes
+  function createLeaf() {
+    const leaf = document.createElement('div');
+    leaf.className = 'falling-leaf';
+
+    // Zufälliges Blatt-Emoji auswählen
+    leaf.textContent = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+
+    // Zufällige horizontale Position
+    leaf.style.left = Math.random() * 100 + '%';
+
+    // Zufällige Größe (15px bis 25px)
+    const size = 15 + Math.random() * 10;
+    leaf.style.fontSize = size + 'px';
+
+    // Zufällige Falldauer (10 bis 20 Sekunden)
+    const fallDuration = 10 + Math.random() * 10;
+    leaf.style.animationDuration = `${fallDuration}s, ${2 + Math.random() * 2}s`;
+
+    // Zufällige Verzögerung für natürlicheren Effekt
+    const delay = Math.random() * 5;
+    leaf.style.animationDelay = `${delay}s, 0s`;
+
+    // Zufällige Opazität (0.4 bis 0.8)
+    leaf.style.opacity = 0.4 + Math.random() * 0.4;
+
+    container.appendChild(leaf);
+
+    // Blatt nach dem Fall entfernen und ein neues erstellen
+    setTimeout(() => {
+      leaf.remove();
+      createLeaf();
+    }, (fallDuration + delay) * 1000);
+  }
+
+  // Initiale Blätter erstellen (15-20 Blätter)
+  const numberOfLeaves = 15 + Math.floor(Math.random() * 6);
+  for (let i = 0; i < numberOfLeaves; i++) {
+    // Verzögertes Erstellen für bessere Verteilung
+    setTimeout(() => {
+      createLeaf();
+    }, i * 200);
+  }
+}
 </script>  
 </body>
 </html>
