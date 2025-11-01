@@ -421,6 +421,108 @@
         bottom: 6px;
       }
     }
+
+    /* Halloween Hintergrund Szene */
+    .halloween-moon {
+      position: absolute;
+      top: 20px;
+      right: 80px;
+      width: 70px;
+      height: 70px;
+      background: radial-gradient(circle at 30% 30%, #fff5e6 0%, #ffe5b4 50%, #ffd89b 100%);
+      border-radius: 50%;
+      box-shadow:
+        0 0 40px rgba(255, 215, 0, 0.6),
+        0 0 80px rgba(255, 215, 0, 0.4),
+        inset -8px -8px 20px rgba(210, 180, 140, 0.3);
+      z-index: 1;
+    }
+
+    .dead-tree {
+      position: absolute;
+      left: 500px;
+      bottom: 0;
+      font-size: 8rem;
+      filter: brightness(0) drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+      z-index: 2;
+      opacity: 0.9;
+    }
+
+    .halloween-bat {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #000000;
+      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+      z-index: 3;
+      animation: bat-fly linear infinite;
+    }
+
+    .halloween-bats {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .halloween-bat:nth-of-type(1) {
+      top: 35px;
+      right: 150px;
+      animation-duration: 8s;
+      animation-delay: 0s;
+    }
+
+    .halloween-bat:nth-of-type(2) {
+      top: 50px;
+      right: 180px;
+      animation-duration: 10s;
+      animation-delay: 2s;
+    }
+
+    .halloween-bat:nth-of-type(3) {
+      top: 45px;
+      right: 120px;
+      animation-duration: 9s;
+      animation-delay: 4s;
+    }
+
+    @keyframes bat-fly {
+      0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateX(-20px) translateY(-10px) rotate(-5deg);
+      }
+      50% {
+        transform: translateX(-40px) translateY(5px) rotate(5deg);
+      }
+      75% {
+        transform: translateX(-20px) translateY(-5px) rotate(-3deg);
+      }
+      100% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .halloween-moon {
+        width: 50px;
+        height: 50px;
+        right: 60px;
+        top: 15px;
+      }
+
+      .dead-tree {
+        font-size: 5rem;
+        left: auto;
+        right: 20px;
+      }
+
+      .halloween-bat {
+        font-size: 1rem;
+      }
+    }
     
     .board-title {
       background: #fff475;
@@ -1240,6 +1342,16 @@
 </div>
 
   <div class="digital-board">
+    <!-- Halloween Hintergrund -->
+    <div class="halloween-moon"></div>
+    <div class="dead-tree">🌲</div>
+    <div class="halloween-bats">
+      <div class="halloween-bat">🦇</div>
+      <div class="halloween-bat">🦇</div>
+      <div class="halloween-bat">🦇</div>
+    </div>
+
+    <!-- Vordergrund -->
     <div class="halloween-pumpkin halloween-pumpkin-left">🎃</div>
     <div class="greek-tortoise">🐢</div>
     <div id="date" class="date-display"></div>
