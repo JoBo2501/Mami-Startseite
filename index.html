@@ -398,16 +398,6 @@
       animation: sniff-pumpkin 4s ease-in-out infinite;
     }
 
-    .greek-tortoise::before {
-      content: "👃";
-      position: absolute;
-      left: -8px;
-      top: -5px;
-      font-size: 0.6rem;
-      filter: sepia(100%) saturate(120%) hue-rotate(15deg) brightness(0.7);
-      animation: nose-wiggle 2s ease-in-out infinite;
-    }
-
     @keyframes sniff-pumpkin {
       0%, 100% {
         transform: translateX(0) rotate(0deg);
@@ -423,24 +413,10 @@
       }
     }
 
-    @keyframes nose-wiggle {
-      0%, 100% {
-        transform: translateX(0) scale(1);
-      }
-      50% {
-        transform: translateX(-2px) scale(1.1);
-      }
-    }
-
     @media (max-width: 768px) {
       .greek-tortoise {
         font-size: 1.6rem;
         left: 65px;
-      }
-
-      .greek-tortoise::before {
-        font-size: 0.5rem;
-        left: -6px;
       }
     }
     
