@@ -387,6 +387,38 @@
                 drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
       }
     }
+
+    .greek-tortoise {
+      position: absolute;
+      left: 85px;
+      bottom: 12px;
+      font-size: 2.2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      z-index: 10;
+      animation: sniff-pumpkin 4s ease-in-out infinite;
+    }
+
+    @keyframes sniff-pumpkin {
+      0%, 100% {
+        transform: translateX(0) rotate(0deg);
+      }
+      25% {
+        transform: translateX(-3px) rotate(-2deg);
+      }
+      50% {
+        transform: translateX(2px) rotate(1deg);
+      }
+      75% {
+        transform: translateX(-2px) rotate(-1deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .greek-tortoise {
+        font-size: 1.6rem;
+        left: 65px;
+      }
+    }
     
     .board-title {
       background: #fff475;
@@ -1207,6 +1239,7 @@
 
   <div class="digital-board">
     <div class="halloween-pumpkin halloween-pumpkin-left">🎃</div>
+    <div class="greek-tortoise">🐢</div>
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
   </div>
