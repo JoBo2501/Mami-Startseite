@@ -600,6 +600,51 @@
       animation: gentle-sway-right 8s ease-in-out infinite;
     }
 
+    /* Chinesische Briefmarke Stil */
+    .china-stamp {
+      background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%) !important;
+      border: 4px solid #ffd700 !important;
+      border-radius: 8px !important;
+      box-shadow:
+        0 15px 30px rgba(0,0,0,0.3),
+        inset 0 0 0 2px #ff6347,
+        inset 0 0 0 8px rgba(255,215,0,0.3) !important;
+      position: relative;
+      padding: 8px !important;
+    }
+
+    .china-stamp::before {
+      content: "" !important;
+      position: absolute !important;
+      top: 4px !important;
+      left: 4px !important;
+      right: 4px !important;
+      bottom: 4px !important;
+      border: 2px dashed rgba(255,215,0,0.5) !important;
+      border-radius: 4px !important;
+      pointer-events: none !important;
+    }
+
+    .china-stamp .post-it-content {
+      background: rgba(255,255,255,0.95);
+      border-radius: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .china-stamp .post-it-title {
+      color: #dc143c !important;
+      font-family: 'SimSun', '宋体', serif !important;
+      font-size: 1.3rem !important;
+      font-weight: 900 !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+    }
+
+    .china-stamp .post-it-text {
+      color: #2d3436 !important;
+      font-size: 0.85rem !important;
+    }
+
     @keyframes gentle-sway-left {
       0%, 100% { transform: rotate(-4deg) translateY(0px); }
       25% { transform: rotate(-2deg) translateY(-3px); }
@@ -678,6 +723,14 @@
 
       .post-it-text {
         font-size: 0.8rem;
+      }
+
+      .china-stamp .post-it-title {
+        font-size: 1.1rem !important;
+      }
+
+      .china-stamp .post-it-text {
+        font-size: 0.75rem !important;
       }
     }
 
@@ -1141,9 +1194,9 @@
   </div>
 </div>
 
-<div class="post-it-sticker post-it-sticker-right">
+<div class="post-it-sticker post-it-sticker-right china-stamp">
   <div class="post-it-content">
-    <div class="post-it-title">REISEINFO</div>
+    <div class="post-it-title">旅行信息</div>
     <div class="post-it-text">
       Daniel ist vom 31.10.2025 bis 13.11.2025 in Changzhu, China
     </div>
