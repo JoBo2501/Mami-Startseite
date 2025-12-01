@@ -1173,7 +1173,6 @@
       <div class="advent-candles" id="advent-candles">
         <!-- Kerzen werden dynamisch per JavaScript generiert -->
       </div>
-      <span class="advent-label" id="advent-label">Advent</span>
     </div>
   </div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
@@ -1282,7 +1281,6 @@
     function aktualisiereAdventskranz() {
       const { advent } = berechneAdvent();
       const kerzenContainer = document.getElementById('advent-candles');
-      const label = document.getElementById('advent-label');
       const decoration = document.getElementById('advent-decoration');
 
       // Wenn kein Advent (vor 1. Advent oder nach Weihnachten), Adventskranz ausblenden
@@ -1305,10 +1303,6 @@
         `;
       }
       kerzenContainer.innerHTML = kerzenHTML;
-
-      // Label aktualisieren
-      const adventNamen = ['', '1. Advent', '2. Advent', '3. Advent', '4. Advent'];
-      label.textContent = adventNamen[advent];
     }
 
     // Adventskranz beim Laden initialisieren
