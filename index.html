@@ -46,18 +46,18 @@
       letter-spacing: 0.5px;
     }
     .weather, .termin-eintrag, .message {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.97);
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 1.5rem;
       box-shadow:
-        0 20px 40px rgba(0,0,0,0.2),
-        0 10px 20px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.5);
+        0 10px 25px rgba(0,0,0,0.08),
+        0 5px 10px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8);
       max-width: 600px;
       margin: 0 auto 1.5rem auto;
       text-align: left;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.5);
       transition: all 0.3s ease;
       color: #2c3e50;
     }
@@ -1170,26 +1170,11 @@
       <div id="date" class="date-display"></div>
       <div id="time" class="time-display"></div>
     </div>
-    <div class="advent-decoration">
-      <div class="advent-candles">
-        <div class="advent-candle">
-          <span class="candle-flame lit">🔥</span>
-          <div class="candle-body"></div>
-        </div>
-        <div class="advent-candle">
-          <span class="candle-flame unlit">•</span>
-          <div class="candle-body"></div>
-        </div>
-        <div class="advent-candle">
-          <span class="candle-flame unlit">•</span>
-          <div class="candle-body"></div>
-        </div>
-        <div class="advent-candle">
-          <span class="candle-flame unlit">•</span>
-          <div class="candle-body"></div>
-        </div>
+    <div class="advent-decoration" id="advent-decoration">
+      <div class="advent-candles" id="advent-candles">
+        <!-- Kerzen werden dynamisch per JavaScript generiert -->
       </div>
-      <span class="advent-label">1. Advent</span>
+      <span class="advent-label" id="advent-label">Advent</span>
     </div>
   </div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
@@ -1241,6 +1226,111 @@
     
     updateClock(); // Initial ausführen
     setInterval(updateClock, 60000); // Alle 60 Sekunden aktualisieren (1 Minute)
+
+    // Adventskranz - Berechnung welcher Advent gerade ist
+    function berechneAdvent() {
+      const heute = new Date();
+      const jahr = heute.getFullYear();
+
+      // Weihnachten ist am 25. Dezember
+      const weihnachten = new Date(jahr, 11, 25); // Monat ist 0-basiert, also 11 = Dezember
+
+      // Finde den 4. Advent (letzter Sonntag vor Weihnachten)
+      // Weihnachten kann auf jeden Wochentag fallen
+      const weihnachtsTag = weihnachten.getDay(); // 0 = Sonntag, 1 = Montag, ...
+
+      // Berechne den 4. Advent
+      // Wenn Weihnachten ein Sonntag ist (0), ist der 4. Advent eine Woche vorher
+      // Sonst ist der 4. Advent der Sonntag vor Weihnachten
+      let tageZurueck = weihnachtsTag === 0 ? 7 : weihnachtsTag;
+      const vierterAdvent = new Date(jahr, 11, 25 - tageZurueck);
+
+      // Berechne alle 4 Adventssonntage
+      const adventssonntage = [
+        new Date(vierterAdvent.getTime() - 21 * 24 * 60 * 60 * 1000), // 1. Advent (3 Wochen vor 4. Advent)
+        new Date(vierterAdvent.getTime() - 14 * 24 * 60 * 60 * 1000), // 2. Advent
+        new Date(vierterAdvent.getTime() - 7 * 24 * 60 * 60 * 1000),  // 3. Advent
+        vierterAdvent                                                   // 4. Advent
+      ];
+
+      // Setze alle auf Mitternacht für korrekten Vergleich
+      adventssonntage.forEach(d => d.setHours(0, 0, 0, 0));
+      const heuteNormalisiert = new Date(heute);
+      heuteNormalisiert.setHours(0, 0, 0, 0);
+
+      // Bestimme welcher Advent gerade ist
+      let aktuellerAdvent = 0;
+      for (let i = 0; i < 4; i++) {
+        if (heuteNormalisiert >= adventssonntage[i]) {
+          aktuellerAdvent = i + 1;
+        }
+      }
+
+      // Nach dem 4. Advent und vor/an Weihnachten: 4 Kerzen brennen lassen
+      const weihnachtenNormalisiert = new Date(weihnachten);
+      weihnachtenNormalisiert.setHours(0, 0, 0, 0);
+      if (heuteNormalisiert > weihnachtenNormalisiert) {
+        // Nach Weihnachten: Adventskranz ausblenden oder 0 Kerzen
+        aktuellerAdvent = 0;
+      }
+
+      return {
+        advent: aktuellerAdvent,
+        adventssonntage: adventssonntage
+      };
+    }
+
+    function aktualisiereAdventskranz() {
+      const { advent } = berechneAdvent();
+      const kerzenContainer = document.getElementById('advent-candles');
+      const label = document.getElementById('advent-label');
+      const decoration = document.getElementById('advent-decoration');
+
+      // Wenn kein Advent (vor 1. Advent oder nach Weihnachten), Adventskranz ausblenden
+      if (advent === 0) {
+        decoration.style.display = 'none';
+        return;
+      }
+
+      decoration.style.display = 'flex';
+
+      // Kerzen generieren
+      let kerzenHTML = '';
+      for (let i = 1; i <= 4; i++) {
+        const istAngezuendet = i <= advent;
+        kerzenHTML += `
+          <div class="advent-candle">
+            <span class="candle-flame ${istAngezuendet ? 'lit' : 'unlit'}">${istAngezuendet ? '🔥' : '•'}</span>
+            <div class="candle-body"></div>
+          </div>
+        `;
+      }
+      kerzenContainer.innerHTML = kerzenHTML;
+
+      // Label aktualisieren
+      const adventNamen = ['', '1. Advent', '2. Advent', '3. Advent', '4. Advent'];
+      label.textContent = adventNamen[advent];
+    }
+
+    // Adventskranz beim Laden initialisieren
+    aktualisiereAdventskranz();
+
+    // Täglich um Mitternacht prüfen (für den Sonntag-Wechsel)
+    function pruefeAdventUpdate() {
+      const jetzt = new Date();
+      const morgen = new Date(jetzt);
+      morgen.setDate(morgen.getDate() + 1);
+      morgen.setHours(0, 0, 1, 0); // 00:00:01 Uhr morgen
+
+      const msUntilMorgen = morgen.getTime() - jetzt.getTime();
+
+      setTimeout(() => {
+        aktualisiereAdventskranz();
+        // Nach dem ersten Update, täglich wiederholen
+        setInterval(aktualisiereAdventskranz, 24 * 60 * 60 * 1000);
+      }, msUntilMorgen);
+    }
+    pruefeAdventUpdate();
 
     // Wetter-Anzeige mit CORS-Proxy
     const weatherCodes = {
