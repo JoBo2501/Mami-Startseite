@@ -18,84 +18,119 @@
       overflow-x: hidden;
     }
 
-    /* Weihnachtsbaum-Silhouette im Hintergrund */
-    body::before {
-      content: "";
+    /* Weihnachtsbaum Container */
+    .christmas-tree {
       position: fixed;
-      bottom: 0;
+      bottom: 50px;
       left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 500px;
-      background-image:
-        /* Stern an der Spitze */
-        radial-gradient(circle at 50% 2%, rgba(255, 223, 100, 0.95) 0%, rgba(255, 200, 50, 0.7) 8px, transparent 15px),
-        /* Baumspitze (oberstes Dreieck) */
-        conic-gradient(from 90deg at 50% 12%, transparent 0deg, transparent 155deg, rgba(25, 60, 35, 0.7) 155deg, rgba(25, 60, 35, 0.7) 205deg, transparent 205deg),
-        /* Zweite Ebene */
-        conic-gradient(from 90deg at 50% 28%, transparent 0deg, transparent 140deg, rgba(20, 55, 30, 0.65) 140deg, rgba(20, 55, 30, 0.65) 220deg, transparent 220deg),
-        /* Dritte Ebene */
-        conic-gradient(from 90deg at 50% 48%, transparent 0deg, transparent 130deg, rgba(18, 50, 28, 0.6) 130deg, rgba(18, 50, 28, 0.6) 230deg, transparent 230deg),
-        /* Unterste Ebene (breiteste) */
-        conic-gradient(from 90deg at 50% 70%, transparent 0deg, transparent 120deg, rgba(15, 45, 25, 0.55) 120deg, rgba(15, 45, 25, 0.55) 240deg, transparent 240deg),
-        /* Baumstamm */
-        linear-gradient(to bottom, rgba(80, 50, 30, 0.7) 0%, rgba(60, 35, 20, 0.7) 100%);
-      background-size:
-        30px 30px,      /* Stern */
-        100% 100%,      /* Spitze */
-        100% 100%,      /* Zweite Ebene */
-        100% 100%,      /* Dritte Ebene */
-        100% 100%,      /* Unterste Ebene */
-        40px 60px;      /* Stamm */
-      background-position:
-        50% 0%,         /* Stern */
-        0 0,            /* Spitze */
-        0 0,            /* Zweite Ebene */
-        0 0,            /* Dritte Ebene */
-        0 0,            /* Unterste Ebene */
-        50% 95%;        /* Stamm */
-      background-repeat: no-repeat;
-      filter: blur(3px);
-      opacity: 0.85;
+      width: 300px;
+      height: 450px;
       z-index: -2;
       pointer-events: none;
+      filter: blur(3px);
+      opacity: 0.75;
     }
 
-    /* Kerzen auf dem Weihnachtsbaum */
-    body::after {
-      content: "";
-      position: fixed;
-      bottom: 0;
+    /* Stern an der Spitze */
+    .christmas-tree::before {
+      content: "⭐";
+      position: absolute;
+      top: -25px;
       left: 50%;
       transform: translateX(-50%);
-      width: 400px;
-      height: 500px;
-      background-image:
-        /* Kerzen mit Schein - verteilt auf dem Baum */
-        radial-gradient(circle at 50% 8%, rgba(255, 220, 100, 0.9) 0%, rgba(255, 180, 50, 0.5) 6px, rgba(255, 150, 30, 0.2) 12px, transparent 20px),
-        radial-gradient(circle at 42% 20%, rgba(255, 210, 90, 0.85) 0%, rgba(255, 170, 40, 0.45) 5px, rgba(255, 140, 20, 0.15) 10px, transparent 18px),
-        radial-gradient(circle at 58% 22%, rgba(255, 215, 95, 0.85) 0%, rgba(255, 175, 45, 0.45) 5px, rgba(255, 145, 25, 0.15) 10px, transparent 18px),
-        radial-gradient(circle at 35% 35%, rgba(255, 205, 85, 0.8) 0%, rgba(255, 165, 35, 0.4) 5px, rgba(255, 135, 15, 0.12) 10px, transparent 16px),
-        radial-gradient(circle at 65% 38%, rgba(255, 210, 90, 0.8) 0%, rgba(255, 170, 40, 0.4) 5px, rgba(255, 140, 20, 0.12) 10px, transparent 16px),
-        radial-gradient(circle at 50% 42%, rgba(255, 220, 100, 0.85) 0%, rgba(255, 180, 50, 0.45) 5px, rgba(255, 150, 30, 0.15) 10px, transparent 18px),
-        radial-gradient(circle at 28% 52%, rgba(255, 200, 80, 0.75) 0%, rgba(255, 160, 30, 0.35) 5px, rgba(255, 130, 10, 0.1) 10px, transparent 15px),
-        radial-gradient(circle at 72% 55%, rgba(255, 205, 85, 0.75) 0%, rgba(255, 165, 35, 0.35) 5px, rgba(255, 135, 15, 0.1) 10px, transparent 15px),
-        radial-gradient(circle at 40% 58%, rgba(255, 215, 95, 0.8) 0%, rgba(255, 175, 45, 0.4) 5px, rgba(255, 145, 25, 0.12) 10px, transparent 16px),
-        radial-gradient(circle at 60% 62%, rgba(255, 210, 90, 0.8) 0%, rgba(255, 170, 40, 0.4) 5px, rgba(255, 140, 20, 0.12) 10px, transparent 16px),
-        radial-gradient(circle at 22% 72%, rgba(255, 195, 75, 0.7) 0%, rgba(255, 155, 25, 0.3) 5px, rgba(255, 125, 5, 0.08) 10px, transparent 14px),
-        radial-gradient(circle at 78% 75%, rgba(255, 200, 80, 0.7) 0%, rgba(255, 160, 30, 0.3) 5px, rgba(255, 130, 10, 0.08) 10px, transparent 14px),
-        radial-gradient(circle at 50% 78%, rgba(255, 210, 90, 0.75) 0%, rgba(255, 170, 40, 0.35) 5px, rgba(255, 140, 20, 0.1) 10px, transparent 15px);
-      background-repeat: no-repeat;
-      filter: blur(1px);
+      font-size: 2.5rem;
+      filter: blur(0) drop-shadow(0 0 10px rgba(255, 220, 100, 0.8));
       opacity: 0.9;
+    }
+
+    /* Baumstamm */
+    .christmas-tree::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 60px;
+      background: rgba(80, 50, 30, 0.7);
+      border-radius: 5px;
+    }
+
+    /* Baum-Ebenen als separate Elemente */
+    .tree-layer {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    .tree-layer-1 {
+      top: 0;
+      border-width: 0 60px 100px 60px;
+      border-color: transparent transparent rgba(25, 65, 35, 0.7) transparent;
+    }
+
+    .tree-layer-2 {
+      top: 70px;
+      border-width: 0 90px 120px 90px;
+      border-color: transparent transparent rgba(22, 60, 32, 0.65) transparent;
+    }
+
+    .tree-layer-3 {
+      top: 160px;
+      border-width: 0 120px 140px 120px;
+      border-color: transparent transparent rgba(20, 55, 30, 0.6) transparent;
+    }
+
+    .tree-layer-4 {
+      top: 260px;
+      border-width: 0 150px 160px 150px;
+      border-color: transparent transparent rgba(18, 50, 28, 0.55) transparent;
+    }
+
+    /* Kerzen auf dem Baum */
+    .tree-candles {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 450px;
       z-index: -1;
       pointer-events: none;
       animation: candleFlicker 3s ease-in-out infinite alternate;
     }
 
+    .candle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, rgba(255, 220, 100, 0.95) 0%, rgba(255, 180, 50, 0.5) 40%, transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 15px 5px rgba(255, 200, 80, 0.4);
+    }
+
+    /* Kerzen-Positionen */
+    .candle:nth-child(1) { top: 8%; left: 50%; }
+    .candle:nth-child(2) { top: 22%; left: 38%; }
+    .candle:nth-child(3) { top: 22%; left: 62%; }
+    .candle:nth-child(4) { top: 38%; left: 30%; }
+    .candle:nth-child(5) { top: 38%; left: 70%; }
+    .candle:nth-child(6) { top: 42%; left: 50%; }
+    .candle:nth-child(7) { top: 55%; left: 22%; }
+    .candle:nth-child(8) { top: 55%; left: 78%; }
+    .candle:nth-child(9) { top: 60%; left: 40%; }
+    .candle:nth-child(10) { top: 60%; left: 60%; }
+    .candle:nth-child(11) { top: 75%; left: 18%; }
+    .candle:nth-child(12) { top: 75%; left: 82%; }
+    .candle:nth-child(13) { top: 78%; left: 50%; }
+
     @keyframes candleFlicker {
       0% { opacity: 0.85; }
-      50% { opacity: 0.95; }
+      50% { opacity: 1; }
       100% { opacity: 0.8; }
     }
 
@@ -1090,6 +1125,29 @@
   </style>
 </head>
 <body>
+<!-- Weihnachtsbaum im Hintergrund -->
+<div class="christmas-tree">
+  <div class="tree-layer tree-layer-1"></div>
+  <div class="tree-layer tree-layer-2"></div>
+  <div class="tree-layer tree-layer-3"></div>
+  <div class="tree-layer tree-layer-4"></div>
+</div>
+<div class="tree-candles">
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+  <div class="candle"></div>
+</div>
+
 <!-- Schneeflocken Animation -->
 <div class="snowflakes">
   <div class="snowflake">❄</div>
