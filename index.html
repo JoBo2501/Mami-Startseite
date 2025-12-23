@@ -25,30 +25,78 @@
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
-      height: 100%;
+      width: 400px;
+      height: 500px;
       background-image:
-        /* Weihnachtsbaum Silhouette - Spitze */
-        conic-gradient(from 90deg at 50% 85%, transparent 0deg, transparent 130deg, rgba(20, 50, 30, 0.4) 130deg, rgba(20, 50, 30, 0.4) 230deg, transparent 230deg),
-        /* Weihnachtsbaum mittlere Ebene */
-        conic-gradient(from 90deg at 50% 70%, transparent 0deg, transparent 115deg, rgba(15, 45, 25, 0.35) 115deg, rgba(15, 45, 25, 0.35) 245deg, transparent 245deg),
-        /* Weihnachtsbaum untere Ebene */
-        conic-gradient(from 90deg at 50% 55%, transparent 0deg, transparent 105deg, rgba(10, 40, 20, 0.3) 105deg, rgba(10, 40, 20, 0.3) 255deg, transparent 255deg),
-        /* Kerzen am Baum - warmgelbe Punkte */
-        radial-gradient(circle at 48% 40%, rgba(255, 200, 100, 0.6) 0%, rgba(255, 180, 80, 0.3) 3px, transparent 6px),
-        radial-gradient(circle at 52% 50%, rgba(255, 210, 110, 0.5) 0%, rgba(255, 190, 90, 0.25) 3px, transparent 6px),
-        radial-gradient(circle at 45% 55%, rgba(255, 195, 95, 0.55) 0%, rgba(255, 175, 75, 0.28) 3px, transparent 6px),
-        radial-gradient(circle at 55% 45%, rgba(255, 205, 105, 0.5) 0%, rgba(255, 185, 85, 0.25) 3px, transparent 6px),
-        radial-gradient(circle at 50% 35%, rgba(255, 220, 120, 0.65) 0%, rgba(255, 200, 100, 0.3) 3px, transparent 6px),
-        radial-gradient(circle at 43% 48%, rgba(255, 190, 90, 0.45) 0%, rgba(255, 170, 70, 0.22) 3px, transparent 6px),
-        radial-gradient(circle at 57% 52%, rgba(255, 200, 100, 0.5) 0%, rgba(255, 180, 80, 0.25) 3px, transparent 6px),
-        radial-gradient(circle at 46% 60%, rgba(255, 215, 115, 0.55) 0%, rgba(255, 195, 95, 0.28) 3px, transparent 6px),
-        radial-gradient(circle at 54% 58%, rgba(255, 185, 85, 0.5) 0%, rgba(255, 165, 65, 0.25) 3px, transparent 6px),
-        radial-gradient(circle at 50% 65%, rgba(255, 210, 110, 0.6) 0%, rgba(255, 190, 90, 0.3) 3px, transparent 6px);
-      filter: blur(8px);
-      opacity: 0.7;
+        /* Stern an der Spitze */
+        radial-gradient(circle at 50% 2%, rgba(255, 223, 100, 0.95) 0%, rgba(255, 200, 50, 0.7) 8px, transparent 15px),
+        /* Baumspitze (oberstes Dreieck) */
+        conic-gradient(from 90deg at 50% 12%, transparent 0deg, transparent 155deg, rgba(25, 60, 35, 0.7) 155deg, rgba(25, 60, 35, 0.7) 205deg, transparent 205deg),
+        /* Zweite Ebene */
+        conic-gradient(from 90deg at 50% 28%, transparent 0deg, transparent 140deg, rgba(20, 55, 30, 0.65) 140deg, rgba(20, 55, 30, 0.65) 220deg, transparent 220deg),
+        /* Dritte Ebene */
+        conic-gradient(from 90deg at 50% 48%, transparent 0deg, transparent 130deg, rgba(18, 50, 28, 0.6) 130deg, rgba(18, 50, 28, 0.6) 230deg, transparent 230deg),
+        /* Unterste Ebene (breiteste) */
+        conic-gradient(from 90deg at 50% 70%, transparent 0deg, transparent 120deg, rgba(15, 45, 25, 0.55) 120deg, rgba(15, 45, 25, 0.55) 240deg, transparent 240deg),
+        /* Baumstamm */
+        linear-gradient(to bottom, rgba(80, 50, 30, 0.7) 0%, rgba(60, 35, 20, 0.7) 100%);
+      background-size:
+        30px 30px,      /* Stern */
+        100% 100%,      /* Spitze */
+        100% 100%,      /* Zweite Ebene */
+        100% 100%,      /* Dritte Ebene */
+        100% 100%,      /* Unterste Ebene */
+        40px 60px;      /* Stamm */
+      background-position:
+        50% 0%,         /* Stern */
+        0 0,            /* Spitze */
+        0 0,            /* Zweite Ebene */
+        0 0,            /* Dritte Ebene */
+        0 0,            /* Unterste Ebene */
+        50% 95%;        /* Stamm */
+      background-repeat: no-repeat;
+      filter: blur(3px);
+      opacity: 0.85;
       z-index: -2;
       pointer-events: none;
+    }
+
+    /* Kerzen auf dem Weihnachtsbaum */
+    body::after {
+      content: "";
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 500px;
+      background-image:
+        /* Kerzen mit Schein - verteilt auf dem Baum */
+        radial-gradient(circle at 50% 8%, rgba(255, 220, 100, 0.9) 0%, rgba(255, 180, 50, 0.5) 6px, rgba(255, 150, 30, 0.2) 12px, transparent 20px),
+        radial-gradient(circle at 42% 20%, rgba(255, 210, 90, 0.85) 0%, rgba(255, 170, 40, 0.45) 5px, rgba(255, 140, 20, 0.15) 10px, transparent 18px),
+        radial-gradient(circle at 58% 22%, rgba(255, 215, 95, 0.85) 0%, rgba(255, 175, 45, 0.45) 5px, rgba(255, 145, 25, 0.15) 10px, transparent 18px),
+        radial-gradient(circle at 35% 35%, rgba(255, 205, 85, 0.8) 0%, rgba(255, 165, 35, 0.4) 5px, rgba(255, 135, 15, 0.12) 10px, transparent 16px),
+        radial-gradient(circle at 65% 38%, rgba(255, 210, 90, 0.8) 0%, rgba(255, 170, 40, 0.4) 5px, rgba(255, 140, 20, 0.12) 10px, transparent 16px),
+        radial-gradient(circle at 50% 42%, rgba(255, 220, 100, 0.85) 0%, rgba(255, 180, 50, 0.45) 5px, rgba(255, 150, 30, 0.15) 10px, transparent 18px),
+        radial-gradient(circle at 28% 52%, rgba(255, 200, 80, 0.75) 0%, rgba(255, 160, 30, 0.35) 5px, rgba(255, 130, 10, 0.1) 10px, transparent 15px),
+        radial-gradient(circle at 72% 55%, rgba(255, 205, 85, 0.75) 0%, rgba(255, 165, 35, 0.35) 5px, rgba(255, 135, 15, 0.1) 10px, transparent 15px),
+        radial-gradient(circle at 40% 58%, rgba(255, 215, 95, 0.8) 0%, rgba(255, 175, 45, 0.4) 5px, rgba(255, 145, 25, 0.12) 10px, transparent 16px),
+        radial-gradient(circle at 60% 62%, rgba(255, 210, 90, 0.8) 0%, rgba(255, 170, 40, 0.4) 5px, rgba(255, 140, 20, 0.12) 10px, transparent 16px),
+        radial-gradient(circle at 22% 72%, rgba(255, 195, 75, 0.7) 0%, rgba(255, 155, 25, 0.3) 5px, rgba(255, 125, 5, 0.08) 10px, transparent 14px),
+        radial-gradient(circle at 78% 75%, rgba(255, 200, 80, 0.7) 0%, rgba(255, 160, 30, 0.3) 5px, rgba(255, 130, 10, 0.08) 10px, transparent 14px),
+        radial-gradient(circle at 50% 78%, rgba(255, 210, 90, 0.75) 0%, rgba(255, 170, 40, 0.35) 5px, rgba(255, 140, 20, 0.1) 10px, transparent 15px);
+      background-repeat: no-repeat;
+      filter: blur(1px);
+      opacity: 0.9;
+      z-index: -1;
+      pointer-events: none;
+      animation: candleFlicker 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes candleFlicker {
+      0% { opacity: 0.85; }
+      50% { opacity: 0.95; }
+      100% { opacity: 0.8; }
     }
 
     /* Schneeflocken Container */
@@ -329,10 +377,10 @@
       background:
         /* Festlicher Nachthimmel-Gradient */
         linear-gradient(to bottom,
-          rgba(20, 40, 80, 0.95) 0%,      /* Dunkles Nachtblau oben */
-          rgba(30, 60, 100, 0.9) 30%,     /* Mitternachtsblau */
-          rgba(40, 80, 120, 0.85) 60%,    /* Tiefblau */
-          rgba(50, 100, 140, 0.8) 100%    /* Winterblau unten */
+          rgba(20, 40, 80, 0.95) 0%,
+          rgba(30, 60, 100, 0.9) 30%,
+          rgba(40, 80, 120, 0.85) 60%,
+          rgba(50, 100, 140, 0.8) 100%
         );
       color: #ffffff;
       text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9);
@@ -349,80 +397,38 @@
       position: relative;
       border: 1px solid rgba(255,215,0,0.3);
       backdrop-filter: blur(5px);
-      overflow: hidden;
+      overflow: visible;
     }
 
-    /* Weihnachtsschmuck-Dekoration */
+    /* Dezente Weihnachtsschmuck-Dekoration - nur an den Rändern */
     .digital-board::before {
-      content: "";
+      content: "🎄";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 100%;
-      background-image:
-        /* Goldene Christbaumkugel links */
-        radial-gradient(circle at 8% 25%, rgba(255, 215, 0, 0.9) 0%, rgba(218, 165, 32, 0.7) 40%, transparent 50%),
-        radial-gradient(circle at 8% 25%, rgba(255, 255, 200, 0.6) 0%, transparent 20%),
-        /* Rote Christbaumkugel links-mitte */
-        radial-gradient(circle at 20% 75%, rgba(220, 20, 60, 0.85) 0%, rgba(139, 0, 0, 0.7) 40%, transparent 50%),
-        radial-gradient(circle at 19% 73%, rgba(255, 150, 150, 0.5) 0%, transparent 15%),
-        /* Silberne Christbaumkugel mitte */
-        radial-gradient(circle at 50% 20%, rgba(192, 192, 192, 0.8) 0%, rgba(128, 128, 128, 0.6) 40%, transparent 50%),
-        radial-gradient(circle at 49% 18%, rgba(255, 255, 255, 0.7) 0%, transparent 15%),
-        /* Grüne Christbaumkugel rechts-mitte */
-        radial-gradient(circle at 80% 70%, rgba(34, 139, 34, 0.85) 0%, rgba(0, 100, 0, 0.7) 40%, transparent 50%),
-        radial-gradient(circle at 79% 68%, rgba(144, 238, 144, 0.5) 0%, transparent 15%),
-        /* Goldene Christbaumkugel rechts */
-        radial-gradient(circle at 92% 30%, rgba(255, 215, 0, 0.85) 0%, rgba(184, 134, 11, 0.7) 40%, transparent 50%),
-        radial-gradient(circle at 91% 28%, rgba(255, 255, 200, 0.6) 0%, transparent 18%),
-        /* Kleine Sterne */
-        radial-gradient(circle at 35% 15%, rgba(255, 255, 200, 0.9) 0%, transparent 3px),
-        radial-gradient(circle at 65% 85%, rgba(255, 255, 200, 0.8) 0%, transparent 2px),
-        radial-gradient(circle at 15% 50%, rgba(255, 255, 220, 0.7) 0%, transparent 2px),
-        radial-gradient(circle at 85% 50%, rgba(255, 255, 220, 0.85) 0%, transparent 3px),
-        /* Sanfter Glanz oben */
-        linear-gradient(to bottom,
-          rgba(255,255,255,0.1) 0%,
-          rgba(255,255,255,0.02) 30%,
-          transparent 50%);
-      background-size:
-        25px 25px, 25px 25px,   /* Goldene Kugel links */
-        22px 22px, 22px 22px,   /* Rote Kugel */
-        20px 20px, 20px 20px,   /* Silberne Kugel */
-        24px 24px, 24px 24px,   /* Grüne Kugel */
-        23px 23px, 23px 23px,   /* Goldene Kugel rechts */
-        6px 6px, 4px 4px, 4px 4px, 6px 6px, /* Sterne */
-        100% 100%;              /* Glanz */
-      border-radius: 25px;
-      pointer-events: none;
-      z-index: 1;
+      top: 50%;
+      left: -15px;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      opacity: 0.8;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      z-index: 10;
     }
 
-    /* Aufhänger für die Kugeln */
     .digital-board::after {
-      content: "";
+      content: "🎄";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
-      background-image:
-        /* Goldene Aufhänger-Linien */
-        linear-gradient(to bottom, rgba(255, 215, 0, 0.6) 0%, rgba(255, 215, 0, 0.3) 100%),
-        linear-gradient(to bottom, rgba(255, 215, 0, 0.5) 0%, rgba(255, 215, 0, 0.2) 100%),
-        linear-gradient(to bottom, rgba(192, 192, 192, 0.5) 0%, rgba(192, 192, 192, 0.2) 100%),
-        linear-gradient(to bottom, rgba(255, 215, 0, 0.5) 0%, rgba(255, 215, 0, 0.2) 100%),
-        linear-gradient(to bottom, rgba(255, 215, 0, 0.6) 0%, rgba(255, 215, 0, 0.3) 100%);
-      background-size: 2px 20px, 2px 55px, 2px 15px, 2px 50px, 2px 25px;
-      background-position: 8% 0, 20% 0, 50% 0, 80% 0, 92% 0;
-      background-repeat: no-repeat;
-      pointer-events: none;
-      z-index: 0;
+      top: 50%;
+      right: -15px;
+      transform: translateY(-50%) scaleX(-1);
+      font-size: 2rem;
+      opacity: 0.8;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      z-index: 10;
     }
 
     .date-display {
-      color: #e8e8e8;
+      color: #ffffff;
+      position: relative;
+      z-index: 5;
       font-size: 1.4rem;
       font-weight: 600;
       margin: 0 0 8px 0;
@@ -442,6 +448,8 @@
       letter-spacing: 1px;
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
       font-variant-numeric: tabular-nums;
+      position: relative;
+      z-index: 5;
     }
 
     /* Responsive Design */
