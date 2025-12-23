@@ -1247,7 +1247,7 @@
       51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
     };
 
-    fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
       .then(res => {
         if (!res.ok) {
           throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
