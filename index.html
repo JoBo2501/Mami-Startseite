@@ -435,29 +435,47 @@
       overflow: visible;
     }
 
-    /* Dezente Weihnachtsschmuck-Dekoration - nur an den Rändern */
+    /* Weihnachtssterne links und rechts */
     .digital-board::before {
-      content: "🎄";
+      content: "🌺";
       position: absolute;
       top: 50%;
-      left: -15px;
+      left: -20px;
       transform: translateY(-50%);
-      font-size: 2rem;
-      opacity: 0.8;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      font-size: 2.2rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) hue-rotate(-30deg) saturate(1.5);
       z-index: 10;
     }
 
     .digital-board::after {
-      content: "🎄";
+      content: "🌺";
       position: absolute;
       top: 50%;
-      right: -15px;
-      transform: translateY(-50%) scaleX(-1);
-      font-size: 2rem;
-      opacity: 0.8;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      right: -20px;
+      transform: translateY(-50%);
+      font-size: 2.2rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) hue-rotate(30deg) saturate(1.3);
       z-index: 10;
+    }
+
+    /* Schildkröte mit Weihnachtsmütze */
+    .christmas-turtle {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.8rem;
+      z-index: 10;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .christmas-turtle::before {
+      content: "🎅";
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.6);
+      font-size: 1.5rem;
     }
 
     .date-display {
@@ -1189,6 +1207,7 @@
   <div class="digital-board">
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
+    <div class="christmas-turtle">🐢</div>
   </div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
