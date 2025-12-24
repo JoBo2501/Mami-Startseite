@@ -1450,6 +1450,22 @@
           reminders.innerHTML = "";
           note.innerHTML = "";
 
+          // Weihnachtsgruß am 24.12.
+          const todayDate = new Date();
+          if (todayDate.getMonth() === 11 && todayDate.getDate() === 24) {
+            note.innerHTML = `
+              <div class="christmas-greeting">
+                <span class="christmas-greeting-star">⭐</span>
+                <div class="christmas-greeting-text">
+                  Ihr Lieben, ganz herzliche Weihnachtsgrüße aus Leipzig. Auch von Fabian und Caro!<br><br>
+                  Leider war es dieses Jahr einfach nicht drin, nach Pullach zu kommen. Es war selten so stressig, und das wird die nächsten Tage auch so weitergehen. Aber heute mal durchschnaufen! Gerade habe ich ein nettes Foto vom Kirchenbesuch erhalten. Macht es Euch schön! Wir denken an Euch.<br><br>
+                  Liebe Grüße<br>
+                  Joachim
+                </div>
+              </div>
+            `;
+          }
+
           const today = new Date().toISOString().split("T")[0];
 
           rows.forEach((row, index) => {
