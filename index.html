@@ -435,28 +435,32 @@
       overflow: visible;
     }
 
-    /* Schildkröte mit Weihnachtsmütze - links neben der Uhrzeit */
-    .christmas-turtle {
+    /* Heilige Familie - links neben der Uhrzeit */
+    .holy-family {
       position: absolute;
       top: 50%;
-      left: 15px;
+      left: 12px;
       transform: translateY(-50%);
       z-index: 10;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 0.7;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 1.6rem;
     }
 
-    .turtle-hat {
-      font-size: 1.4rem;
-      margin-bottom: -12px;
-      margin-left: 3px;
+    .josef {
+      font-size: 1.8rem;
     }
 
-    .turtle-body {
-      font-size: 2.5rem;
+    .maria {
+      font-size: 1.5rem;
+    }
+
+    .jesus {
+      font-size: 1rem;
+      margin-bottom: 2px;
     }
 
     /* Goldener Weihnachtsstern - rechts neben der Uhrzeit */
@@ -1213,9 +1217,10 @@
 </div>
 
   <div class="digital-board">
-    <div class="christmas-turtle">
-      <span class="turtle-hat">🎅</span>
-      <span class="turtle-body">🐢</span>
+    <div class="holy-family">
+      <span class="josef">🧔</span>
+      <span class="jesus">👶</span>
+      <span class="maria">🤱</span>
     </div>
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
