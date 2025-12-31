@@ -300,6 +300,27 @@
       margin-bottom: 0.5rem;
     }
 
+    /* Neujahrsgruß */
+    .newyear-greeting {
+      background: linear-gradient(135deg, #e8f4fc 0%, #f0e6ff 100%);
+      border: 2px solid #6b5b95;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .newyear-greeting-text {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #4a4a8a;
+      line-height: 1.6;
+    }
+    .newyear-greeting-emoji {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
       70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
@@ -1450,9 +1471,29 @@
           reminders.innerHTML = "";
           note.innerHTML = "";
 
-          // Weihnachtsgruß am 24.12.
+          // Besondere Grüße je nach Datum
           const todayDate = new Date();
-          if (todayDate.getMonth() === 11 && todayDate.getDate() === 24) {
+          const day = todayDate.getDate();
+          const month = todayDate.getMonth(); // 0 = Januar, 11 = Dezember
+          const year = todayDate.getFullYear();
+
+          // Neujahrsgruß am 01.01.2026
+          if (month === 0 && day === 1 && year === 2026) {
+            note.innerHTML = `
+              <div class="newyear-greeting">
+                <span class="newyear-greeting-emoji">🥂✨</span>
+                <div class="newyear-greeting-text">
+                  Liebe Mami,<br><br>
+                  alles Liebe und Gute für das neue Jahr.<br><br>
+                  Wir stoßen auf Dich an!<br><br>
+                  Ganz liebe Grüße aus Leipzig und Berlin<br><br>
+                  Niklas, Fabian, Daniel, Joachim, Caro
+                </div>
+              </div>
+            `;
+          }
+          // Weihnachtsgruß am 24.12.
+          else if (month === 11 && day === 24) {
             note.innerHTML = `
               <div class="christmas-greeting">
                 <span class="christmas-greeting-star">⭐</span>
