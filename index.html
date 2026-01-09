@@ -481,8 +481,8 @@
       overflow: visible;
     }
 
-    /* Schildkröte mit Weihnachtsmütze - links */
-    .christmas-turtle {
+    /* Erster König mit Kamel - ganz links (nähert sich noch) */
+    .wise-man-left {
       position: absolute;
       top: 50%;
       left: 15px;
@@ -490,18 +490,37 @@
       z-index: 10;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 0.7;
+      align-items: flex-end;
+      gap: 3px;
     }
 
-    .turtle-hat {
-      font-size: 1.2rem;
-      margin-bottom: -10px;
+    .wise-man-left .king {
+      font-size: 1.8rem;
     }
 
-    .turtle-body {
-      font-size: 2.2rem;
+    .wise-man-left .camel {
+      font-size: 1.6rem;
+    }
+
+    /* Zwei Könige mit Kamelen - nähern sich der Krippe von rechts der Uhr */
+    .wise-men-approaching {
+      position: absolute;
+      top: 50%;
+      right: 100px;
+      transform: translateY(-50%);
+      z-index: 10;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .wise-men-approaching .king {
+      font-size: 1.8rem;
+    }
+
+    .wise-men-approaching .camel {
+      font-size: 1.6rem;
     }
 
     /* Krippe mit Stern darüber (Stern von Bethlehem) - rechts */
@@ -1281,12 +1300,21 @@
 </div>
 
   <div class="digital-board">
-    <div class="christmas-turtle">
-      <span class="turtle-hat">🎅</span>
-      <span class="turtle-body">🐢</span>
+    <!-- Erster König mit Kamel - nähert sich von ganz links -->
+    <div class="wise-man-left">
+      <span class="king">🤴</span>
+      <span class="camel">🐫</span>
     </div>
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
+    <!-- Zwei Könige mit Kamelen - schon näher an der Krippe -->
+    <div class="wise-men-approaching">
+      <span class="king">🤴</span>
+      <span class="camel">🐫</span>
+      <span class="king">🤴</span>
+      <span class="camel">🐫</span>
+    </div>
+    <!-- Heilige Familie in der Krippe -->
     <div class="christmas-scene">
       <span class="star">⭐</span>
       <div class="nativity">
