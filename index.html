@@ -481,32 +481,24 @@
       overflow: visible;
     }
 
-    /* Erster König mit Kamel - ganz links (nähert sich noch) */
-    .wise-man-left {
+    /* Krippe mit Stern - jetzt links */
+    .christmas-scene {
       position: absolute;
       top: 50%;
       left: 15px;
       transform: translateY(-50%);
       z-index: 10;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
       display: flex;
-      align-items: flex-end;
-      gap: 3px;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
     }
 
-    .wise-man-left .king {
-      font-size: 1.8rem;
-    }
-
-    .wise-man-left .camel {
-      font-size: 1.6rem;
-    }
-
-    /* Zwei Könige mit Kamelen - nähern sich der Krippe von rechts der Uhr */
+    /* Zwei Könige mit Kamelen - links von der Uhr, nähern sich der Krippe */
     .wise-men-approaching {
       position: absolute;
       top: 50%;
-      right: 100px;
+      left: 100px;
       transform: translateY(-50%);
       z-index: 10;
       filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
@@ -523,17 +515,25 @@
       font-size: 1.6rem;
     }
 
-    /* Krippe mit Stern darüber (Stern von Bethlehem) - rechts */
-    .christmas-scene {
+    /* Dritter König mit Kamel - ganz rechts (nähert sich noch) */
+    .wise-man-right {
       position: absolute;
       top: 50%;
       right: 15px;
       transform: translateY(-50%);
       z-index: 10;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .wise-man-right .king {
+      font-size: 1.8rem;
+    }
+
+    .wise-man-right .camel {
+      font-size: 1.6rem;
     }
 
     .star {
@@ -1300,27 +1300,27 @@
 </div>
 
   <div class="digital-board">
-    <!-- Erster König mit Kamel - nähert sich von ganz links -->
-    <div class="wise-man-left">
-      <span class="king">🤴</span>
-      <span class="camel">🐫</span>
+    <!-- Heilige Familie in der Krippe - ganz links -->
+    <div class="christmas-scene">
+      <span class="star">⭐</span>
+      <div class="nativity">
+        <span class="stable">🛖</span>
+        <span class="holy-family">👨‍👩‍👦</span>
+      </div>
     </div>
-    <div id="date" class="date-display"></div>
-    <div id="time" class="time-display"></div>
-    <!-- Zwei Könige mit Kamelen - schon näher an der Krippe -->
+    <!-- Zwei Könige mit Kamelen - nähern sich der Krippe -->
     <div class="wise-men-approaching">
       <span class="king">🤴</span>
       <span class="camel">🐫</span>
       <span class="king">🤴</span>
       <span class="camel">🐫</span>
     </div>
-    <!-- Heilige Familie in der Krippe -->
-    <div class="christmas-scene">
-      <span class="star">⭐</span>
-      <div class="nativity">
-        <span class="holy-family">👨‍👩‍👦</span>
-        <span class="stable">🛖</span>
-      </div>
+    <div id="date" class="date-display"></div>
+    <div id="time" class="time-display"></div>
+    <!-- Dritter König mit Kamel - ganz rechts, noch unterwegs -->
+    <div class="wise-man-right">
+      <span class="king">🤴</span>
+      <span class="camel">🐫</span>
     </div>
   </div>
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
