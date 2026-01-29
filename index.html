@@ -75,11 +75,12 @@
       );
     }
 
-    .snow-patch-1 { left: -5%; width: 25%; height: 18%; opacity: 0.8; }
-    .snow-patch-2 { left: 15%; width: 20%; height: 12%; opacity: 0.6; }
-    .snow-patch-3 { left: 40%; width: 30%; height: 15%; opacity: 0.7; }
-    .snow-patch-4 { left: 65%; width: 18%; height: 10%; opacity: 0.5; }
-    .snow-patch-5 { left: 80%; width: 25%; height: 16%; opacity: 0.75; }
+    /* Schneereste: mehr rechts (wo weniger wächst), weniger links */
+    .snow-patch-1 { left: -5%; width: 15%; height: 10%; opacity: 0.4; }
+    .snow-patch-2 { left: 30%; width: 12%; height: 8%; opacity: 0.35; }
+    .snow-patch-3 { left: 55%; width: 25%; height: 14%; opacity: 0.7; }
+    .snow-patch-4 { left: 75%; width: 30%; height: 18%; opacity: 0.85; }
+    .snow-patch-5 { left: 92%; width: 12%; height: 12%; opacity: 0.6; }
 
     /* Grashalme die durch den Schnee brechen */
     .grass-blade {
@@ -1435,7 +1436,7 @@
       51: "🌦️ Leichter Nieselregen", 61: "🌧️ Regen", 80: "🌧️ Schauer", 95: "⛈️ Gewitter"
     };
 
-    fetch('https://corsproxy.io/?https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=48.066&longitude=11.520&current_weather=true')
       .then(res => {
         if (!res.ok) {
           throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
@@ -2632,27 +2633,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // Schneeglöckchen pflanzen
   const snowdropsContainer = document.getElementById('snowdrops-container');
   if (snowdropsContainer) {
+    // Nur wenige Schneeglöckchen – der Frühling ist ganz am Anfang
+    // Asymmetrisch verteilt: ein kleines Grüppchen links, vereinzelte rechts
     const snowdropPositions = [
-      { left: '5%', height: 70, delay: 0 },
-      { left: '8%', height: 55, delay: 0.5 },
-      { left: '12%', height: 65, delay: 1.2 },
-      { left: '18%', height: 50, delay: 0.3 },
-      { left: '22%', height: 72, delay: 1.8 },
-      { left: '28%', height: 58, delay: 0.7 },
-      { left: '35%', height: 68, delay: 1.5 },
-      { left: '38%', height: 45, delay: 0.2 },
-      { left: '42%', height: 62, delay: 2.0 },
-      { left: '50%', height: 70, delay: 0.9 },
-      { left: '55%', height: 52, delay: 1.1 },
-      { left: '60%', height: 66, delay: 0.4 },
-      { left: '65%', height: 48, delay: 1.7 },
-      { left: '72%', height: 73, delay: 0.6 },
-      { left: '75%', height: 56, delay: 1.3 },
-      { left: '80%', height: 64, delay: 2.2 },
-      { left: '85%', height: 50, delay: 0.8 },
-      { left: '90%', height: 60, delay: 1.6 },
-      { left: '93%', height: 68, delay: 0.1 },
-      { left: '96%', height: 54, delay: 1.9 },
+      // Kleines Grüppchen unten links
+      { left: '6%', height: 55, delay: 0 },
+      { left: '9%', height: 45, delay: 0.8 },
+      { left: '11%', height: 60, delay: 0.3 },
+      // Ein einsames in der Mitte
+      { left: '40%', height: 42, delay: 1.5 },
+      // Zwei vereinzelte rechts, mit Abstand
+      { left: '72%', height: 50, delay: 1.0 },
+      { left: '88%', height: 38, delay: 2.0 },
     ];
 
     snowdropPositions.forEach(function(pos) {
@@ -2684,16 +2676,28 @@ document.addEventListener('DOMContentLoaded', function() {
   // Grashalme erzeugen
   const grassContainer = document.getElementById('grass-container');
   if (grassContainer) {
-    for (var g = 0; g < 60; g++) {
-      var blade = document.createElement('div');
-      blade.className = 'grass-blade';
-      blade.style.left = (Math.random() * 100) + '%';
-      blade.style.height = (15 + Math.random() * 35) + 'px';
-      blade.style.animationDelay = (Math.random() * 4) + 's';
-      blade.style.animationDuration = (3 + Math.random() * 3) + 's';
-      blade.style.opacity = (0.3 + Math.random() * 0.5).toString();
-      grassContainer.appendChild(blade);
-    }
+    // Nur wenige zarte Grashalme – asymmetrisch, meist links bei den Schneeglöckchen
+    var grassSpots = [
+      // Rund um das Grüppchen links
+      { left: 4, spread: 10, count: 5 },
+      // Vereinzelt in der Mitte
+      { left: 38, spread: 5, count: 2 },
+      // Ein paar rechts
+      { left: 70, spread: 6, count: 2 },
+      { left: 86, spread: 4, count: 1 },
+    ];
+    grassSpots.forEach(function(spot) {
+      for (var g = 0; g < spot.count; g++) {
+        var blade = document.createElement('div');
+        blade.className = 'grass-blade';
+        blade.style.left = (spot.left + Math.random() * spot.spread) + '%';
+        blade.style.height = (10 + Math.random() * 20) + 'px';
+        blade.style.animationDelay = (Math.random() * 4) + 's';
+        blade.style.animationDuration = (3 + Math.random() * 3) + 's';
+        blade.style.opacity = (0.25 + Math.random() * 0.35).toString();
+        grassContainer.appendChild(blade);
+      }
+    });
   }
 
   // Letzte vereinzelte Schneeflocken
