@@ -6,14 +6,251 @@
   <title>Mutters Messageboard</title>
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
-      padding: 2rem; 
-      background: #f8fafc;
-      color: #333; 
-      text-align: center; 
-      margin: 0; 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      padding: 2rem;
+      background: linear-gradient(180deg,
+        #b8cce0 0%,        /* Winterlich-blasser Himmel */
+        #c9d6e3 15%,       /* Neblig */
+        #d4dfe8 30%,       /* Aufhellung */
+        #dce5ed 50%,       /* Helleres Grau-Blau */
+        #e2eaef 70%,       /* Fast weiß */
+        #e8ede4 85%,       /* Leichter Grünstich – Frühling naht */
+        #edf2e7 100%       /* Zartes Grün am Boden */
+      );
+      background-attachment: fixed;
+      color: #333;
+      text-align: center;
+      margin: 0;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* =============================================
+       HINTERGRUND-SZENE: Winter geht, Frühling kommt
+       Schneeglöckchen brechen durch den letzten Schnee
+       ============================================= */
+
+    .scene-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Sanfter Bodennebel */
+    .scene-background .ground-fog {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(to top,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(240, 245, 240, 0.3) 40%,
+        transparent 100%
+      );
+      animation: fog-drift 20s ease-in-out infinite;
+    }
+
+    @keyframes fog-drift {
+      0%, 100% { opacity: 0.6; transform: translateX(0); }
+      50% { opacity: 0.8; transform: translateX(20px); }
+    }
+
+    /* Schnee-Reste am Boden */
+    .snow-patch {
+      position: absolute;
+      bottom: 0;
+      border-radius: 50% 50% 0 0;
+      background: radial-gradient(ellipse at center bottom,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(240, 245, 255, 0.7) 40%,
+        rgba(220, 235, 250, 0.3) 70%,
+        transparent 100%
+      );
+    }
+
+    .snow-patch-1 { left: -5%; width: 25%; height: 18%; opacity: 0.8; }
+    .snow-patch-2 { left: 15%; width: 20%; height: 12%; opacity: 0.6; }
+    .snow-patch-3 { left: 40%; width: 30%; height: 15%; opacity: 0.7; }
+    .snow-patch-4 { left: 65%; width: 18%; height: 10%; opacity: 0.5; }
+    .snow-patch-5 { left: 80%; width: 25%; height: 16%; opacity: 0.75; }
+
+    /* Grashalme die durch den Schnee brechen */
+    .grass-blade {
+      position: absolute;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to top, #5a7a3a, #7a9a4a);
+      border-radius: 0 2px 0 0;
+      transform-origin: bottom center;
+      animation: grass-sway 4s ease-in-out infinite;
+    }
+
+    @keyframes grass-sway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    /* ---- Schneeglöckchen (Snowdrops) ---- */
+    .snowdrop {
+      position: absolute;
+      bottom: 0;
+    }
+
+    .snowdrop-stem {
+      width: 2.5px;
+      background: linear-gradient(to top, #4a7a2a, #6a9a3a);
+      margin: 0 auto;
+      border-radius: 1px;
+      position: relative;
+    }
+
+    .snowdrop-leaf {
+      position: absolute;
+      width: 12px;
+      height: 30px;
+      background: linear-gradient(135deg, #5a8a2a 0%, #7aaa3a 100%);
+      border-radius: 0 50% 0 50%;
+      bottom: 5px;
+    }
+
+    .snowdrop-leaf.left {
+      left: -10px;
+      transform: rotate(-25deg);
+    }
+
+    .snowdrop-leaf.right {
+      right: -10px;
+      transform: rotate(25deg);
+      border-radius: 50% 0 50% 0;
+    }
+
+    /* Gebogener Stiel oben (typisch für Schneeglöckchen) */
+    .snowdrop-bend {
+      position: relative;
+      width: 20px;
+      height: 12px;
+      margin-left: -9px;
+      border: 2.5px solid transparent;
+      border-top: 2.5px solid #6a9a3a;
+      border-right: 2.5px solid #6a9a3a;
+      border-radius: 0 80% 0 0;
+    }
+
+    /* Die hängende Blüte */
+    .snowdrop-flower {
+      position: absolute;
+      right: -2px;
+      top: 6px;
+    }
+
+    .snowdrop-petal {
+      width: 8px;
+      height: 16px;
+      background: linear-gradient(to bottom, #ffffff, #f0f8f0);
+      border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+      position: absolute;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transform-origin: top center;
+    }
+
+    .snowdrop-petal:nth-child(1) { transform: rotate(-15deg); left: -4px; }
+    .snowdrop-petal:nth-child(2) { transform: rotate(0deg); left: 2px; }
+    .snowdrop-petal:nth-child(3) { transform: rotate(15deg); left: 8px; }
+
+    .snowdrop-petal-inner {
+      width: 5px;
+      height: 8px;
+      background: #f0fff0;
+      border-radius: 50%;
+      position: absolute;
+      left: 3px;
+      top: 12px;
+      border: 1px solid rgba(100, 180, 100, 0.3);
+    }
+
+    /* Sanftes Wiegen der Schneeglöckchen */
+    .snowdrop {
+      animation: snowdrop-sway 5s ease-in-out infinite;
+    }
+
+    @keyframes snowdrop-sway {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+
+    /* ---- Letzte vereinzelte Schneeflocken ---- */
+    .last-snowflake {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      top: -20px;
+      animation: last-snow-fall linear infinite;
+      text-shadow: 0 0 5px rgba(200, 220, 255, 0.6);
+    }
+
+    @keyframes last-snow-fall {
+      0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0.8;
+      }
+      25% {
+        transform: translateY(25vh) rotate(90deg) translateX(15px);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg) translateX(-10px);
+        opacity: 0.5;
+      }
+      75% {
+        transform: translateY(75vh) rotate(270deg) translateX(20px);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg) translateX(5px);
+        opacity: 0;
+      }
+    }
+
+    /* Dezente Vögel am Himmel (Rückkehr der Zugvögel) */
+    .bird {
+      position: absolute;
+      font-size: 12px;
+      opacity: 0.4;
+      animation: bird-fly linear infinite;
+    }
+
+    @keyframes bird-fly {
+      0% { transform: translateX(-50px) translateY(0); }
+      50% { transform: translateX(0) translateY(-8px); }
+      100% { transform: translateX(50px) translateY(0); }
+    }
+
+    /* Zartes Sonnenlicht von oben links */
+    .scene-background .sun-glow {
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle,
+        rgba(255, 230, 150, 0.25) 0%,
+        rgba(255, 220, 130, 0.1) 40%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      animation: sun-pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes sun-pulse {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
     }
     h1 { 
       background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fed7aa 100%);
@@ -30,9 +267,11 @@
       backdrop-filter: blur(10px);
       color: #92400e;
     }
-    .section { 
-      margin: 3rem 0; 
+    .section {
+      margin: 3rem 0;
       animation: fadeInUp 0.6s ease-out;
+      position: relative;
+      z-index: 1;
     }
     .section-title { 
       font-weight: 600; 
@@ -289,6 +528,7 @@
       margin: 20px auto;
       max-width: 600px;
       position: relative;
+      z-index: 1;
       border: 1px solid rgba(255,255,255,0.2);
       backdrop-filter: blur(5px);
       overflow: hidden;
@@ -1071,6 +1311,39 @@
   </style>
 </head>
 <body>
+
+<!-- ==========================================
+     HINTERGRUND-SZENE: Winterende / Schneeglöckchen
+     ========================================== -->
+<div class="scene-background" aria-hidden="true">
+  <!-- Sanftes Sonnenlicht -->
+  <div class="sun-glow"></div>
+
+  <!-- Schnee-Reste am Boden -->
+  <div class="snow-patch snow-patch-1"></div>
+  <div class="snow-patch snow-patch-2"></div>
+  <div class="snow-patch snow-patch-3"></div>
+  <div class="snow-patch snow-patch-4"></div>
+  <div class="snow-patch snow-patch-5"></div>
+
+  <!-- Bodennebel -->
+  <div class="ground-fog"></div>
+
+  <!-- Schneeglöckchen werden per JS erzeugt -->
+  <div id="snowdrops-container"></div>
+
+  <!-- Grashalme werden per JS erzeugt -->
+  <div id="grass-container"></div>
+
+  <!-- Letzte Schneeflocken werden per JS erzeugt -->
+  <div id="last-snowflakes-container"></div>
+
+  <!-- Vögel am Himmel -->
+  <div class="bird" style="top: 8%; left: 20%; font-size: 10px; animation-duration: 6s;">&#x1F426;</div>
+  <div class="bird" style="top: 12%; left: 55%; font-size: 8px; animation-duration: 8s; animation-delay: 2s;">&#x1F426;</div>
+  <div class="bird" style="top: 6%; left: 75%; font-size: 11px; animation-duration: 7s; animation-delay: 4s;">&#x1F426;</div>
+</div>
+
 <!-- Batteriestand-Warnung -->
 <div id="battery-warning" class="battery-warning hidden">
   <div class="battery-icon">🔋</div>
@@ -2351,7 +2624,95 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Gehirnjogging initialisieren
   initBrainTraining();
+
+  // ==========================================
+  // HINTERGRUND-SZENE: Schneeglöckchen erzeugen
+  // ==========================================
+
+  // Schneeglöckchen pflanzen
+  const snowdropsContainer = document.getElementById('snowdrops-container');
+  if (snowdropsContainer) {
+    const snowdropPositions = [
+      { left: '5%', height: 70, delay: 0 },
+      { left: '8%', height: 55, delay: 0.5 },
+      { left: '12%', height: 65, delay: 1.2 },
+      { left: '18%', height: 50, delay: 0.3 },
+      { left: '22%', height: 72, delay: 1.8 },
+      { left: '28%', height: 58, delay: 0.7 },
+      { left: '35%', height: 68, delay: 1.5 },
+      { left: '38%', height: 45, delay: 0.2 },
+      { left: '42%', height: 62, delay: 2.0 },
+      { left: '50%', height: 70, delay: 0.9 },
+      { left: '55%', height: 52, delay: 1.1 },
+      { left: '60%', height: 66, delay: 0.4 },
+      { left: '65%', height: 48, delay: 1.7 },
+      { left: '72%', height: 73, delay: 0.6 },
+      { left: '75%', height: 56, delay: 1.3 },
+      { left: '80%', height: 64, delay: 2.2 },
+      { left: '85%', height: 50, delay: 0.8 },
+      { left: '90%', height: 60, delay: 1.6 },
+      { left: '93%', height: 68, delay: 0.1 },
+      { left: '96%', height: 54, delay: 1.9 },
+    ];
+
+    snowdropPositions.forEach(function(pos) {
+      const snowdrop = document.createElement('div');
+      snowdrop.className = 'snowdrop';
+      snowdrop.style.left = pos.left;
+      snowdrop.style.animationDelay = pos.delay + 's';
+      snowdrop.style.animationDuration = (4.5 + Math.random() * 2) + 's';
+
+      const stemHeight = pos.height;
+      snowdrop.innerHTML =
+        '<div class="snowdrop-stem" style="height:' + stemHeight + 'px;">' +
+          '<div class="snowdrop-leaf left"></div>' +
+          '<div class="snowdrop-leaf right"></div>' +
+        '</div>' +
+        '<div class="snowdrop-bend">' +
+          '<div class="snowdrop-flower">' +
+            '<div class="snowdrop-petal"></div>' +
+            '<div class="snowdrop-petal"></div>' +
+            '<div class="snowdrop-petal"></div>' +
+            '<div class="snowdrop-petal-inner"></div>' +
+          '</div>' +
+        '</div>';
+
+      snowdropsContainer.appendChild(snowdrop);
+    });
+  }
+
+  // Grashalme erzeugen
+  const grassContainer = document.getElementById('grass-container');
+  if (grassContainer) {
+    for (var g = 0; g < 60; g++) {
+      var blade = document.createElement('div');
+      blade.className = 'grass-blade';
+      blade.style.left = (Math.random() * 100) + '%';
+      blade.style.height = (15 + Math.random() * 35) + 'px';
+      blade.style.animationDelay = (Math.random() * 4) + 's';
+      blade.style.animationDuration = (3 + Math.random() * 3) + 's';
+      blade.style.opacity = (0.3 + Math.random() * 0.5).toString();
+      grassContainer.appendChild(blade);
+    }
+  }
+
+  // Letzte vereinzelte Schneeflocken
+  var snowflakesContainer = document.getElementById('last-snowflakes-container');
+  if (snowflakesContainer) {
+    var flakeSymbols = ['\u2744', '\u2022', '\u00B7', '\u2746'];
+    for (var s = 0; s < 15; s++) {
+      var flake = document.createElement('div');
+      flake.className = 'last-snowflake';
+      flake.textContent = flakeSymbols[Math.floor(Math.random() * flakeSymbols.length)];
+      flake.style.left = (Math.random() * 100) + '%';
+      flake.style.fontSize = (8 + Math.random() * 10) + 'px';
+      flake.style.animationDuration = (12 + Math.random() * 18) + 's';
+      flake.style.animationDelay = (Math.random() * 20) + 's';
+      flake.style.opacity = (0.2 + Math.random() * 0.4).toString();
+      snowflakesContainer.appendChild(flake);
+    }
+  }
 });
-</script>  
+</script>
 </body>
 </html>
