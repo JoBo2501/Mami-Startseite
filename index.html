@@ -614,7 +614,107 @@
 
     .post-it-sticker:hover {
       transform: rotate(0deg) scale(1.05) translateY(-5px);
-      box-shadow: 
+      box-shadow:
+        0 25px 50px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.6),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Right-side phone scam warning sticker */
+    .post-it-sticker-right {
+      position: fixed;
+      top: 20%;
+      right: -25px;
+      width: 230px;
+      height: auto;
+      background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);
+      border-radius: 12px;
+      box-shadow:
+        0 15px 30px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.6),
+        inset 0 -1px 0 rgba(0,0,0,0.1);
+      transform: rotate(3deg);
+      z-index: 1000;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      border: 1px solid rgba(178,190,195,0.4);
+      animation: gentle-sway-right 9s ease-in-out infinite;
+      backdrop-filter: blur(5px);
+    }
+
+    @keyframes gentle-sway-right {
+      0%, 100% { transform: rotate(3deg) translateY(0px); }
+      25% { transform: rotate(1deg) translateY(-3px); }
+      50% { transform: rotate(4deg) translateY(2px); }
+      75% { transform: rotate(2deg) translateY(-1px); }
+    }
+
+    .post-it-sticker-right .post-it-content {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .post-it-sticker-right .post-it-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .post-it-sticker-right .post-it-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #2d3436;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .post-it-sticker-right .post-it-text {
+      font-size: 0.85rem;
+      color: #2d3436;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .post-it-sticker-right .post-it-text .highlight {
+      color: #d63031;
+      font-weight: 700;
+    }
+
+    .post-it-sticker-right::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      right: 25px;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 50%;
+      box-shadow:
+        0 4px 8px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      border: 2px solid rgba(178,190,195,0.6);
+    }
+
+    @media (max-width: 768px) {
+      .post-it-sticker-right {
+        right: -15px;
+        width: 200px;
+        top: 45%;
+      }
+
+      .post-it-sticker-right .post-it-title {
+        font-size: 0.85rem;
+      }
+
+      .post-it-sticker-right .post-it-text {
+        font-size: 0.75rem;
+      }
+    }
+
+    .post-it-sticker-right:hover {
+      transform: rotate(0deg) scale(1.05) translateY(-5px);
+      box-shadow:
         0 25px 50px rgba(0,0,0,0.25),
         inset 0 1px 0 rgba(255,255,255,0.6),
         inset 0 -1px 0 rgba(0,0,0,0.1);
@@ -986,6 +1086,17 @@
     <div class="post-it-title">WICHTIGER HINWEIS</div>
     <div class="post-it-text">
       Sanja bitte bis auf weiteres nicht mehr bar bezahlen, das erfolgt jetzt online!
+    </div>
+  </div>
+</div>
+
+<!-- Erinnerung: Betrugsanrufe -->
+<div class="post-it-sticker-right">
+  <div class="post-it-content">
+    <div class="post-it-icon">&#x260E;&#xFE0F;</div>
+    <div class="post-it-title">Erinnerung</div>
+    <div class="post-it-text">
+      Liebe Mami, falls jemand anruft und behauptet, es w&uuml;rde Geld von Deinem Konto abgebucht &ndash; <span class="highlight">das ist Betrug!</span><br><br>Einfach <span class="highlight">sofort auflegen</span>. Die Bank ruft niemals so an. Dein Konto ist sicher! &#x1F49A;
     </div>
   </div>
 </div>
