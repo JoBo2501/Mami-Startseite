@@ -1200,24 +1200,44 @@
     }
 
     // Google Sheet Abruf mit CORS-Proxy und automatischer Aktualisierung
-    function fetchSheetData() {
-      // Timestamp für Cache-Busting hinzufügen
+    async function fetchSheetData() {
       const timestamp = new Date().getTime();
       const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRB56yMX7C4q-o3tDU4dVZGxive_c-x84aii2HXnI1RULRdYKqloZ9JtKcFHe0TXsmPbJOEOqZDtZUb/pub?output=tsv';
-      
-      fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url) + '&timestamp=' + timestamp)
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
+
+      // Mehrere CORS-Proxies ausprobieren
+      const proxies = [
+        'https://api.allorigins.win/raw?url=',
+        'https://api.codetabs.com/v1/proxy?quest=',
+        'https://corsproxy.io/?'
+      ];
+
+      let text = null;
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          const response = await fetch(proxies[i] + encodeURIComponent(url) + '&timestamp=' + timestamp);
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
           }
-          return res.text();
-        })
-        .then(text => {
-          if (!text || text.trim() === '') {
-            throw new Error('Leere Antwort vom Server');
+          text = await response.text();
+          if (text && text.trim() !== '') {
+            break; // Erfolgreich, Schleife beenden
           }
-          
-          const rows = text.trim().split('\n').map(row => row.split('\t'));
+        } catch (e) {
+          console.log('Proxy ' + (i+1) + ' fehlgeschlagen:', e.message);
+          if (i === proxies.length - 1) {
+            throw new Error('Alle Proxies fehlgeschlagen');
+          }
+        }
+      }
+
+      // Daten verarbeiten
+      if (!text || text.trim() === '') {
+        console.error('Leere Antwort vom Server');
+        return;
+      }
+
+      try {
+        const rows = text.trim().split('\n').map(row => row.split('\t'));
           
           const reminders = document.getElementById("reminders");
           const note = document.getElementById("note");
@@ -1412,15 +1432,14 @@
             }
           });
           
-          // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
-          if (reminders.children.length === 0) {
-            reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
-          }
-        })
-        .catch(err => {
-          console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
-          document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
-        });
+        // Nachricht anzeigen, wenn keine Erinnerungen gefunden wurden
+        if (reminders.children.length === 0) {
+          reminders.innerHTML = "<em>Keine Erinnerungen für heute.</em>";
+        }
+      } catch (err) {
+        console.error("Detaillierter Fehler beim Laden der Erinnerungen:", err);
+        document.getElementById("reminders").innerHTML = "<em>Fehler beim Laden der Erinnerungen: " + err.message + "</em>";
+      }
     }
 
     // Initial ausführen
@@ -1484,11 +1503,11 @@ function sendTermin() {
     async function loadCalendarData() {
       const icalUrl = 'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics';
       
-      // Verschiedene CORS-Proxies ausprobieren
+      // Verschiedene CORS-Proxies ausprobieren (aktualisierte Liste)
       const proxies = [
         'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://cors-anywhere.herokuapp.com/'
+        'https://api.codetabs.com/v1/proxy?quest=',
+        'https://corsproxy.io/?'
       ];
       
       for (let i = 0; i < proxies.length; i++) {
@@ -1574,83 +1593,6 @@ function sendTermin() {
     
     // Kalender laden
     loadCalendarData();
-
-    // Google Kalender Abruf mit dem ursprünglichen CORS-Proxy
-    fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(
-      'https://calendar.google.com/calendar/ical/c07e2a0992894595b6591a5831830abaebefa4287e71915cf353e078fc21cb54@group.calendar.google.com/public/basic.ics'
-    ))
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Netzwerkantwort war nicht ok: ' + res.status);
-        }
-        return res.text();
-      })
-      .then(data => {
-        console.log("Kalenderdaten empfangen, erste 100 Zeichen:", data.substring(0, 100));
-        
-        try {
-          // Überprüfen, ob die Daten im erwarteten Format sind
-          if (!data.includes('BEGIN:VCALENDAR')) {
-            throw new Error('Ungültiges iCal-Format: BEGIN:VCALENDAR nicht gefunden');
-          }
-          
-          const comp = new ICAL.Component(ICAL.parse(data));
-          const allEvents = comp.getAllSubcomponents('vevent').map(e => new ICAL.Event(e));
-          console.log("Anzahl gefundener Events:", allEvents.length);
-
-          // Vereinfachte Datumsberechnung
-          const today = new Date();
-          today.setHours(0, 0, 0, 0); // Auf Mitternacht setzen
-          
-          const in2Days = new Date(today);
-          in2Days.setDate(today.getDate() + 2);
-          in2Days.setHours(23, 59, 59, 999); // Auf Ende des Tages setzen
-          
-          console.log("Datumsbereich für Events:", today, "bis", in2Days);
-
-          const events = allEvents
-            .filter(e => {
-              try {
-                const startDate = e.startDate.toJSDate();
-                return startDate >= today && startDate <= in2Days;
-              } catch (err) {
-                console.error("Fehler beim Filtern eines Events:", err, e);
-                return false;
-              }
-            })
-            .sort((a, b) => a.startDate.toJSDate() - b.startDate.toJSDate());
-          
-          console.log("Anzahl anstehender Events:", events.length);
-
-          const out = document.getElementById("ical");
-          if (events.length === 0) {
-            out.innerHTML = "<em>Keine bevorstehenden Termine.</em>";
-          } else {
-            out.innerHTML = "";
-            events.forEach(e => {
-              try {
-                const d = e.startDate.toJSDate();
-                const isAllDay = e.startDate.isDate;
-                const box = document.createElement("div");
-                box.className = "termin-eintrag";
-                box.textContent = `📅 ${d.toLocaleDateString('de-DE', {
-                  weekday: 'long', day: '2-digit', month: '2-digit'
-                })}` + (isAllDay ? ` – ${e.summary}` : `, ${d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} – ${e.summary}`);
-                out.appendChild(box);
-              } catch (err) {
-                console.error("Fehler beim Anzeigen eines Events:", err, e);
-              }
-            });
-          }
-        } catch (parseError) {
-          console.error("Fehler beim Parsen der Kalenderdaten:", parseError);
-          throw parseError; // Weiterleiten an den catch-Block
-        }
-      })
-      .catch(error => {
-        console.error("Detaillierter Fehler beim Laden der Kalenderdaten:", error);
-        document.getElementById("ical").innerHTML = "<em>Fehler beim Laden der Termine: " + error.message + "</em>";
-      });
   </script>
 
 
