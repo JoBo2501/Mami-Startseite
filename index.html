@@ -10,16 +10,15 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       padding: 2rem;
       background: linear-gradient(180deg,
-        #b8cce0 0%,        /* Winterlich-blasser Himmel */
-        #c9d6e3 15%,       /* Neblig */
-        #d4dfe8 30%,       /* Aufhellung */
-        #dce5ed 50%,       /* Helleres Grau-Blau */
-        #e2eaef 70%,       /* Fast weiß */
-        #e8ede4 85%,       /* Leichter Grünstich – Frühling naht */
-        #edf2e7 100%       /* Zartes Grün am Boden */
+        #a8d5e5 0%,        /* Frisches Himmelblau */
+        #c5e5d3 30%,       /* Zartes Gruen-Tuerkis */
+        #d4ebd8 50%,       /* Weiches Fruehlings-Gruen */
+        #e8f4e5 70%,       /* Helles Wiesengruen */
+        #f0f7ed 85%,       /* Fast weiss mit Gruenstich */
+        #f5faf2 100%       /* Sanftes Naturweiss */
       );
       background-attachment: fixed;
-      color: #333;
+      color: #2c3e50;
       text-align: center;
       margin: 0;
       min-height: 100vh;
@@ -479,114 +478,86 @@
       }
     }
 
-    /* Modernisierte Apple Watch-Style Uhr mit Alpenpanorama */
+    /* =============================================
+       FRISCHES FRUEHLINGS-DESIGN: Uhr und Datum
+       Grosse, gut lesbare Schrift aus der Ferne
+       ============================================= */
     .digital-board {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      background: 
-        /* Morgenhimmel-Gradient */
-        linear-gradient(to bottom, 
-          rgba(255, 183, 77, 0.9) 0%,     /* Warmes Morgengold oben */
-          rgba(255, 150, 90, 0.85) 15%,   /* Orange-Rosa */
-          rgba(255, 180, 120, 0.8) 30%,   /* Sanftes Orange */
-          rgba(135, 180, 220, 0.7) 70%,   /* Himmelblau */
-          rgba(100, 150, 200, 0.75) 100%  /* Tieferes Blau unten */
-        ),
-        /* Alpenkette Silhouette */
-        radial-gradient(ellipse 200px 80px at 15% 100%, rgba(60, 80, 120, 0.9) 0%, transparent 70%),
-        radial-gradient(ellipse 150px 100px at 35% 100%, rgba(70, 90, 130, 0.85) 0%, transparent 70%),
-        radial-gradient(ellipse 180px 120px at 55% 100%, rgba(80, 100, 140, 0.8) 0%, transparent 70%),
-        radial-gradient(ellipse 160px 90px at 75% 100%, rgba(65, 85, 125, 0.85) 0%, transparent 70%),
-        radial-gradient(ellipse 140px 70px at 90% 100%, rgba(75, 95, 135, 0.9) 0%, transparent 70%),
-        /* Zusätzliche Bergspitzen für mehr Detail */
-        radial-gradient(ellipse 100px 60px at 25% 100%, rgba(50, 70, 110, 0.7) 0%, transparent 70%),
-        radial-gradient(ellipse 120px 80px at 65% 100%, rgba(55, 75, 115, 0.75) 0%, transparent 70%),
-        /* Schneebedeckte Gipfel */
-        radial-gradient(ellipse 80px 30px at 35% 85%, rgba(240, 240, 255, 0.6) 0%, transparent 70%),
-        radial-gradient(ellipse 60px 25px at 55% 80%, rgba(245, 245, 255, 0.5) 0%, transparent 70%),
-        radial-gradient(ellipse 70px 20px at 75% 85%, rgba(250, 250, 255, 0.4) 0%, transparent 70%);
-      background-size: 
-        100% 100%,           /* Himmel */
-        200px 80px,          /* Berg 1 */
-        150px 100px,         /* Berg 2 */
-        180px 120px,         /* Berg 3 (Hauptgipfel) */
-        160px 90px,          /* Berg 4 */
-        140px 70px,          /* Berg 5 */
-        100px 60px,          /* Detail Berg 1 */
-        120px 80px,          /* Detail Berg 2 */
-        80px 30px,           /* Schnee 1 */
-        60px 25px,           /* Schnee 2 */
-        70px 20px;           /* Schnee 3 */
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9);
-      border-radius: 25px;
-      box-shadow: 
-        inset 0 2px 15px rgba(255,255,255,0.2),
-        inset 0 -2px 10px rgba(0,0,0,0.2),
-        0 8px 32px rgba(0,0,0,0.3),
-        0 2px 8px rgba(0,0,0,0.2);
-      padding: 30px 25px;
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(220, 245, 220, 0.9) 50%,
+        rgba(200, 235, 210, 0.85) 100%
+      );
+      color: #2d5a3d;
+      border-radius: 30px;
+      box-shadow:
+        0 20px 60px rgba(45, 90, 60, 0.15),
+        0 8px 25px rgba(0, 0, 0, 0.08),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -2px 0 rgba(45, 90, 60, 0.05);
+      padding: 40px 50px;
       text-align: center;
       margin: 20px auto;
-      max-width: 600px;
+      max-width: 750px;
       position: relative;
       z-index: 1;
-      border: 1px solid rgba(255,255,255,0.2);
-      backdrop-filter: blur(5px);
-      overflow: hidden;
+      border: 2px solid rgba(100, 180, 120, 0.3);
     }
 
-    /* Subtiler Glanz-Effekt */
+    /* Dezenter Fruehlings-Rahmen */
     .digital-board::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 50%;
-      background: linear-gradient(to bottom, 
-        rgba(255,255,255,0.08) 0%, 
-        rgba(255,255,255,0.02) 50%, 
-        transparent 100%);
-      border-radius: 25px 25px 0 0;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px dashed rgba(100, 180, 120, 0.25);
+      border-radius: 22px;
       pointer-events: none;
     }
 
+    /* Datum: Gross und klar lesbar */
     .date-display {
-      color: #e8e8e8;
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin: 0 0 8px 0;
-      padding: 5px 10px;
+      color: #3d7a50;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 15px 0;
+      padding: 8px 15px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       letter-spacing: 0.5px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
     }
-    
+
+    /* Uhrzeit: Sehr gross, maximale Lesbarkeit */
     .time-display {
-      color: #ffffff;
-      font-size: 3.2rem;
-      font-weight: 300;
+      color: #2d5a3d;
+      font-size: 6rem;
+      font-weight: 200;
       margin: 0;
-      padding: 5px 10px;
+      padding: 10px 15px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      letter-spacing: 4px;
+      line-height: 1;
       font-variant-numeric: tabular-nums;
     }
 
     /* Responsive Design */
     @media (max-width: 768px) {
       .digital-board {
-        padding: 20px 15px;
+        padding: 30px 25px;
         margin: 15px auto;
+        max-width: 95%;
       }
-      
+
       .date-display {
-        font-size: 1.1rem;
+        font-size: 1.5rem;
       }
-      
+
       .time-display {
-        font-size: 2.5rem;
+        font-size: 4rem;
+        letter-spacing: 2px;
       }
     }
     
@@ -1015,300 +986,6 @@
     .hidden {
       display: none;
     }
-
-    .daily-wisdom {
-      background: linear-gradient(135deg, 
-        rgba(138, 43, 226, 0.15) 0%, 
-        rgba(30, 144, 255, 0.1) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      border-left: 4px solid #8a2be2;
-      padding: 2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      display: flex;
-      align-items: center;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    
-    .daily-wisdom:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-    }
-    
-    .wisdom-icon {
-      font-size: 2.5rem;
-      margin-right: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    .wisdom-content {
-      flex: 1;
-    }
-    
-    .wisdom-text {
-      font-size: 1.3rem;
-      line-height: 1.6;
-      margin-bottom: 0.8rem;
-      font-style: italic;
-      color: #2c3e50;
-      font-weight: 500;
-    }
-    
-    .wisdom-source {
-      font-size: 1rem;
-      text-align: right;
-      color: rgba(0,0,0,0.7);
-      font-weight: 600;
-    }
-
-    .brain-game {
-      background: linear-gradient(135deg, 
-        rgba(255, 183, 77, 0.15) 0%, 
-        rgba(255, 152, 0, 0.1) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 
-        0 20px 40px rgba(0,0,0,0.1),
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.2);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      text-align: left;
-      border-left: 4px solid #ffb347;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: all 0.3s ease;
-    }
-    
-    .brain-game:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        0 30px 60px rgba(0,0,0,0.15),
-        0 15px 30px rgba(0,0,0,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-    }
-    
-    .game-progress {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    
-    #quote-counter {
-      font-size: 1rem;
-      color: rgba(0,0,0,0.7);
-      font-weight: 600;
-    }
-    
-    .progress-dots {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .dot.active {
-      background: linear-gradient(135deg, #ffb347 0%, #ff9f1c 100%);
-      transform: scale(1.2);
-      box-shadow: 0 4px 8px rgba(255, 179, 71, 0.4);
-    }
-    
-    .dot.completed {
-      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
-    }
-    
-    .quote-container {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(15px);
-      border-radius: 18px;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      min-height: 140px;
-      box-shadow: 
-        0 10px 20px rgba(0,0,0,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.8);
-      border: 1px solid rgba(255,255,255,0.5);
-    }
-    
-    .quote-text {
-      font-size: 1.3rem;
-      line-height: 1.6;
-      font-style: italic;
-      color: #2c3e50;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-    
-    .quote-text:before {
-      content: '"';
-      font-size: 1.8em;
-      color: rgba(0,0,0,0.2);
-      position: absolute;
-      left: 0.8rem;
-      top: 0.5rem;
-      font-family: Georgia, serif;
-    }
-    
-    .quote-text:after {
-      content: '"';
-      font-size: 1.8em;
-      color: rgba(0,0,0,0.2);
-      position: absolute;
-      right: 1rem;
-      bottom: 1rem;
-      font-family: Georgia, serif;
-    }
-    
-    .quote-author {
-      font-size: 1.1rem;
-      text-align: right;
-      font-weight: 600;
-      color: #34495e;
-      animation: fadeIn 1s;
-    }
-    
-    .quote-controls {
-      margin-bottom: 2rem;
-    }
-    
-    .reveal-button {
-      padding: 1.2rem 2rem;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-      color: #2c3e50;
-      border: none;
-      border-radius: 15px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(255, 154, 158, 0.3);
-      letter-spacing: 0.3px;
-    }
-    
-    .reveal-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(255, 154, 158, 0.4);
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
-    
-    .reveal-button:disabled {
-      background: rgba(200,200,200,0.5);
-      cursor: default;
-      transform: none;
-      box-shadow: none;
-    }
-    
-    .quote-feedback {
-      margin-top: 1.5rem;
-      display: flex;
-      align-items: center;
-      animation: fadeIn 0.5s;
-      padding: 1.2rem;
-      background: rgba(255, 245, 230, 0.9);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,0.3);
-    }
-    
-    .feedback-icon {
-      font-size: 1.8rem;
-      margin-right: 1rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
-    
-    .feedback-text {
-      font-size: 1.1rem;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-    
-    .navigation-controls {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .nav-button {
-      padding: 1rem 1.5rem;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      color: #2c3e50;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1;
-      font-weight: 600;
-    }
-    
-    .nav-button:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    }
-    
-    .nav-button:disabled {
-      background: rgba(200,200,200,0.3);
-      color: rgba(0,0,0,0.4);
-      cursor: default;
-      transform: none;
-    }
-    
-    .quote-success {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
-      animation: fadeIn 0.5s;
-      padding: 1.5rem;
-      background: linear-gradient(135deg, 
-        rgba(40, 167, 69, 0.1) 0%, 
-        rgba(32, 201, 151, 0.05) 100%);
-      backdrop-filter: blur(15px);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 10px 20px rgba(40, 167, 69, 0.1);
-    }
-    
-    .success-icon {
-      font-size: 2.5rem;
-      margin-right: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    .success-text {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #2c3e50;
-      line-height: 1.5;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
   </style>
 </head>
 <body>
@@ -1399,14 +1076,6 @@
   </div>
 </div>
   <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
-  <div class="section"><div class="section-title">Unsere Reise nach Avignon</div>
-    <iframe 
-  src="https://cnjf29.smugmug.com/frame/slideshow?key=k8fCVk&speed=3&transition=fade&autoStart=1&captions=0&navigation=0&playButton=0&randomize=0&transitionSpeed=2"
-  width="100%" height="500"
-  style="border:none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
-  allowfullscreen loading="lazy">
-</iframe>
-  </div>
 
   <script>
     // Datum und Uhrzeit Anzeige
@@ -1984,59 +1653,7 @@ function sendTermin() {
       });
   </script>
 
-<!-- Gedanke für heute Section -->
-<div class="section">
-  <div class="section-title">Gedanke für heute</div>
-  <div class="daily-wisdom">
-    <div class="wisdom-icon">☀️</div>
-    <div class="wisdom-content">
-      <div id="daily-quote" class="wisdom-text"></div>
-      <div id="daily-source" class="wisdom-source"></div>
-    </div>
-  </div>
-</div>
 
-<!-- Tägliche Literatur-Herausforderung Section -->
-<div class="section">
-  <div class="section-title">Tägliche Literatur-Herausforderung</div>
-  <div class="brain-game">
-    <div class="game-progress">
-      <span id="quote-counter">Zitat 1 von 5</span>
-      <div class="progress-dots">
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-        <span class="dot" data-index="3"></span>
-        <span class="dot" data-index="4"></span>
-      </div>
-    </div>
-    
-    <div id="quote-carousel">
-      <div class="quote-container">
-        <div id="current-quote" class="quote-text"></div>
-        <div id="current-author" class="quote-author hidden"></div>
-      </div>
-      
-      <div class="quote-controls">
-        <button id="reveal-button" class="reveal-button">Zitat vervollständigen</button>
-        <div id="quote-feedback" class="quote-feedback hidden">
-          <div class="feedback-icon">🧠</div>
-          <div id="feedback-text" class="feedback-text"></div>
-        </div>
-      </div>
-      
-      <div class="navigation-controls">
-        <button id="prev-button" class="nav-button" disabled>Vorheriges Zitat</button>
-        <button id="next-button" class="nav-button">Nächstes Zitat</button>
-      </div>
-    </div>
-    
-    <div id="daily-success" class="quote-success hidden">
-      <div class="success-icon">🏆</div>
-      <div class="success-text">Ausgezeichnet! Alle 5 Zitate gemeistert. Dein literarisches Wissen ist beeindruckend!</div>
-    </div>
-  </div>
-</div>
 
 <script>
 // Batteriestand-Überwachung für Fully Kiosk Browser
@@ -2099,533 +1716,8 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(checkBatteryFullyKiosk, 1000);
 });
 
-// Sammlung von beruhigenden Sprichwörtern und Weisheiten
-const wisdomCollection = [
-  {
-    quote: "Ruhe ist die erste Bürgerpflicht.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Auch der längste Weg beginnt mit dem ersten Schritt.",
-    source: "Chinesische Weisheit"
-  },
-  {
-    quote: "Das Gras wächst nicht schneller, wenn man daran zieht.",
-    source: "Afrikanisches Sprichwort"
-  },
-  {
-    quote: "Geduld ist ein Baum, dessen Wurzeln bitter, dessen Früchte aber sehr süß sind.",
-    source: "Persisches Sprichwort"
-  },
-  {
-    quote: "Wenn du in Eile bist, gehe langsam.",
-    source: "Japanisches Sprichwort"
-  },
-  {
-    quote: "Wer rastet, der rostet nicht, sondern ruht sich aus.",
-    source: "Abgewandeltes deutsches Sprichwort"
-  },
-  {
-    quote: "Nimm dir Zeit zum Leben, es eilt sowieso.",
-    source: "Volksmund"
-  },
-  {
-    quote: "Es ist noch kein Meister vom Himmel gefallen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Sorge dich nicht um morgen, denn morgen wird für sich selbst sorgen.",
-    source: "Aus der Bibel, Matthäus 6,34"
-  },
-  {
-    quote: "Mit Geduld und Zeit kommt man weit.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Auch dunkle Wolken haben einen silbernen Rand.",
-    source: "Englisches Sprichwort"
-  },
-  {
-    quote: "Morgenstund hat Gold im Mund.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Ein ruhiges Herz ist des Lebens Frucht.",
-    source: "Aus der Bibel, Sprüche 14,30"
-  },
-  {
-    quote: "Nach Regen scheint Sonnenschein.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Geteilte Freude ist doppelte Freude, geteilter Schmerz ist halber Schmerz.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Klein aber fein.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Jeder Tag ist ein neuer Anfang.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Das Leben ist wie eine Leiter, man kann nicht mit den Händen in den Taschen hinaufklettern.",
-    source: "Amerikanische Lebensweisheit"
-  },
-  {
-    quote: "Nimm dir Zeit, glücklich zu sein.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Übung macht den Meister.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wer den Hafen nicht kennt, für den ist kein Wind der richtige.",
-    source: "Seneca"
-  },
-  {
-    quote: "Ein gutes Gewissen ist ein sanftes Ruhekissen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Gott gibt dem Menschen die Nüsse, aber er knackt sie nicht für ihn.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Aufgeschoben ist nicht aufgehoben.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wenn du einen Freund suchst ohne Fehler, dann wirst du keinen finden.",
-    source: "Türkisches Sprichwort"
-  },
-  {
-    quote: "Jede Minute, die man lacht, verlängert das Leben um eine Stunde.",
-    source: "Chinesische Weisheit"
-  },
-  {
-    quote: "Ein Tag ohne Lächeln ist ein verlorener Tag.",
-    source: "Charlie Chaplin"
-  },
-  {
-    quote: "Aller Anfang ist schwer, aber ohne Anfang gibt es kein Ende.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Die besten Dinge im Leben sind nicht die, die man für Geld bekommt.",
-    source: "Albert Einstein"
-  },
-  {
-    quote: "Geduld bringt Rosen.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wenn die Blätter fallen, ist nicht gleich Winter.",
-    source: "Lebensweisheit"
-  },
-  {
-    quote: "Es gibt nichts Gutes, außer man tut es.",
-    source: "Erich Kästner"
-  },
-  {
-    quote: "In der Ruhe liegt die Kraft.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Wo ein Wille ist, ist auch ein Weg.",
-    source: "Englisches Sprichwort"
-  },
-  {
-    quote: "Wer nicht wagt, der nicht gewinnt.",
-    source: "Deutsches Sprichwort"
-  },
-  {
-    quote: "Lieber eine Kerze anzünden als über die Dunkelheit klagen.",
-    source: "Chinesisches Sprichwort"
-  },
-  {
-    quote: "Der Langsamste, der sein Ziel nicht aus den Augen verliert, geht noch immer geschwinder als jener, der ohne Ziel umherirrt.",
-    source: "Gotthold Ephraim Lessing"
-  },
-  {
-    quote: "Ein bisschen Freundschaft ist mehr wert als die Bewunderung der ganzen Welt.",
-    source: "Jean de La Fontaine"
-  },
-  {
-    quote: "Der Kluge lernt aus allem und von jedem, der Normale aus seinen Erfahrungen und der Dumme weiß alles besser.",
-    source: "Sokrates"
-  },
-  {
-    quote: "Freude, nicht Trauer verlängert das Leben.",
-    source: "Jüdisches Sprichwort"
-  }
-];
-
-// Funktion um ein zufälliges Sprichwort für den Tag auszuwählen, basierend auf dem Datum
-function getWisdomOfTheDay() {
-  const today = new Date();
-  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  
-  // Einfacher Pseudozufall basierend auf dem Datum, damit der Spruch täglich wechselt
-  // aber für den gleichen Tag konstant bleibt
-  let hash = 0;
-  for (let i = 0; i < dateString.length; i++) {
-    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-    hash = hash & hash; // Zu 32bit Integer konvertieren
-  }
-  
-  // Positiven Index generieren
-  const seed = Math.abs(hash);
-  const index = seed % wisdomCollection.length;
-  
-  return wisdomCollection[index];
-}
-
-// Sammlung klassischer Zitate mit längeren, anspruchsvolleren Lücken
-const quotesCollection = [
-  {
-    quote: "Das also war des Pudels Kern! Ein fahrender Skolast? Der Kasus macht mich lachen.",
-    incompleteQuote: "Das also war des Pudels Kern! ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. Das Wunder ist des Glaubens liebstes Kind.",
-    incompleteQuote: "Die Botschaft hör ich wohl, allein mir fehlt der Glaube. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Wer immer strebend sich bemüht, den können wir erlösen. Und hat an ihm die Liebe gar von oben teilgenommen, begegnet ihm die selige Schar mit herzlichem Willkommen.",
-    incompleteQuote: "Wer immer strebend sich bemüht, den können wir erlösen. ...",
-    author: "Johann Wolfgang von Goethe, Faust II"
-  },
-  {
-    quote: "Es irrt der Mensch, solang er strebt. Ein guter Mensch in seinem dunklen Drange ist sich des rechten Weges wohl bewusst.",
-    incompleteQuote: "Es irrt der Mensch, solang er strebt. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Hier bin ich Mensch, hier darf ich's sein. Ach, wenn in unsrer engen Zelle die Lampe freundlich wieder brennt.",
-    incompleteQuote: "Hier bin ich Mensch, hier darf ich's sein. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; die Vögelein schweigen im Walde. Warte nur, balde ruhest du auch.",
-    incompleteQuote: "Über allen Gipfeln ist Ruh, in allen Wipfeln spürest du kaum einen Hauch; ...",
-    author: "Johann Wolfgang von Goethe, Ein Gleiches (Wandrers Nachtlied)"
-  },
-  {
-    quote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. Was man nicht weiß, das eben brauchte man, und was man weiß, kann man nicht brauchen.",
-    incompleteQuote: "Grau, teurer Freund, ist alle Theorie, und grün des Lebens goldner Baum. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; die eine hält, in derber Liebeslust, sich an die Welt mit klammernden Organen.",
-    incompleteQuote: "Zwei Seelen wohnen, ach! in meiner Brust, die eine will sich von der andern trennen; ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! Indes ihr Komplimente drechselt, kann etwas Nützliches geschehn.",
-    incompleteQuote: "Der Worte sind genug gewechselt, lasst mich auch endlich Taten sehn! ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; er hat den Knaben wohl in dem Arm, er fasst ihn sicher, er hält ihn warm.",
-    incompleteQuote: "Wer reitet so spät durch Nacht und Wind? Es ist der Vater mit seinem Kind; ...",
-    author: "Johann Wolfgang von Goethe, Erlkönig"
-  },
-  {
-    quote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. Was heute noch nicht ist, wird morgen sein.",
-    incompleteQuote: "Was glänzt, ist für den Augenblick geboren; das Echte bleibt der Nachwelt unverloren. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. Sie schleppen von Geschlecht sich zum Geschlechte und rücken sacht von Ort zu Ort.",
-    incompleteQuote: "Es erben sich Gesetz und Rechte wie eine ewige Krankheit fort. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! Der Wahn ist kurz, die Reu ist lang.",
-    incompleteQuote: "Drum prüfe, wer sich ewig bindet, ob sich das Herz zum Herzen findet! ...",
-    author: "Friedrich Schiller, Das Lied von der Glocke"
-  },
-  {
-    quote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. Ein Unglück fürchtet der Edle nicht, den Schmerz nicht, nur die Schmach.",
-    incompleteQuote: "Das Leben ist der Güter höchstes nicht, der Übel größtes aber ist die Schuld. ...",
-    author: "Friedrich Schiller, Die Braut von Messina"
-  },
-  {
-    quote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. Was Hände bauten, können Hände stürzen.",
-    incompleteQuote: "Es kann der Frömmste nicht in Frieden leben, wenn es dem bösen Nachbar nicht gefällt. ...",
-    author: "Friedrich Schiller, Wilhelm Tell"
-  },
-  {
-    quote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. Den Göttern schenkt man nur die Liebe, die nimmer bereut.",
-    incompleteQuote: "Des Lebens ungemischte Freude ward keinem Irdischen zuteil. ...",
-    author: "Friedrich Schiller, Der Ring des Polykrates"
-  },
-  {
-    quote: "Die Axt im Haus erspart den Zimmermann. Mit leichtem Mut und leichter Hand schwingt er das Beil im Hausgebrauch.",
-    incompleteQuote: "Die Axt im Haus erspart den Zimmermann. ...",
-    author: "Friedrich Schiller, Wilhelm Tell"
-  },
-  {
-    quote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. Dem Schicksal ist sein Opfer unverloren.",
-    incompleteQuote: "Das eben ist der Fluch der bösen Tat, dass sie, fortzeugend, immer Böses muss gebären. ...",
-    author: "Friedrich Schiller, Die Piccolomini"
-  },
-  {
-    quote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! Den schlechten Mann muss man verachten, der nie bedacht, was er vollbringt.",
-    incompleteQuote: "Die Glocke ruft, das Eisen glüht, frisch auf, Gesellen, seid zur Hand! ...",
-    author: "Friedrich Schiller, Das Lied von der Glocke"
-  },
-  {
-    quote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. Heute muss die Glocke werden! Frisch, Gesellen, seid zur Hand!",
-    incompleteQuote: "Fest gemauert in der Erden steht die Form, aus Lehm gebrannt. ...",
-    author: "Friedrich Schiller, Das Lied von der Glocke"
-  },
-  {
-    quote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. Denn was ein Geistlicher verspricht, das ist den Hörern wohlbehäglich.",
-    incompleteQuote: "Was man schwarz auf weiß besitzt, kann man getrost nach Hause tragen. ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "O Augenblick, verweile doch, du bist so schön! Es kann die Spur von meinen Erdentagen nicht in Äonen untergehen.",
-    incompleteQuote: "O Augenblick, verweile doch, du bist so schön! ...",
-    author: "Johann Wolfgang von Goethe, Faust I"
-  },
-  {
-    quote: "Freude, schöner Götterfunken, Tochter aus Elysium, wir betreten feuertrunken, Himmlische, dein Heiligtum.",
-    incompleteQuote: "Freude, schöner Götterfunken, Tochter aus Elysium, ...",
-    author: "Friedrich Schiller, An die Freude"
-  },
-  {
-    quote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! Brüder, über'm Sternenzelt muss ein lieber Vater wohnen.",
-    incompleteQuote: "Seid umschlungen, Millionen! Diesen Kuss der ganzen Welt! ...",
-    author: "Friedrich Schiller, An die Freude"
-  },
-  {
-    quote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ein sanfter Wind vom blauen Himmel weht, die Myrte still und hoch der Lorbeer steht?",
-    incompleteQuote: "Kennst du das Land, wo die Zitronen blühn, im dunklen Laub die Goldorangen glühn, ...",
-    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-  },
-  {
-    quote: "Du musst herrschen und gewinnen, oder dienen und verlieren, leiden oder triumphieren, Amboss oder Hammer sein.",
-    incompleteQuote: "Du musst herrschen und gewinnen, oder dienen und verlieren, ...",
-    author: "Johann Wolfgang von Goethe, Der Groß-Cophta"
-  },
-  {
-    quote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, wenn wir einen trefflichen Mann, ein herrliches Buch kennen lernen.",
-    incompleteQuote: "Es ist ein so hohes, herrliches Gefühl, das Große, was wir sehen, uns zuzueignen, ...",
-    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-  },
-  {
-    quote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, der kennt euch nicht, ihr himmlischen Mächte.",
-    incompleteQuote: "Wer nie sein Brot mit Tränen aß, wer nie die kummervollen Nächte auf seinem Bette weinend saß, ...",
-    author: "Johann Wolfgang von Goethe, Wilhelm Meisters Lehrjahre"
-  }
-];
-
-// Verschiedene Button-Texte
-const buttonTexts = [
-  "Kommst Du drauf? Wenn Du die Lösung hast, klicke hier!",
-  "Weißt Du, wie es weitergeht? Hier klicken!",
-  "Vervollständige das Zitat!",
-  "Ich komm nicht drauf. Du?",
-  "Wie der Klassiker weiter?",
-  "Sag mir die vollständige Passage",
-  "Ich denke, ich kenne die Fortsetzung. Prüfen...",
-  "Diese Passage vervollständigen",
-  "Diesen Klassiker aufdecken"
-];
-
-// Verschiedene Feedback-Texte
-const feedbackTexts = [
-  "Beeindruckend!",
-  "Großartig!",
-  "Wusstest Du es?",
-  "Sehr gut!",
-  "Klasse.",
-  "Ich hätte es nicht gewusst!",
-  "Sehr schön.",
-  "Gut!",
-  "War nicht einfach!"
-];
-
-// Funktion, um 5 zufällige Zitate für den Tag auszuwählen, basierend auf dem Datum
-function getQuotesOfTheDay() {
-  const today = new Date();
-  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  
-  // Einfacher Pseudozufall basierend auf dem Datum
-  let hash = 0;
-  for (let i = 0; i < dateString.length; i++) {
-    hash = ((hash << 5) - hash) + dateString.charCodeAt(i);
-    hash = hash & hash;
-  }
-  
-  // Datum als Seed für den Zufallsgenerator verwenden
-  const seed = Math.abs(hash);
-  
-  // Array mit allen Indizes erstellen
-  const allIndices = Array.from({ length: quotesCollection.length }, (_, i) => i);
-  
-  // Fisher-Yates Shuffle-Algorithmus mit deterministischem Seed
-  for (let i = allIndices.length - 1; i > 0; i--) {
-    const j = (seed * (i + 1)) % (i + 1) | 0;
-    [allIndices[i], allIndices[j]] = [allIndices[j], allIndices[i]];
-  }
-  
-  // Die ersten 5 Zitate auswählen
-  return allIndices.slice(0, 5).map(index => quotesCollection[index]);
-}
-
-// Funktion zur Initialisierung des Gehirnjoggings
-function initBrainTraining() {
-  const currentQuote = document.getElementById('current-quote');
-  const currentAuthor = document.getElementById('current-author');
-  const quoteCounter = document.getElementById('quote-counter');
-  const revealButton = document.getElementById('reveal-button');
-  const quoteFeedback = document.getElementById('quote-feedback');
-  const feedbackText = document.getElementById('feedback-text');
-  const prevButton = document.getElementById('prev-button');
-  const nextButton = document.getElementById('next-button');
-  const dailySuccess = document.getElementById('daily-success');
-  const dots = document.querySelectorAll('.dot');
-  
-  // Heutige Zitate laden
-  const todayQuotes = getQuotesOfTheDay();
-  let currentIndex = 0;
-  
-  // Speicherschlüssel für diesen Tag
-  const today = new Date();
-  const dateString = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  const storageKeyPrefix = 'brain_training_quote_' + dateString + '_';
-  
-  // Funktion zum Aktualisieren des aktuellen Zitats
-  function updateCurrentQuote() {
-    const quote = todayQuotes[currentIndex];
-    const isCompleted = localStorage.getItem(storageKeyPrefix + currentIndex) === 'true';
-    
-    // Text und Autor aktualisieren
-    currentQuote.textContent = isCompleted ? quote.quote : quote.incompleteQuote;
-    currentAuthor.textContent = quote.author;
-    currentAuthor.classList.toggle('hidden', !isCompleted);
-    
-    // Button-Status aktualisieren
-    revealButton.disabled = isCompleted;
-    revealButton.textContent = isCompleted ? 'Gelöst!' : buttonTexts[currentIndex % buttonTexts.length];
-    
-    // Feedback ein-/ausblenden
-    quoteFeedback.classList.toggle('hidden', !isCompleted);
-    if (isCompleted) {
-      feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
-    }
-    
-    // Zähler aktualisieren
-    quoteCounter.textContent = `Zitat ${currentIndex + 1} von 5`;
-    
-    // Navigation aktualisieren
-    prevButton.disabled = currentIndex === 0;
-    nextButton.disabled = currentIndex === 4;
-    
-    // Aktiven Punkt markieren
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentIndex);
-      dot.classList.toggle('completed', localStorage.getItem(storageKeyPrefix + i) === 'true');
-    });
-  }
-  
-  // Event-Listener für den Aufdecken-Button
-  revealButton.addEventListener('click', function() {
-    // Vollständiges Zitat und Autor anzeigen
-    currentQuote.textContent = todayQuotes[currentIndex].quote;
-    currentAuthor.classList.remove('hidden');
-    
-    // Feedback anzeigen
-    quoteFeedback.classList.remove('hidden');
-    feedbackText.textContent = feedbackTexts[currentIndex % feedbackTexts.length];
-    
-    // Button deaktivieren
-    revealButton.disabled = true;
-    revealButton.textContent = 'Gelöst!';
-    
-    // In localStorage markieren
-    localStorage.setItem(storageKeyPrefix + currentIndex, 'true');
-    
-    // Punkte aktualisieren
-    dots[currentIndex].classList.add('completed');
-    
-    // Prüfen, ob alle Zitate gelöst wurden
-    let allCompleted = true;
-    for (let i = 0; i < 5; i++) {
-      if (localStorage.getItem(storageKeyPrefix + i) !== 'true') {
-        allCompleted = false;
-        break;
-      }
-    }
-    
-    if (allCompleted) {
-      dailySuccess.classList.remove('hidden');
-    }
-  });
-  
-  // Event-Listener für Navigation
-  prevButton.addEventListener('click', function() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateCurrentQuote();
-    }
-  });
-  
-  nextButton.addEventListener('click', function() {
-    if (currentIndex < 4) {
-      currentIndex++;
-      updateCurrentQuote();
-    }
-  });
-  
-  // Event-Listener für Punkte
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', function() {
-      currentIndex = index;
-      updateCurrentQuote();
-    });
-  });
-  
-  // Initial das erste Zitat laden
-  updateCurrentQuote();
-}
-
-// Lade das Sprichwort und initialisiere Gehirnjogging beim Seitenaufbau
+// Hintergrund-Szene beim Seitenaufbau erzeugen
 document.addEventListener('DOMContentLoaded', function() {
-  const wisdom = getWisdomOfTheDay();
-  document.getElementById('daily-quote').textContent = wisdom.quote;
-  document.getElementById('daily-source').textContent = wisdom.source;
-  
-  // Emoji basierend auf dem Ton des Sprichworts auswählen (vereinfachte Version)
-  let emoji = "☀️"; // Standard: Sonne
-  
-  if (wisdom.quote.toLowerCase().includes("ruhe") || 
-      wisdom.quote.toLowerCase().includes("geduld") || 
-      wisdom.quote.toLowerCase().includes("frieden")) {
-    emoji = "🕊️"; // Friedenstaube für beruhigende Sprichwörter
-  } else if (wisdom.quote.toLowerCase().includes("freude") || 
-             wisdom.quote.toLowerCase().includes("glück") || 
-             wisdom.quote.toLowerCase().includes("lächeln")) {
-    emoji = "😊"; // Lächeln für freudvolle Sprichwörter
-  } else if (wisdom.quote.toLowerCase().includes("weg") || 
-             wisdom.quote.toLowerCase().includes("schritt") || 
-             wisdom.quote.toLowerCase().includes("ziel")) {
-    emoji = "🌱"; // Sämling für Wachstums-/Fortschrittssprichwörter
-  }
-  
-  document.querySelector(".wisdom-icon").textContent = emoji;
-  
-  // Gehirnjogging initialisieren
-  initBrainTraining();
-
   // ==========================================
   // HINTERGRUND-SZENE: Schneeglöckchen erzeugen
   // ==========================================
