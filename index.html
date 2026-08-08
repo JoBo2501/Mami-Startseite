@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mutters Messageboard</title>
+  <meta name="theme-color" content="#eefbf6" />
+  <title>Mamis Sommer-Startseite</title>
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
     body {
@@ -987,6 +988,298 @@
     .hidden {
       display: none;
     }
+
+    /* =============================================
+       SOMMER 2026 — klar, hochwertig und barrierearm
+       ============================================= */
+    :root {
+      --ink: #12312a;
+      --ink-soft: #49665e;
+      --blue: #087fdb;
+      --green: #22a06b;
+      --sun: #ffc857;
+      --coral: #ff7b61;
+      --card: rgba(255, 255, 255, 0.94);
+      --line: rgba(18, 49, 42, 0.10);
+      --shadow: 0 24px 70px rgba(30, 95, 78, 0.13), 0 3px 12px rgba(18, 49, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      padding: clamp(1rem, 3vw, 3rem);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 4%, rgba(255, 214, 102, 0.55), transparent 24rem),
+        radial-gradient(circle at 95% 15%, rgba(77, 196, 255, 0.36), transparent 32rem),
+        linear-gradient(150deg, #f9fff9 0%, #eafbf5 45%, #e9f8ff 100%);
+      text-rendering: optimizeLegibility;
+    }
+
+    .scene-background { z-index: 0; }
+    .scene-background .ground-fog,
+    .snow-patch,
+    #snowdrops-container,
+    #grass-container,
+    #last-snowflakes-container,
+    .bird { display: none !important; }
+
+    .scene-background .sun-glow {
+      width: 48rem;
+      height: 48rem;
+      top: -28rem;
+      left: -18rem;
+      background: radial-gradient(circle, rgba(255, 220, 111, 0.70), rgba(255, 228, 142, 0.18) 48%, transparent 70%);
+      filter: blur(2px);
+      animation: summer-breathe 12s ease-in-out infinite;
+    }
+
+    .summer-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(1px);
+      opacity: 0.7;
+      animation: summer-float 16s ease-in-out infinite;
+    }
+    .summer-orb.one {
+      width: 22rem; height: 22rem; right: -8rem; top: 22%;
+      background: linear-gradient(145deg, rgba(49, 199, 165, 0.34), rgba(53, 157, 255, 0.18));
+    }
+    .summer-orb.two {
+      width: 17rem; height: 17rem; left: -7rem; bottom: 8%;
+      background: linear-gradient(145deg, rgba(255, 200, 87, 0.32), rgba(255, 123, 97, 0.15));
+      animation-delay: -7s;
+    }
+    .summer-leaf {
+      position: absolute;
+      width: 5rem; height: 2.1rem;
+      border-radius: 100% 0 100% 0;
+      background: linear-gradient(135deg, rgba(31, 162, 107, 0.22), rgba(81, 206, 157, 0.08));
+      transform: rotate(var(--turn));
+      animation: leaf-breeze 9s ease-in-out infinite;
+    }
+    @keyframes summer-breathe { 50% { transform: scale(1.06); opacity: 0.85; } }
+    @keyframes summer-float { 50% { transform: translate3d(0, -18px, 0) scale(1.04); } }
+    @keyframes leaf-breeze { 50% { transform: rotate(calc(var(--turn) + 7deg)) translateY(-8px); } }
+
+    .dashboard {
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .digital-board {
+      max-width: 960px;
+      margin: 0 auto clamp(2.5rem, 6vw, 5rem);
+      padding: clamp(2rem, 5vw, 4.2rem);
+      border: 1px solid rgba(255,255,255,0.92);
+      border-radius: 42px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.97), rgba(247,255,252,0.89));
+      box-shadow: 0 35px 100px rgba(23, 112, 91, 0.16), inset 0 1px 0 #fff;
+      backdrop-filter: blur(24px) saturate(135%);
+      overflow: hidden;
+    }
+    .digital-board::before {
+      content: "HEUTE";
+      position: static;
+      display: inline-flex;
+      width: auto; height: auto;
+      padding: .48rem .9rem;
+      border: 0;
+      border-radius: 999px;
+      background: #e7f8f1;
+      color: #167451;
+      font-size: .86rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+    }
+    .digital-board::after {
+      content: "";
+      position: absolute;
+      width: 17rem; height: 17rem;
+      right: -8rem; top: -9rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 205, 82, .32), transparent 70%);
+    }
+    .date-display {
+      margin: 1.4rem 0 .85rem;
+      padding: 0;
+      color: var(--ink-soft);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 750;
+      line-height: 1.18;
+      letter-spacing: -0.035em;
+      text-shadow: none;
+    }
+    .time-display {
+      padding: 0;
+      color: var(--ink);
+      font-size: clamp(6.2rem, 18vw, 11rem);
+      font-weight: 720;
+      line-height: .88;
+      letter-spacing: -0.065em;
+      text-shadow: 0 5px 24px rgba(18,49,42,.08);
+    }
+
+    .section {
+      margin: 0 auto 2rem;
+      padding: clamp(1.4rem, 3vw, 2.4rem);
+      max-width: 920px;
+      border-radius: 30px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px) saturate(130%);
+      animation: summer-enter .6s both;
+    }
+    .section:nth-of-type(2) { animation-delay: .06s; }
+    .section:nth-of-type(3) { animation-delay: .12s; }
+    .section:nth-of-type(4) { animation-delay: .18s; }
+    @keyframes summer-enter { from { opacity: 0; transform: translateY(18px); } }
+
+    .section-title {
+      margin: 0 0 1.4rem;
+      color: var(--ink);
+      font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      text-align: left;
+    }
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: .72rem; height: .72rem;
+      margin-right: .7rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), #63d6ab);
+      box-shadow: 0 0 0 6px rgba(34,160,107,.10);
+      vertical-align: .08em;
+    }
+
+    /* Nachrichten: maximale Lesbarkeit und klare Absenderzuordnung */
+    #note { display: grid; gap: 1.1rem; }
+    .message-with-avatar {
+      width: 100%; max-width: none;
+      margin: 0;
+      padding: clamp(1rem, 2.3vw, 1.45rem);
+      gap: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(18,49,42,.07);
+    }
+    .message-avatar {
+      width: 64px; height: 64px;
+      margin: 0;
+      border: 3px solid #fff;
+      box-shadow: 0 5px 18px rgba(18,49,42,.14);
+    }
+    .message-content { min-width: 0; text-align: left; }
+    .message-sender {
+      color: #187454;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    .message {
+      max-width: none;
+      margin: .25rem 0 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      color: #173c33;
+      font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+      font-weight: 600;
+      line-height: 1.52;
+    }
+    .message:hover { transform: none; box-shadow: none; }
+    .message-timestamp {
+      color: #647d76;
+      font-size: 1rem;
+      font-weight: 650;
+    }
+    .new-indicator { color: #c43f2d; font-weight: 800; }
+
+    .weather, .termin-eintrag {
+      max-width: none;
+      background: #f5fbf8;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--green);
+      box-shadow: none;
+      backdrop-filter: none;
+      font-size: clamp(1.15rem, 2vw, 1.35rem);
+      line-height: 1.5;
+    }
+    .weather:hover, .termin-eintrag:hover { transform: none; box-shadow: none; }
+    .reminder-list { max-width: none; }
+    .reminder-list li {
+      padding: 1.1rem 1.3rem;
+      background: #f5fbf8;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      font-size: 1.18rem;
+      line-height: 1.45;
+      backdrop-filter: none;
+    }
+    .reminder-list li:hover { background: #eef9f4; transform: none; }
+
+    .termin-form {
+      background: linear-gradient(145deg, #f5fbff, #f3fbf7);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+    textarea {
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #c8ddd6;
+      border-radius: 18px;
+      font-size: 1.2rem;
+    }
+    textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 5px rgba(8,127,219,.12); }
+    button {
+      border-radius: 16px;
+      background: linear-gradient(135deg, #087fdb, #16a07b);
+      box-shadow: 0 10px 25px rgba(8,127,219,.20);
+      font-size: 1.12rem;
+      font-weight: 800;
+    }
+
+    .post-it-sticker, .post-it-sticker-right {
+      border-radius: 24px;
+      border: 1px solid rgba(18,49,42,.12);
+      box-shadow: 0 18px 55px rgba(18,49,42,.15);
+      transform: none;
+      backdrop-filter: blur(22px);
+    }
+    .post-it-sticker { background: rgba(255,248,214,.96); }
+    .post-it-sticker-right { background: rgba(245,251,248,.97); }
+    .post-it-sticker::before, .post-it-sticker-right::before { display: none; }
+    .post-it-title, .post-it-sticker-right .post-it-title { color: var(--ink); font-weight: 850; }
+    .post-it-text, .post-it-sticker-right .post-it-text { color: #294a42; line-height: 1.45; }
+
+    @media (max-width: 900px) {
+      body { padding-top: 1rem; }
+      .post-it-sticker, .post-it-sticker-right {
+        position: relative;
+        inset: auto;
+        width: min(100%, 920px);
+        margin: 0 auto 1rem;
+      }
+      .digital-board { border-radius: 30px; }
+    }
+    @media (max-width: 560px) {
+      .section { padding: 1.15rem; border-radius: 24px; }
+      .message-with-avatar { border-radius: 20px; }
+      .message-avatar { width: 54px; height: 54px; }
+      .time-display { font-size: clamp(5rem, 25vw, 7rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -997,6 +1290,10 @@
 <div class="scene-background" aria-hidden="true">
   <!-- Sanftes Sonnenlicht -->
   <div class="sun-glow"></div>
+  <div class="summer-orb one"></div>
+  <div class="summer-orb two"></div>
+  <div class="summer-leaf" style="--turn: 24deg; left: 5%; top: 34%;"></div>
+  <div class="summer-leaf" style="--turn: -28deg; right: 7%; top: 62%; animation-delay: -4s;"></div>
 
   <!-- Schnee-Reste am Boden -->
   <div class="snow-patch snow-patch-1"></div>
@@ -1053,6 +1350,7 @@
   </div>
 </div>
 
+  <main class="dashboard">
   <div class="digital-board">
     <div id="date" class="date-display"></div>
     <div id="time" class="time-display"></div>
@@ -1077,6 +1375,7 @@
   </div>
 </div>
   <div class="section"><div class="section-title">Erinnerungen für heute</div><ul class="reminder-list" id="reminders">Lade Erinnerungen...</ul></div>
+  </main>
 
   <script>
     // Datum und Uhrzeit Anzeige

@@ -68,14 +68,11 @@ Diese Datei dokumentiert alle Features der Startseite und dient als Checkliste n
 
 | Element | Beschreibung | Status |
 |---------|--------------|--------|
-| **Himmel-Gradient** | Sanfter Uebergang von blassem Winterblau zu zartem Gruen | Aktiv |
-| **Schneereste** | Weisse Flecken am Boden (asymmetrisch verteilt) | Aktiv |
-| **Bodennebel** | Dezenter animierter Nebel unten | Aktiv |
-| **Schneegloeckchen** | 6 Blumen, asymmetrisch (Natur ganz am Anfang) | Aktiv |
-| **Grashalme** | Ca. 10 zarte Halme bei den Blumen | Aktiv |
-| **Letzte Schneeflocken** | Vereinzelt, langsam fallend | Aktiv |
-| **Voegel** | 3 kleine Voegel am Himmel | Aktiv |
-| **Sonnenlicht** | Dezenter Schein oben links | Aktiv |
+| **Sommer-Gradient** | Heller Verlauf aus Naturweiss, frischem Gruen und Himmelblau | Aktiv |
+| **Sonnenlicht** | Warmer, dezent pulsierender Schein oben links | Aktiv |
+| **Farb-Orbs** | Ruhige abstrakte Farbformen fuer raeumliche Tiefe | Aktiv |
+| **Sommerblaetter** | Zwei dezent im Wind schwebende Blaetter | Aktiv |
+| **Reduzierte Bewegung** | Animationen respektieren die Systemeinstellung | Aktiv |
 
 ---
 
@@ -105,8 +102,10 @@ Nach jedem groesseren Update diese Features pruefen:
 - [ ] Gelber Sticker links sichtbar
 - [ ] Grauer Sticker rechts sichtbar
 - [ ] Batterie-Warnung erscheint bei niedrigem Akku
-- [ ] Hintergrund-Szene wird angezeigt (Schneegloeckchen, Nebel, etc.)
+- [ ] Sommer-Hintergrund mit Sonnenlicht und Farbformen wird angezeigt
+- [ ] Uhrzeit und Datum sind auch aus groesserer Entfernung sehr gut lesbar
+- [ ] Nachrichtentext ist gross, kontrastreich und klar dem Absender zugeordnet
 
 ---
 
-*Letzte Aktualisierung: 2026-05-16*
+*Letzte Aktualisierung: 2026-08-08*
