@@ -39,8 +39,7 @@ Diese Datei dokumentiert alle Features der Startseite und dient als Checkliste n
 
 | Feature | Beschreibung | Position | Status |
 |---------|--------------|----------|--------|
-| **Gelber Sticker** | "Sanja nicht mehr bar bezahlen" | Links | Aktiv |
-| **Grauer Sticker** | Warnung vor Betrugsanrufen (Telefon) | Rechts | Aktiv |
+| **Ruhiger Hinweisbereich** | Hinweise zur Bezahlung und zu Betrugsanrufen | Nach den Nachrichten | Aktiv |
 
 ---
 

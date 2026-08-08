@@ -1261,6 +1261,61 @@
     .post-it-title, .post-it-sticker-right .post-it-title { color: var(--ink); font-weight: 850; }
     .post-it-text, .post-it-sticker-right .post-it-text { color: #294a42; line-height: 1.45; }
 
+    /* Ruhige zweite Ebene: Hinweise folgen erst nach den Nachrichten */
+    .notice-panel {
+      max-width: 920px;
+      margin: -0.4rem auto 2rem;
+      padding: 1rem clamp(1.15rem, 2.8vw, 1.8rem);
+      border: 1px solid rgba(18, 49, 42, 0.08);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--ink-soft);
+      box-shadow: 0 8px 28px rgba(30, 95, 78, 0.05);
+      backdrop-filter: blur(16px);
+      text-align: left;
+    }
+    .notice-panel-title {
+      margin: 0 0 .35rem;
+      color: #6a817b;
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .notice-item {
+      display: grid;
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      gap: .85rem;
+      align-items: start;
+      padding: .9rem 0;
+    }
+    .notice-item + .notice-item { border-top: 1px solid rgba(18, 49, 42, 0.08); }
+    .notice-icon {
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: rgba(34, 160, 107, 0.09);
+      color: #31745f;
+      font-size: 1rem;
+      font-weight: 850;
+    }
+    .notice-label {
+      margin: 0 0 .18rem;
+      color: #49665e;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .notice-text {
+      margin: 0;
+      color: #4f6962;
+      font-size: clamp(1.02rem, 1.8vw, 1.15rem);
+      font-weight: 560;
+      line-height: 1.48;
+    }
+    .notice-text strong { color: #36564d; font-weight: 780; }
+
     @media (max-width: 900px) {
       body { padding-top: 1rem; }
       .post-it-sticker, .post-it-sticker-right {
@@ -1276,6 +1331,7 @@
       .message-with-avatar { border-radius: 20px; }
       .message-avatar { width: 54px; height: 54px; }
       .time-display { font-size: clamp(5rem, 25vw, 7rem); }
+      .notice-panel { border-radius: 18px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
@@ -1335,27 +1391,26 @@
     <div id="time" class="time-display"></div>
   </div>
 
-  <!-- Permanente Hinweise: am Tablet direkt nach Uhr und Datum -->
-  <div class="post-it-sticker">
-    <div class="post-it-content">
-      <div class="post-it-title">WICHTIGER HINWEIS</div>
-      <div class="post-it-text">
-        Sanja bitte bis auf weiteres nicht mehr bar bezahlen, das erfolgt jetzt online!
-      </div>
-    </div>
-  </div>
-
-  <div class="post-it-sticker-right">
-    <div class="post-it-content">
-      <div class="post-it-icon">&#x260E;&#xFE0F;</div>
-      <div class="post-it-title">Erinnerung</div>
-      <div class="post-it-text">
-        Liebe Mami, falls jemand anruft und behauptet, es w&uuml;rde Geld von Deinem Konto abgebucht &ndash; <span class="highlight">das ist Betrug!</span><br><br>Einfach <span class="highlight">sofort auflegen</span>. Die Bank ruft niemals so an. Dein Konto ist sicher! &#x1F49A;
-      </div>
-    </div>
-  </div>
-
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
+
+  <aside class="notice-panel" aria-labelledby="notice-panel-title">
+    <div class="notice-panel-title" id="notice-panel-title">Wichtige Hinweise</div>
+    <div class="notice-item">
+      <div class="notice-icon" aria-hidden="true">i</div>
+      <div>
+        <div class="notice-label">Bezahlung von Sanja</div>
+        <p class="notice-text">Bitte bis auf Weiteres nicht mehr bar bezahlen. Die Bezahlung erfolgt jetzt online.</p>
+      </div>
+    </div>
+    <div class="notice-item">
+      <div class="notice-icon" aria-hidden="true">☎</div>
+      <div>
+        <div class="notice-label">Bei verdächtigen Anrufen</div>
+        <p class="notice-text">Wenn jemand wegen angeblicher Abbuchungen anruft: <strong>Bitte einfach auflegen.</strong> Die Bank ruft niemals so an. Dein Konto ist sicher.</p>
+      </div>
+    </div>
+  </aside>
+
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
   <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
   <div class="section termin-section">
