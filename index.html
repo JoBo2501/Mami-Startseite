@@ -1264,32 +1264,55 @@
     /* Ruhige zweite Ebene: Hinweise folgen erst nach den Nachrichten */
     .notice-panel {
       max-width: 920px;
-      margin: -0.4rem auto 2rem;
-      padding: 1rem clamp(1.15rem, 2.8vw, 1.8rem);
-      border: 1px solid rgba(18, 49, 42, 0.08);
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.58);
+      margin: 0 auto 2rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: var(--ink-soft);
-      box-shadow: 0 8px 28px rgba(30, 95, 78, 0.05);
-      backdrop-filter: blur(16px);
+      box-shadow: none;
       text-align: left;
     }
     .notice-panel-title {
-      margin: 0 0 .35rem;
+      margin: 0 0 .7rem .25rem;
       color: #6a817b;
       font-size: .9rem;
       font-weight: 800;
       letter-spacing: .09em;
       text-transform: uppercase;
     }
+    .notice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
     .notice-item {
       display: grid;
       grid-template-columns: 2.25rem minmax(0, 1fr);
       gap: .85rem;
       align-items: start;
-      padding: .9rem 0;
+      min-height: 100%;
+      padding: 1.15rem;
+      border: 1px solid rgba(116, 93, 35, 0.10);
+      border-radius: 8px 18px 18px 18px;
+      background: linear-gradient(145deg, #fff8cf, #fffdf0);
+      box-shadow: 0 10px 25px rgba(82, 72, 37, 0.08);
+      position: relative;
     }
-    .notice-item + .notice-item { border-top: 1px solid rgba(18, 49, 42, 0.08); }
+    .notice-item:nth-child(2) {
+      border-color: rgba(42, 105, 86, 0.10);
+      background: linear-gradient(145deg, #eaf8f1, #f7fcfa);
+    }
+    .notice-item::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: 1.25rem;
+      width: 3.5rem;
+      height: 12px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 1px 2px rgba(18,49,42,.04);
+    }
     .notice-icon {
       display: grid;
       place-items: center;
@@ -1316,6 +1339,14 @@
     }
     .notice-text strong { color: #36564d; font-weight: 780; }
 
+    /* Wetter bleibt im ersten Sichtbereich möglichst kompakt */
+    .weather-section {
+      padding-top: clamp(1.15rem, 2.2vw, 1.65rem);
+      padding-bottom: clamp(1.15rem, 2.2vw, 1.65rem);
+    }
+    .weather-section .section-title { margin-bottom: .8rem; }
+    .weather-section .weather { margin-bottom: 0; padding: 1.1rem 1.3rem; }
+
     @media (max-width: 900px) {
       body { padding-top: 1rem; }
       .post-it-sticker, .post-it-sticker-right {
@@ -1332,6 +1363,7 @@
       .message-avatar { width: 54px; height: 54px; }
       .time-display { font-size: clamp(5rem, 25vw, 7rem); }
       .notice-panel { border-radius: 18px; }
+      .notice-grid { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
@@ -1393,26 +1425,29 @@
 
   <div class="section"><div class="section-title">Nachrichten von den Söhnen</div><div id="note"></div></div>
 
+  <div class="section weather-section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
+
   <aside class="notice-panel" aria-labelledby="notice-panel-title">
-    <div class="notice-panel-title" id="notice-panel-title">Wichtige Hinweise</div>
-    <div class="notice-item">
-      <div class="notice-icon" aria-hidden="true">i</div>
-      <div>
-        <div class="notice-label">Bezahlung von Sanja</div>
-        <p class="notice-text">Bitte bis auf Weiteres nicht mehr bar bezahlen. Die Bezahlung erfolgt jetzt online.</p>
+    <div class="notice-panel-title" id="notice-panel-title">Zur Erinnerung</div>
+    <div class="notice-grid">
+      <div class="notice-item">
+        <div class="notice-icon" aria-hidden="true">i</div>
+        <div>
+          <div class="notice-label">Bezahlung von Sanja</div>
+          <p class="notice-text">Bitte bis auf Weiteres nicht mehr bar bezahlen. Die Bezahlung erfolgt jetzt online.</p>
+        </div>
       </div>
-    </div>
-    <div class="notice-item">
-      <div class="notice-icon" aria-hidden="true">☎</div>
-      <div>
-        <div class="notice-label">Bei verdächtigen Anrufen</div>
-        <p class="notice-text">Wenn jemand wegen angeblicher Abbuchungen anruft: <strong>Bitte einfach auflegen.</strong> Die Bank ruft niemals so an. Dein Konto ist sicher.</p>
+      <div class="notice-item">
+        <div class="notice-icon" aria-hidden="true">☎</div>
+        <div>
+          <div class="notice-label">Bei verdächtigen Anrufen</div>
+          <p class="notice-text">Wenn jemand wegen angeblicher Abbuchungen anruft: <strong>Bitte einfach auflegen.</strong> Die Bank ruft niemals so an. Dein Konto ist sicher.</p>
+        </div>
       </div>
     </div>
   </aside>
 
   <div class="section"><div class="section-title">Bevorstehende Termine</div><div id="ical"></div></div>
-  <div class="section"><div class="section-title">Wetter heute in Pullach</div><div class="weather" id="weather">Lade Wetterdaten...</div></div>
   <div class="section termin-section">
   <div class="section-title">Neue Termine hier eintragen</div>
   <div class="termin-form">

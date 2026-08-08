@@ -39,7 +39,7 @@ Diese Datei dokumentiert alle Features der Startseite und dient als Checkliste n
 
 | Feature | Beschreibung | Position | Status |
 |---------|--------------|----------|--------|
-| **Ruhiger Hinweisbereich** | Hinweise zur Bezahlung und zu Betrugsanrufen | Nach den Nachrichten | Aktiv |
+| **Sticky Notes** | Hinweise zur Bezahlung und zu Betrugsanrufen | Nach Wetter und Nachrichten | Aktiv |
 
 ---
 
